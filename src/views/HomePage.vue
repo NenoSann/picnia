@@ -1,11 +1,17 @@
 <template>
-    <h1>Hello,World!</h1>
-    <h2>There is HomePage</h2>
+    <PostTab class="post-tab">
+
+    </PostTab>
 </template>
 
 <script setup>
-
+import PostTab from '../components/PostTab.vue';
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.post-tab {
+    margin-top: 60px;
+    margin-left: 60px;
+}
+</style>

@@ -10,6 +10,11 @@
             <TheIcon icon="publish"></TheIcon>
             <img src="../assets/IMG_1446.JPG" id="avatar">
         </div>
+        <!-- dropdown -->
+        <ul class="profile-menu">
+            <li><router-link to="/profile">个人主页</router-link></li>
+            <li>退出登陆</li>
+        </ul>
     </div>
 </template>
 
@@ -62,11 +67,35 @@ import TheIcon from './TheIcon.vue';
 }
 
 #avatar {
+    position: relative;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
 }
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    top: 66px;
+    right: 86px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 6px;
+
+    li {
+        list-style-type: none;
+        padding: 10px 20px;
+
+        a {
+            text-decoration: none;
+        }
+    }
+}
+
+
 
 input {
     height: 2rem;
