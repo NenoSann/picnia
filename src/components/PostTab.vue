@@ -24,6 +24,15 @@
                 </div>
             </div>
         </div>
+        <div class="discription">
+            <p>
+                P5真是太好玩啦！！！
+            </p>
+        </div>
+        <div class="tags">
+            <a>#P5R</a>
+            <a>#JRPG</a>
+        </div>
     </div>
 </template>
 
@@ -35,7 +44,11 @@ import TheIcon from './TheIcon.vue';
 .post-tab-main {
     width: 600px;
     background-color: white;
-    height: 800px;
+    max-height: 600px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    flex-direction: column;
 
     img {
         max-width: 100%;
@@ -98,6 +111,20 @@ import TheIcon from './TheIcon.vue';
             text-align: center;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
+    }
+}
+
+.discription {
+    padding: 0 20px;
+}
+
+.tags {
+    padding: 20px 20px;
+    margin-top: auto;
+    margin-bottom: 20px;
+
+    a {
+        color: #1DA0FF;
     }
 }
 </style>

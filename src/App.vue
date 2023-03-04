@@ -5,7 +5,19 @@ import TheIcon from './components/TheIcon.vue';
 
 <template>
   <NavBar></NavBar>
-  <router-view></router-view>
+  <router-view class="main-content"></router-view>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.main-content {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+</style>

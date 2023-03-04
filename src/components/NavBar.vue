@@ -75,6 +75,7 @@ import TheIcon from './TheIcon.vue';
 }
 
 .profile-menu {
+    opacity: 0%;
     display: flex;
     flex-direction: column;
     position: absolute;
