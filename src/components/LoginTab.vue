@@ -4,12 +4,12 @@
         <input type="mail" class="email" placeholder="邮箱">
         <input type="password" class="password" placeholder="密码">
         <button class="login-button">登录</button>
-        <a href="">还没有加入Picnia吗？点击注册！</a>
+        <a href="" v-if="props.isLogin">还没有加入Picnia吗？点击注册！</a>
     </div>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     isLogin: {
         type: Boolean,
         default: true,

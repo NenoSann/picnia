@@ -11,6 +11,7 @@ import LoginTab from '../components/LoginTab.vue';
 
 <style lang="scss" scoped>
 .login-page-main {
+    margin-top: 40px;
     height: 100%;
     display: flex;
     flex-direction: row;
