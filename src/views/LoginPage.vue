@@ -1,8 +1,6 @@
 <template>
     <div class="login-page-main">
-        <div class="image">
-            <img src="../assets/phone.png">
-        </div>
+        <img src="../assets/phone2.png">
         <LoginTab />
     </div>
 </template>
@@ -13,6 +11,7 @@ import LoginTab from '../components/LoginTab.vue';
 
 <style lang="scss" scoped>
 .login-page-main {
+    height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -20,8 +19,8 @@ import LoginTab from '../components/LoginTab.vue';
 }
 
 img {
-    width: 460px;
-    height: auto;
+    height: 100%;
+    width: auto;
 }
 
 @media (max-width: 900px) {

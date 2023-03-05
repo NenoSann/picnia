@@ -1,10 +1,15 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
 import TheIcon from './components/TheIcon.vue';
+import { computed } from 'vue';
+let hideNav = computed({
+
+})
+
 </script>
 
 <template>
-  <NavBar></NavBar>
+  <NavBar class="nav"></NavBar>
   <router-view class="main-content"></router-view>
 </template>
 
