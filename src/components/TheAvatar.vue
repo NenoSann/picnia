@@ -25,11 +25,17 @@ defineProps({
 
 <style scoped>
 img {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.avatar {
     width: v-bind(widthString);
     height: v-bind(heightString);
     border-radius: 50%;
     overflow: hidden;
-    object-fit: cover;
-    object-position: top center;
 }
 </style>
