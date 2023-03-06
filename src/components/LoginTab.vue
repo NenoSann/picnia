@@ -37,7 +37,6 @@ const props = defineProps({
     color: black;
     margin-bottom: 30px;
     margin-top: 10px;
-    // margin: 40px 0;
 }
 
 input {

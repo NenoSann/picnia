@@ -1,12 +1,14 @@
 <template>
     <div class="create-post-tab-main">
-        <div class="image-section">
-            <input type="file" name="image-upload" id="image-input">
-            <label for="image-input">请选择图片</label>
-        </div>
-        <div class="text-section">
-            <textarea id="text" cols="30" rows="10" placeholder="写点什么？"></textarea>
-        </div>
+        <Teleport to="body">
+            <div class="image-section">
+                <input type="file" name="image-upload" id="image-input">
+                <label for="image-input">请选择图片</label>
+            </div>
+            <div class="text-section">
+                <textarea id="text" cols="30" rows="10" placeholder="写点什么？"></textarea>
+            </div>
+        </Teleport>
     </div>
 </template>
 

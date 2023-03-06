@@ -8,7 +8,7 @@
         <div class="header-icons">
             <TheIcon icon="home" />
             <TheIcon icon="publish"></TheIcon>
-            <img src="../assets/IMG_1446.JPG" id="avatar">
+            <TheAvatar image_url="src/assets/IMG_1446.JPG" widthString="40px" heightString="40px"></TheAvatar>
         </div>
         <!-- dropdown -->
         <ul class="profile-menu">
@@ -20,6 +20,7 @@
 
 <script setup>
 import TheIcon from './TheIcon.vue';
+import TheAvatar from './TheAvatar.vue';
 </script>
 
 <style lang="scss" scoped>
@@ -66,13 +67,6 @@ import TheIcon from './TheIcon.vue';
     }
 }
 
-#avatar {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-}
 
 .profile-menu {
     opacity: 0%;
