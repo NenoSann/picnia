@@ -3,7 +3,7 @@
         <div class="modal">
             <button class="close-btn">
             </button>
-            <img src="src/assets/testImage2.png" class="image">
+            <img src="src/assets/testImage3.png" class="image">
             <div class="content">
                 <div class="uploader">
                     <div class="detail">
@@ -22,7 +22,7 @@
                     </p>
                 </div>
                 <div class="comments">
-
+                    <Comment v-for="n in 7"></Comment>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
 <script setup>
 import TheAvatar from './TheAvatar.vue';
-
+import Comment from './Comment.vue';
 </script>
 
 <style scoped lang="scss">
@@ -39,6 +39,7 @@ import TheAvatar from './TheAvatar.vue';
     position: fixed;
     top: 12vh;
     left: 50%;
+    max-height: 80vh;
     transform: translateX(-50%);
     display: flex;
     background-color: white;
@@ -50,6 +51,7 @@ import TheAvatar from './TheAvatar.vue';
 .image {
     width: 400px;
     height: auto;
+    object-fit: cover;
 }
 
 .close-btn {
@@ -58,6 +60,8 @@ import TheAvatar from './TheAvatar.vue';
 
 .content {
     padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 .detail {
@@ -85,5 +89,19 @@ import TheAvatar from './TheAvatar.vue';
 
 .uploader {
     border-bottom: 1px solid #aaa8a8;
+}
+
+.comments {
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
 }
 </style>
