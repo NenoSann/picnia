@@ -29,7 +29,7 @@ defineProps({
     },
     comment: {
         type: String,
-        default: "非常好图片！爱来自China🦸",
+        default: "非常好图片！爱来自China🇨🇳",
     }
 });
 </script>
@@ -59,5 +59,6 @@ defineProps({
 
 .comment {
     width: 100%;
+    font-size: 0.9rem;
 }
 </style>

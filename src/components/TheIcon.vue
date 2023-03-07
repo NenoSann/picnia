@@ -16,5 +16,6 @@ defineProps({
 svg {
     height: 40px;
     width: 40px;
+
 }
 </style>

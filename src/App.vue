@@ -12,9 +12,9 @@ let hideNav = computed({
 
 <template>
   <NavBar class="nav"></NavBar>
-  <!-- <router-view class="main-content"></router-view> -->
+  <router-view class="main-content"></router-view>
   <!-- <CreatePostTab /> -->
-  <PostDetail />
+  <!-- <PostDetail /> -->
 </template>
 
 <style scoped lang="scss">
