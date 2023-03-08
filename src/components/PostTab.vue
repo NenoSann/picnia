@@ -30,7 +30,7 @@ import ButtonSets from './ButtonSets.vue';
 
 <style lang="scss" scoped>
 .post-tab-main {
-    width: 600px;
+    width: 100%;
     background-color: white;
     max-height: 600px;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);

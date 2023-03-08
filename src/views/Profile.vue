@@ -9,9 +9,9 @@
                     <span>编辑个人资料</span>
                 </div>
                 <p class="user-id">@FpsNoobuuu</p>
-                <p class="introduction">我是NenoSan，正在学习frontend development！<br>
-                    欢迎来我的github，看看我的repo，给我star！<br>
-                    谢谢你捏！<br>
+                <p class="introduction">我是NenoSan，正在学习frontend development！
+                    欢迎来我的github，看看我的repo，给我star！
+                    谢谢你捏！
                 </p>
             </div>
         </div>
@@ -30,12 +30,17 @@
             </div>
         </div>
         <p class="posts-count">162 篇帖子</p>
+        <PostList :colunm="3" class="post-list">
+            <PostTab v-for="n in 10"></PostTab>
+        </PostList>
     </div>
 </template>
 
 <script setup>
 import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
+import PostList from '../components/PostList.vue';
+import PostTab from '../components/PostTab.vue';
 </script>
 
 <style lang="scss" scoped>
@@ -51,7 +56,7 @@ import TheIcon from '../components/TheIcon.vue';
 }
 
 .avatar {
-    margin-right: 10vh;
+    margin-right: min(8vw, 160px);
 }
 
 .user-info {
@@ -61,6 +66,7 @@ import TheIcon from '../components/TheIcon.vue';
     }
 
     .introduction {
+        max-width: max(30vw, 300px);
         margin-top: 16px;
     }
 
@@ -96,5 +102,10 @@ import TheIcon from '../components/TheIcon.vue';
 
 .posts-count {
     margin-top: 16px;
+}
+
+.post-list {
+    margin-top: 16px;
+    padding: 0 8vw;
 }
 </style>
