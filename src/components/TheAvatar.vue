@@ -1,6 +1,5 @@
 <script setup>
 import DefaultAvatar from '../assets/avatarDefault.png';
-import { ref } from 'vue';
 defineProps({
     image_url: String,
     widthString: {

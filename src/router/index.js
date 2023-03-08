@@ -2,6 +2,7 @@ import HomePageVue from '../views/HomePage.vue'
 import LoginPageVue from '../views/LoginPage.vue'
 import ProfileEdittingPageVue from '../views/ProfileEdittingPage.vue'
 import SearchPageVue from '../views/SearchPage.vue'
+import ProfileVue from '../views/Profile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -25,7 +26,12 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profilePage',
-      component: ProfileEdittingPageVue,
+      component: ProfileVue,
+    },
+    {
+      path: '/profileEddit',
+      name: 'profileEddit',
+      component: ProfileEdittingPageVue
     },
 
     {
