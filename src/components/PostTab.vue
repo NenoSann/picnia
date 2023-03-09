@@ -42,6 +42,8 @@ import ButtonSets from './ButtonSets.vue';
         max-width: 100%;
         max-height: 400px;
         background-color: #c4c4c4;
+        object-fit: cover;
+        object-position: center;
     }
 }
 

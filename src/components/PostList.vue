@@ -26,6 +26,7 @@ let templateColumn = computed(() => {
 <style lang="scss" scoped>
 .post-list {
     width: 100%;
+    margin: 0 10vw;
     padding-top: 60px;
     display: grid;
     grid-template-columns: v-bind(templateColumn);
