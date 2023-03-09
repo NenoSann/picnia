@@ -6,7 +6,13 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import LoginTab from '../components/LoginTab.vue';
+
+const email = ref("");
+const userName = ref("");
+const password = ref("");
+const agreementCheckd = ref(false);
 </script>
 
 <style lang="scss" scoped>
