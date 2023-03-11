@@ -12,14 +12,24 @@ export function setJwtToken(jwt) {
     localStorage.setItem("jwtToken", jwt);
 }
 
-export function getUser() {
-    return JSON.stringify(localStorage.getItem("user"));
-}
-
 export function saveUser(user) {
     localStorage.setItem("user", JSON.stringify(user));
 }
-export async function userRegister(email, username, password) {
+
+export function getUser() {
+    let res;
+    try {
+        res = localStorage.getItem("user");
+    } catch (e) {
+        console.log(e);
+    }
+    if (res !== "undefined") {
+        res = JSON.parse(res);
+    }
+    return res;
+}
+
+export async function register(email, username, password) {
     const result = await request("/api/auth/local/register", {
         method: "POST",
         auth: false,
@@ -28,11 +38,9 @@ export async function userRegister(email, username, password) {
             username,
             password,
             name: username,
-        },
+        }
     });
     setJwtToken(result.jwt);
     saveUser(result.user);
     return result.user;
 }
-
-

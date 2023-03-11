@@ -4,9 +4,6 @@ import TheIcon from './components/TheIcon.vue';
 import CreatePostTab from './components/CreatePostTab.vue';
 import PostDetail from './components/PostDetail.vue';
 import { computed } from 'vue';
-let hideNav = computed({
-
-})
 
 </script>
 
