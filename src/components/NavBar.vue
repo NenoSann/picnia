@@ -1,6 +1,8 @@
 <template>
     <div class="header-main">
-        <p class="header-title">Picnia</p>
+        <router-link to="/">
+            <p class="header-title">Picnia</p>
+        </router-link>
         <div class="search-main">
             <TheIcon icon="search"></TheIcon>
             <input type="search" name="search" placeholder="搜索">
@@ -21,6 +23,7 @@
 <script setup>
 import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
+
 </script>
 
 <style lang="scss" scoped>
@@ -101,5 +104,9 @@ input {
 ::placeholder {
     color: #949494;
     opacity: 1;
+}
+
+a.router-link-active.router-link-exact-active {
+    text-decoration: none;
 }
 </style>
