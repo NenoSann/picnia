@@ -9,7 +9,7 @@
         </div>
         <div class="header-icons">
             <TheIcon icon="home" />
-            <TheIcon icon="publish"></TheIcon>
+            <TheIcon icon="publish" @click="toggleTab"></TheIcon>
             <TheAvatar image_url="src/assets/IMG_1446.JPG" widthString="40px" heightString="40px"></TheAvatar>
         </div>
         <!-- dropdown -->
@@ -17,12 +17,49 @@
             <li><router-link to="/profile">个人主页</router-link></li>
             <li>退出登陆</li>
         </ul>
+        <CreatePostTab :open="this.openTab" @toggleTab="onCloseTab"></CreatePostTab>
     </div>
 </template>
 
-<script setup>
+<script>
 import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
+import CreatePostTab from './CreatePostTab.vue';
+import { sendUserData } from '../apis/sendUserData';
+
+export default {
+    data() {
+        return {
+            openTab: false,
+        }
+    },
+    components: {
+        TheIcon,
+        TheAvatar,
+        CreatePostTab,
+    },
+    methods: {
+        toggleTab() {
+            this.openTab = !this.openTab;
+        },
+        onCloseTab() {
+            this.openTab = false;
+        }
+        /* sendUserData(data) {
+    console.log('sendUserData')
+    sendUserData(data);
+},
+sendTestJSON() {
+    console.log('sendTestJSON')
+    const newUser = {
+        userName: 'NenoSan',
+        avatar: 'test',
+        post: ''
+    }
+    this.sendUserData(JSON.stringify(newUser))
+} */
+    }
+}
 
 </script>
 
