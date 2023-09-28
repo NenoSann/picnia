@@ -4,7 +4,9 @@
             <div class="create-post-tab-main" v-show="open">
                 <div class="main-container">
                     <div class="image-section">
-                        <input ref="imageInput" type="file" name="image-upload" id="image-input" accept="image/*" multiple>
+                        <img :src="this.imageSrc">
+                        <input @change="testTheImage" ref="imageInput" type="file" name="image-upload" id="image-input"
+                            accept="image/*" multiple>
                         <label for="image-input">
                             <p class="choose-text">
                                 选择一张图片吧！
@@ -20,7 +22,7 @@
                                 stroke-linejoin="round" />
                         </svg>
                     </span>
-                    <button class="button-post" @click="testTheImage">
+                    <button class="button-post">
                         发布
                     </button>
                 </div>
@@ -36,6 +38,7 @@ export default {
         return {
             images: [],
             text: '',
+            imageSrc: '',
         }
     },
     props: {
@@ -46,12 +49,23 @@ export default {
         hiddeTab() {
             this.$emit('toggleTab');
         },
-        testTheImage() {
-            const fileInput = this.$refs.imageInput;
-            const images = fileInput.files;
-            this.images = images;
-            console.log(images, this.text)
+        testTheImage(e) {
+            console.log(e.target.files);
+            const image = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                this.imageSrc = reader.result;
+                console.log(reader.result);
+            }
+            reader.readAsDataURL(image);
+            console.log('input change')
         }
+    },
+    computed: {
+        imageBackground() {
+            return {
+            }
+        },
     },
     components: {
         TheIcon,
@@ -91,7 +105,7 @@ export default {
     border-bottom: 1px solid #e7e7e7;
     height: 60%;
     overflow: hidden;
-    background-color: white;
+    // need to add background image
 }
 
 .choose-text {
