@@ -1,19 +1,19 @@
 <template>
     <Teleport to="body">
         <Transition name="postTab">
-            <div class="create-post-tab-main" v-show="open">
-                <div class="main-container">
-                    <div class="image-section">
-                        <img :src="this.imageSrc">
-                        <input @change="testTheImage" ref="imageInput" type="file" name="image-upload" id="image-input"
-                            accept="image/*" multiple>
+            <div class="create-post-tab-main" v-if="open">
+                <div class="main-container" :style="{ width: `${mainWidth}vw`, height: `${mainHeight}vh` }">
+                    <div class="image-section" :style="{ height: `${imageHeight}%` }">
+                        <input @change="setInputBackground" ref="imageInput" type="file" name="image-upload"
+                            id="image-input" accept="image/*" multiple>
                         <label for="image-input">
-                            <p class="choose-text">
+                            <img :src="this.imageSrc" id="inputed-image" alt="" v-show="this.imageSrc !== ''">
+                            <p class="choose-text" v-show="this.imageSrc === ''">
                                 选择一张图片吧！
                             </p>
                         </label>
                     </div>
-                    <div class="text-section">
+                    <div class="text-section" :style="{ height: `${100 - imageHeight}%` }">
                         <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="text"></textarea>
                     </div>
                     <span class="close-button" @click="hiddeTab">
@@ -22,7 +22,7 @@
                                 stroke-linejoin="round" />
                         </svg>
                     </span>
-                    <button class="button-post">
+                    <button class="button-post" @click="sendPost">
                         发布
                     </button>
                 </div>
@@ -33,39 +33,53 @@
 
 <script>
 import TheIcon from './TheIcon.vue';
+import createPost from '../apis/createPost';
 export default {
     data() {
         return {
-            images: [],
+            image: '',
             text: '',
             imageSrc: '',
+            imageRatio: 1,
+            mainWidth: 70,
+            mainHeight: 60,
+            imageHeight: 70,
         }
     },
     props: {
         open: Boolean,
     },
-    emits: ['toggleTab'],
     methods: {
         hiddeTab() {
             this.$emit('toggleTab');
         },
-        testTheImage(e) {
-            console.log(e.target.files);
+        setInputBackground(e) {
+            this.image = e.target.files[0];
             const image = e.target.files[0];
+            this.imageSrc = URL.createObjectURL(image);
             const reader = new FileReader();
-            reader.onload = function () {
-                this.imageSrc = reader.result;
-                console.log(reader.result);
+            const vm = this;
+            reader.onload = function (event) {
+                const image = new Image();
+                image.onload = function () {
+                    vm.imageRatio = image.width / image.height;
+                    console.log(vm.imageRatio);
+                    if (vm.imageRatio > 1) {
+                        vm.mainHeight = 70;
+                        vm.mainWidth = 80;
+                        vm.imageHeight = 100 / vm.imageRatio;
+                    } else {
+                        vm.imageHeight = 70;
+                        vm.mainWidth = 80 * vm.imageRatio;
+                    }
+                }
+                image.src = event.target.result;
             }
             reader.readAsDataURL(image);
-            console.log('input change')
-        }
-    },
-    computed: {
-        imageBackground() {
-            return {
-            }
         },
+        sendPost() {
+            const image = this.image;
+        }
     },
     components: {
         TheIcon,
@@ -82,8 +96,7 @@ export default {
     z-index: 10;
 
 
-    width: 600px;
-    height: 600px;
+    // width: 60vw;
     border-radius: 51px;
     background-color: white;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
@@ -96,26 +109,33 @@ export default {
 
     .main-container {
         position: relative;
-        height: 600px;
+        height: 100%;
     }
 }
 
 .image-section {
+    position: relative;
     border-radius: 51px 51px 0 0;
     border-bottom: 1px solid #e7e7e7;
-    height: 60%;
+    // height: 70%;
+    width: 100%;
     overflow: hidden;
     // need to add background image
 }
 
 .choose-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #757575;
-    margin-top: 30%;
     text-align: center;
+    z-index: 10;
 }
 
 .text-section {
     overflow: hidden;
+    height: 30%;
 }
 
 input {
@@ -128,9 +148,16 @@ input {
     overflow: hidden;
 }
 
+#inputed-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 #text {
     overflow: hidden;
     width: 100%;
+    height: 80%;
     resize: none;
     border: none;
     outline: none;
