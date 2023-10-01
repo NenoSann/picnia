@@ -12,4 +12,33 @@ export function makeRequest(url, method, body) {
     request.send(body);
 }
 
-export default makeRequest;
+/**
+ * @NenoSann
+ * @description 传输multipart的元素到后台。
+ * @param {URL | string} url
+ * @param {String} method
+ * @param {Object} body
+ * @returns {void}
+ */
+export function makeMultipartRequest(url, method, body) {
+    const formData = new FormData();
+
+    formData.append('json', new Blob([body.json], { type: 'application/json' }), 'json');
+    formData.append('image', body.image, 'image');
+    fetch(url, {
+        method: method,
+        headers: {
+        },
+        body: formData,
+    })
+        .then(() => {
+            console.log('成功传输post')
+        })
+        .catch((e) => {
+            console.log('传输post失败', e)
+        })
+
+}
+
+
+export default { makeRequest, makeMultipartRequest };

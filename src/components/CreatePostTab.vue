@@ -41,11 +41,12 @@ export default {
             text: '',
             imageSrc: '',
             imageRatio: 1,
-            mainWidth: 70,
-            mainHeight: 60,
+            mainWidth: 60,
+            mainHeight: 80,
             imageHeight: 70,
         }
     },
+    emits: ['toggleTab'],
     props: {
         open: Boolean,
     },
@@ -65,8 +66,8 @@ export default {
                     vm.imageRatio = image.width / image.height;
                     console.log(vm.imageRatio);
                     if (vm.imageRatio > 1) {
-                        vm.mainHeight = 70;
-                        vm.mainWidth = 80;
+                        vm.mainHeight = 80;
+                        vm.mainWidth = 60;
                         vm.imageHeight = 100 / vm.imageRatio;
                     } else {
                         vm.imageHeight = 70;
@@ -78,7 +79,25 @@ export default {
             reader.readAsDataURL(image);
         },
         sendPost() {
-            const image = this.image;
+            const vm = this;
+            const jsonData = {
+                author: 'NenoSan',
+                date: Date.now(),
+                content: vm.text,
+                comments: '',
+            };
+            const data = {
+                image: vm.image,
+            };
+            window.navigator.geolocation.getCurrentPosition((e) => {
+                data.json = JSON.stringify({
+                    ...jsonData,
+                    location: `(${e.coords.longitude},${e.coords.latitude})`,
+                });
+                createPost(data);
+            });
+
+            console.log('Sending the post......');
         }
     },
     components: {

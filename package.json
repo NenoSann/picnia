@@ -10,6 +10,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "image-blob-reduce": "^4.1.0",
+    "pica": "^9.0.1",
     "sass": "^1.58.3",
     "vue": "^3.2.47",
     "vue-router": "^4.2.4",
