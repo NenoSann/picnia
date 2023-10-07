@@ -29,8 +29,8 @@ const router = createRouter({
       component: ProfileVue,
     },
     {
-      path: '/profileEddit',
-      name: 'profileEddit',
+      path: '/profileEdit',
+      name: 'profileEdit',
       component: ProfileEdittingPageVue
     },
 

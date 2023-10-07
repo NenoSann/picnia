@@ -96,7 +96,7 @@ export default {
                 });
                 createPost(data);
             });
-
+            this.$emit('toggleTab');
             console.log('Sending the post......');
         }
     },

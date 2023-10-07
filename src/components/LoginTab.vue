@@ -6,7 +6,7 @@
         </Transition>
         <input type="mail" class="email" placeholder="邮箱" v-model="email">
         <input type="password" class="password" placeholder="密码" v-model="password">
-        <button type="submit" class="login-button" v-if="isRegister" @click="register">注册</button>
+        <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
         <button type="submit" class="login-button" v-else-if="!isRegister">登陆</button>
         <div class="agreement">
             <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
@@ -19,27 +19,27 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router'
+import { register } from '../apis/auth';
 let isRegister = ref(false);
 const email = ref("");
 const userName = ref("");
 const password = ref("");
 const agreementCheckd = ref(false);
 
-const store = useStore();
 const router = useRouter();
-async function register() {
+async function createUser() {
     if (!agreementCheckd.value) {
         alert("请先阅读并且统一隐私协议和使用规范");
         return;
+    } else {
+        console.log(register(email.value, userName.value, password.value).then(() => {
+            console.log('create sucessfully.')
+        }, () => {
+            console.log('create failed.')
+        }));
     }
-    await store.dispatch("registerUser", {
-        email: email.value,
-        username: userName.value,
-        password: password.value,
-    });
-    router.replace("/");
+    // router.replace("/");
 }
 </script>
 

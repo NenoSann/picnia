@@ -6,26 +6,25 @@
             <div class="user-info">
                 <div class="user-name">
                     <p>NenoSan</p>
-                    <span>编辑个人资料</span>
+                    <span @click="() => { isEditting = !isEditting }">{{ isEditting ? '完成编辑' : '编辑资料' }}</span>
                 </div>
                 <p class="user-id">@FpsNoobuuu</p>
-                <p class="introduction">我是NenoSan，正在学习frontend development！
-                    欢迎来我的github，看看我的repo，给我star！
-                    谢谢你捏！
+                <p class="introduction" v-if="!isEditting">{{ brief }}
                 </p>
+                <textarea class="introduction" cols="20" v-if="isEditting" v-model="brief"></textarea>
             </div>
         </div>
         <div class="button-section">
             <div class="button">
-                <TheIcon icon="posts"></TheIcon>
+                <TheIcon icon="posts" stroke="#32adf0"></TheIcon>
                 <p class="text">我的</p>
             </div>
             <div class="button">
-                <TheIcon icon="like"></TheIcon>
+                <TheIcon icon="like" stroke="#ed5b51"></TheIcon>
                 <p class="text">赞过</p>
             </div>
             <div class="button">
-                <TheIcon icon="favorite"></TheIcon>
+                <TheIcon icon="favorite" stroke="#f7bf45"></TheIcon>
                 <p class="text">收藏</p>
             </div>
         </div>
@@ -41,6 +40,15 @@ import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
 import PostTab from '../components/PostTab.vue';
+import { ref } from 'vue'
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
+// ref data
+const userName = ref('');
+const isEditting = ref(false);
+const brief = ref('我是NenoSan，正在学习frontend development！欢迎来我的github，看看我的repo，给我star！谢谢你捏！');
+
 </script>
 
 <style lang="scss" scoped>
@@ -67,7 +75,12 @@ import PostTab from '../components/PostTab.vue';
 
     .introduction {
         max-width: max(30vw, 300px);
+        max-height: max(30vh, 300px);
+        min-height: fit-content;
+        width: 99999px;
         margin-top: 16px;
+        resize: vertical;
+        // box-sizing: border-box;
     }
 
     .user-name {
@@ -79,11 +92,13 @@ import PostTab from '../components/PostTab.vue';
         }
 
         span {
+            cursor: pointer;
             margin-left: 40px;
             color: #1DA0FF;
         }
     }
 }
+
 
 .button-section {
     padding-top: 6vh;
