@@ -8,7 +8,21 @@ export const store = createStore({
         post,
         comment,
     },
-    state() { },
-    mutation: {},
+    state() {
+        return {
+            isLoading: false,
+            loginSuccess: false,
+        }
+    },
+    mutations: {
+        toggleLoading(state) {
+            console.log('loding statues: ', state.isLoading)
+            state.isLoading = !state.isLoading;
+        },
+        toggleLogin(state) {
+            console.log('login status: ', state.loginSuccess);
+            state.loginSuccess = !state.loginSuccess;
+        }
+    },
     actions: {},
 })

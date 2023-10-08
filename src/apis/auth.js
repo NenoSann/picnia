@@ -46,8 +46,7 @@ export async function register(email, username, password) {
             password,
         })
     });
-    console.log(result);
     setJwtToken(result.token);
     saveUser(result.user);
-    return result.user;
+    return { user: result.user, message: result.message };
 }

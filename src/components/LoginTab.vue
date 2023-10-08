@@ -2,9 +2,10 @@
     <form class="login-tab-main" @submit.prevent>
         <p class="title">Picnia</p>
         <Transition>
-            <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName">
+            <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
+                :class="{ error: usernameError, shake: usernameError }">
         </Transition>
-        <input type="mail" class="email" placeholder="邮箱" v-model="email">
+        <input type="mail" class="email" placeholder="邮箱" v-model="email" :class="{ error: emailError, shake: emailError }">
         <input type="password" class="password" placeholder="密码" v-model="password">
         <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
         <button type="submit" class="login-button" v-else-if="!isRegister">登陆</button>
@@ -18,28 +19,53 @@
     </form>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
-import { register } from '../apis/auth';
+import { useStore } from "vuex";
 let isRegister = ref(false);
+
+// data ream
 const email = ref("");
 const userName = ref("");
 const password = ref("");
+const message = ref('');
 const agreementCheckd = ref(false);
 
+// component
 const router = useRouter();
+const store = useStore();
+
+
+//computed value
+const emailError = computed(() => {
+    return message.value.includes('duplicate') && message.value.includes('email');
+})
+
+const usernameError = computed(() => {
+    return message.value.includes('duplicate') && message.value.includes('userName');
+})
+
+const success = computed(() => {
+    return message.value.includes('success');
+})
+
 async function createUser() {
     if (!agreementCheckd.value) {
         alert("请先阅读并且统一隐私协议和使用规范");
         return;
     } else {
-        console.log(register(email.value, userName.value, password.value).then(() => {
-            console.log('create sucessfully.')
-        }, () => {
-            console.log('create failed.')
-        }));
+        message.value = await store.dispatch('registerUser', {
+            email: email.value,
+            username: userName.value,
+            password: password.value
+        })
+        console.log(message.value)
+        console.log(emailError.value)
+        if (success.value) {
+            isRegister.value = !isRegister.value
+        }
     }
-    // router.replace("/");
+
 }
 </script>
 
@@ -103,5 +129,40 @@ input {
     cursor: pointer;
     text-decoration: none;
     color: #1DA0FF;
+}
+
+.error {
+    background: rgb(224, 12, 40);
+    background: linear-gradient(90deg, rgba(224, 12, 40, 0.5346931008731617) 0%, rgba(222, 1, 1, 1) 100%);
+    animation: errorAnimation 0.3s ease-in-out infinite;
+}
+
+.shake {
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 </style>

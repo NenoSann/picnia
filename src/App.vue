@@ -1,9 +1,11 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
+import LodingOverlay from './components/LodingOverlay.vue';
 import TheIcon from './components/TheIcon.vue';
 import CreatePostTab from './components/CreatePostTab.vue';
 import PostDetail from './components/PostDetail.vue';
 import { computed } from 'vue';
+import LoginOverlay from './components/LoginOverlay.vue';
 
 </script>
 
@@ -12,6 +14,8 @@ import { computed } from 'vue';
   <router-view class="main-content"></router-view>
   <!-- <CreatePostTab /> -->
   <!-- <PostDetail /> -->
+  <LodingOverlay></LodingOverlay>
+  <LoginOverlay></LoginOverlay>
 </template>
 
 <style scoped lang="scss">
