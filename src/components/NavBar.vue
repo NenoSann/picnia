@@ -10,7 +10,7 @@
         <div class="header-icons">
             <TheIcon icon="home" />
             <TheIcon icon="publish" @click="toggleTab"></TheIcon>
-            <TheAvatar image_url="src/assets/IMG_1446.JPG" widthString="40px" heightString="40px"></TheAvatar>
+            <TheAvatar :alt="userName" :image_url="userAvatar" widthString="40px" heightString="40px"></TheAvatar>
         </div>
         <!-- dropdown -->
         <ul class="profile-menu">
@@ -26,6 +26,8 @@ import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import CreatePostTab from './CreatePostTab.vue';
 import { sendUserData } from '../apis/sendUserData';
+import { useStore } from 'vuex';
+
 
 export default {
     data() {
@@ -44,21 +46,16 @@ export default {
         },
         onCloseTab() {
             this.openTab = false;
+        },
+    },
+    computed: {
+        userAvatar() {
+            return this.$store.state.user.userAvatar || 'src/assets/avatarDefault.png';
+        },
+        userName() {
+            return this.$store.state.user.userName || '未登录';
         }
-        /* sendUserData(data) {
-    console.log('sendUserData')
-    sendUserData(data);
-},
-sendTestJSON() {
-    console.log('sendTestJSON')
-    const newUser = {
-        userName: 'NenoSan',
-        avatar: 'test',
-        post: ''
-    }
-    this.sendUserData(JSON.stringify(newUser))
-} */
-    }
+    },
 }
 
 </script>

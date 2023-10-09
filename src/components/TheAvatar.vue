@@ -3,6 +3,7 @@ import DefaultAvatar from '../assets/avatarDefault.png';
 import { useRouter } from "vue-router";
 defineProps({
     image_url: String,
+    alt: String,
     widthString: {
         type: String,
         default: "33px"
@@ -23,7 +24,7 @@ async function pushIntoRouter() {
 <template>
     <router-link to="/profile">
         <div class="avatar">
-            <img :src="image_url || DefaultAvatar">
+            <img :src="image_url || DefaultAvatar" :alt="alt">
         </div>
     </router-link>
 </template>

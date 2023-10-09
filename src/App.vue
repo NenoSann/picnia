@@ -1,12 +1,22 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
 import LodingOverlay from './components/LodingOverlay.vue';
-import TheIcon from './components/TheIcon.vue';
-import CreatePostTab from './components/CreatePostTab.vue';
-import PostDetail from './components/PostDetail.vue';
-import { computed } from 'vue';
+import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const store = useStore();
+const router = useRouter();
 
+// when app mounted
+
+import { getUser } from './apis/auth';
+onMounted(() => {
+  store.commit('setUser', getUser());
+  if (toRaw(store.state.user).user == null) {
+    router.push('login');
+  }
+})
 </script>
 
 <template>

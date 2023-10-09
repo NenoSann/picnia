@@ -95,7 +95,15 @@ export default {
                     location: `(${e.coords.longitude},${e.coords.latitude})`,
                 });
                 createPost(data);
-            });
+            },
+                // error function: not getting location
+                (e) => {
+                    data.json = JSON.stringify({
+                        ...jsonData,
+                        location: "undefined",
+                    });
+                    createPost(data);
+                });
             this.$emit('toggleTab');
             console.log('Sending the post......');
         }

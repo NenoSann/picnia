@@ -1,5 +1,5 @@
 import { getUser } from "../../apis/auth"
-import { register } from "../../apis/auth"
+import { register, login } from "../../apis/auth"
 
 export const user = {
     state() {
@@ -22,6 +22,18 @@ export const user = {
             }
             finally {
                 commit('toggleLoading');
+            }
+        },
+        async loginUser({ commit }, { email, password }) {
+            try {
+                console.log('user before login: ', getUser())
+                commit('toggleLogin');
+                const res = await login(email, password);
+                commit('setUser', getUser());
+                console.log('user after login: ', getUser())
+                return res;
+            } finally {
+                commit('toggleLogin')
             }
         }
     },

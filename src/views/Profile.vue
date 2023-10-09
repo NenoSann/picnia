@@ -1,11 +1,11 @@
 <template>
     <div class="profile-main">
         <div class="avatar-section">
-            <TheAvatar image_url="src/assets/avatar2.JPG" widthString="186px" heightString="186px" class="avatar">
+            <TheAvatar :image_url="avatarUrl" widthString="186px" heightString="186px" class="avatar">
             </TheAvatar>
             <div class="user-info">
                 <div class="user-name">
-                    <p>NenoSan</p>
+                    <p>{{ userName }}</p>
                     <span @click="() => { isEditting = !isEditting }">{{ isEditting ? '完成编辑' : '编辑资料' }}</span>
                 </div>
                 <p class="user-id">@FpsNoobuuu</p>
@@ -40,15 +40,29 @@ import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
 import PostTab from '../components/PostTab.vue';
-import { ref } from 'vue'
-
+import { ref, computed, onMounted } from 'vue'
+import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 const router = useRouter();
+const store = useStore();
+
 // ref data
-const userName = ref('');
 const isEditting = ref(false);
 const brief = ref('我是NenoSan，正在学习frontend development！欢迎来我的github，看看我的repo，给我star！谢谢你捏！');
-
+const avatarUrl = computed(() => {
+    if (store.state.user.userAvatar !== undefined) {
+        return store.state.user.user.userAvatar;
+    } else {
+        return "src/assets/avatarDefault.png";
+    }
+})
+const userName = computed(() => {
+    if (store.state.user.user.userName !== undefined) {
+        return store.state.user.user.userName;
+    } else {
+        return "未登录";
+    }
+})
 </script>
 
 <style lang="scss" scoped>

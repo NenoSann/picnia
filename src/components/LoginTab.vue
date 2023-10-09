@@ -5,10 +5,11 @@
             <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
                 :class="{ error: usernameError, shake: usernameError }">
         </Transition>
-        <input type="mail" class="email" placeholder="邮箱" v-model="email" :class="{ error: emailError, shake: emailError }">
+        <input type="email" class="email" placeholder="邮箱" v-model="email"
+            :class="{ error: emailError, shake: emailError }">
         <input type="password" class="password" placeholder="密码" v-model="password">
         <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
-        <button type="submit" class="login-button" v-else-if="!isRegister">登陆</button>
+        <button type="submit" class="login-button" v-else-if="!isRegister" @click="login">登陆</button>
         <div class="agreement">
             <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
             <label for="checkbox">我已阅读且同意用户协议</label>
@@ -65,7 +66,27 @@ async function createUser() {
             isRegister.value = !isRegister.value
         }
     }
+}
 
+/**
+ * @description 处理登录函数 
+ */
+async function login() {
+    if (!agreementCheckd.value) {
+        alert("请先阅读并且统一隐私协议和使用规范");
+        return;
+    } else {
+        message.value = await store.dispatch('loginUser', {
+            email: email.value,
+            password: password.value
+        });
+        if (message.value === 'correct') {
+            message.value = '';
+            console.log('登陆成功')
+            router.replace('/');
+        }
+        console.log(message.value);
+    }
 }
 </script>
 

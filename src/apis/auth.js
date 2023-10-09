@@ -17,13 +17,13 @@ export function saveUser(user) {
 }
 
 export function getUser() {
-    let res;
+    let res = undefined;
     try {
         res = localStorage.getItem("user");
     } catch (e) {
         console.log(e);
     }
-    if (res !== "undefined") {
+    if (res !== undefined) {
         res = JSON.parse(res);
     }
     return res;
@@ -49,4 +49,20 @@ export async function register(email, username, password) {
     setJwtToken(result.token);
     saveUser(result.user);
     return { user: result.user, message: result.message };
+}
+
+//进行登录操作
+export async function login(email, password) {
+    const result = await request('/api/login', {
+        method: "POST",
+        auth: false,
+        body: JSON.stringify({
+            email,
+            password,
+        })
+    });
+    console.log(result)
+    setJwtToken(result.token);
+    saveUser(result.user);
+    return result.message;
 }
