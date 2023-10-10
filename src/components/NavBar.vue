@@ -25,9 +25,6 @@
 import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import CreatePostTab from './CreatePostTab.vue';
-import { sendUserData } from '../apis/sendUserData';
-import { useStore } from 'vuex';
-
 
 export default {
     data() {
@@ -50,10 +47,10 @@ export default {
     },
     computed: {
         userAvatar() {
-            return this.$store.state.user.userAvatar || 'src/assets/avatarDefault.png';
+            return this.$store.state.user.user.userAvatar || 'src/assets/avatarDefault.png';
         },
         userName() {
-            return this.$store.state.user.userName || '未登录';
+            return this.$store.state.user.user.userName || '未登录';
         }
     },
 }

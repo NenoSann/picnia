@@ -55,6 +55,7 @@ export default {
             this.$emit('toggleTab');
         },
         setInputBackground(e) {
+            console.log(e)
             this.image = e.target.files[0];
             const image = e.target.files[0];
             this.imageSrc = URL.createObjectURL(image);

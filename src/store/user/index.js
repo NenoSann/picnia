@@ -1,4 +1,4 @@
-import { getUser } from "../../apis/auth"
+import { getUser, saveUser } from "../../apis/auth"
 import { register, login } from "../../apis/auth"
 
 export const user = {
@@ -10,6 +10,7 @@ export const user = {
     mutations: {
         setUser(state, user) {
             state.user = user;
+            saveUser(user);
         }
     },
     actions: {
@@ -26,11 +27,9 @@ export const user = {
         },
         async loginUser({ commit }, { email, password }) {
             try {
-                console.log('user before login: ', getUser())
                 commit('toggleLogin');
                 const res = await login(email, password);
                 commit('setUser', getUser());
-                console.log('user after login: ', getUser())
                 return res;
             } finally {
                 commit('toggleLogin')

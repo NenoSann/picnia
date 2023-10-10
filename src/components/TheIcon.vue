@@ -11,13 +11,21 @@ defineProps({
     icon: String,
     fill: String,
     stroke: String,
+    height: {
+        type: String,
+        default: '40px',
+    },
+    width: {
+        type: String,
+        default: '40px'
+    }
 });
 </script>
 
 <style lang="scss" scoped>
 svg {
-    height: 40px;
-    width: 40px;
+    height: v-bind(height);
+    width: v-bind(width);
     transition: stroke 0.3 ease-in-out;
 }
 
@@ -27,6 +35,15 @@ use {
     &:hover {
         cursor: pointer;
         stroke: v-bind(stroke);
+    }
+
+    &:active {
+        stroke: v-bind(stroke);
+    }
+
+    &:focus {
+        stroke: v-bind(stroke);
+
     }
 }
 </style>

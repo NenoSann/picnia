@@ -17,13 +17,13 @@ export function saveUser(user) {
 }
 
 export function getUser() {
-    let res = undefined;
+    let res;
     try {
         res = localStorage.getItem("user");
     } catch (e) {
         console.log(e);
     }
-    if (res !== undefined) {
+    if (res !== undefined && res !== 'undefined') {
         res = JSON.parse(res);
     }
     return res;
