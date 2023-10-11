@@ -5,6 +5,7 @@ import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import ThePopup from './components/ThePopup.vue';
 const store = useStore();
 const router = useRouter();
 
@@ -26,6 +27,7 @@ onMounted(() => {
   <!-- <PostDetail /> -->
   <LodingOverlay></LodingOverlay>
   <LoginOverlay></LoginOverlay>
+  <!-- <ThePopup>测试Popup信息</ThePopup> -->
 </template>
 
 <style scoped lang="scss">
@@ -39,5 +41,9 @@ onMounted(() => {
     width: 0;
     height: 0;
   }
+}
+
+ThePopup {
+  margin-top: 50vh;
 }
 </style>

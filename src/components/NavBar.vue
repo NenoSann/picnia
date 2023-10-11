@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         userAvatar() {
-            return this.$store.state.user.user.userAvatar || 'src/assets/avatarDefault.png';
+            return this.$store.state.user.user.avatar || 'src/assets/avatarDefault.png';
         },
         userName() {
             return this.$store.state.user.user.userName || '未登录';

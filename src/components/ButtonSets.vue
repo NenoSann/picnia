@@ -2,15 +2,15 @@
     <div class="btn-section">
         <div class="btn">
             <TheIcon icon="like"></TheIcon>
-            <p class="count">1m</p>
+            <p class="count">{{ like }}</p>
         </div>
         <div class="btn">
             <TheIcon icon="comment"></TheIcon>
-            <p class="count">1m</p>
+            <p class="count">{{ comments }}</p>
         </div>
         <div class="btn">
             <TheIcon icon="favorite"></TheIcon>
-            <p class="count">1m</p>
+            <p class="count">{{ save }}</p>
         </div>
     </div>
 </template>
@@ -26,6 +26,18 @@ const props = defineProps({
     textTransform: {
         type: Number,
         default: 0,
+    },
+    like: {
+        type: Number,
+        default: 0,
+    },
+    comments: {
+        type: Number,
+        default: 0
+    },
+    save: {
+        type: Number,
+        default: 0
     }
 })
 let scale = computed(() => {

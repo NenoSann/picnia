@@ -15,6 +15,7 @@ const isLoding = computed(() => store.state.isLoading);
 
 <style lang="scss" scoped>
 .loading-overlay {
+    z-index: 99999;
     position: absolute;
     top: 0;
     left: 0;

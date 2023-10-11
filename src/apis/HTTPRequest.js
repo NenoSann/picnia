@@ -18,26 +18,27 @@ export function makeRequest(url, method, body) {
  * @param {URL | string} url
  * @param {String} method
  * @param {Object} body
- * @returns {void}
+ * @returns {Promise}
  */
 export function makeMultipartRequest(url, method, body) {
-    const formData = new FormData();
-
-    formData.append('json', new Blob([body.json], { type: 'application/json' }), 'json');
-    formData.append('image', body.image, 'image');
-    fetch(url, {
-        method: method,
-        headers: {
-        },
-        body: formData,
-    })
-        .then(() => {
-            console.log('成功传输post')
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('json', new Blob([body.json], { type: 'application/json' }), 'json');
+        formData.append('image', body.image, 'image');
+        fetch(url, {
+            method: method,
+            headers: {},
+            body: formData,
         })
-        .catch((e) => {
-            console.log('传输post失败', e)
-        })
-
+            .then(() => {
+                console.log('成功传输post');
+                resolve();
+            })
+            .catch((error) => {
+                console.log('传输post失败', error);
+                reject(error);
+            });
+    });
 }
 
 

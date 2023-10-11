@@ -42,10 +42,9 @@ import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
 import PostTab from '../components/PostTab.vue';
-import { ref, computed, toRaw, toRef } from 'vue'
+import { changeAvatar } from "../apis/changeAvatar";
+import { ref, computed } from 'vue'
 import { useStore } from "vuex";
-import { useRouter } from 'vue-router';
-const router = useRouter();
 const store = useStore();
 
 //将user数据格式从store中提取出来，避免多重链式调用
@@ -58,8 +57,7 @@ const user = function () {
 const isEditting = ref(false);
 const avatarInput = ref('');
 const avatarUrl = computed(() => {
-    return user().userAvatar !== undefined ? user().userAvatar : "src/assets/avatarDefault.png";
-
+    return user().avatar !== undefined ? user().avatar : "src/assets/avatarDefault.png";
 })
 const userName = computed(() => {
     return user().userName !== undefined ? user().userName : '未登录';
@@ -74,11 +72,25 @@ const email = computed(() => {
 })
 
 const getInput = function (e) {
+    const imageType = e.target.files[0].type;
+    const imageFile = e.target.files[0];
+    store.commit('toggleLoading');
     const reader = new FileReader();
     reader.onload = function (event) {
         const userData = user();
-        userData.userAvatar = event.target.result;
-        store.commit('setUser', userData);
+        userData.avatar = event.target.result;
+        // event.target.result is base64
+        changeAvatar(
+            JSON.stringify({
+                userName: userData.userName,
+                email: userData.email
+            })
+            , imageFile).then(() => {
+                console.log()
+                store.commit('setUser', userData);
+                store.commit('toggleLoading');
+            })
+
     }
     reader.readAsDataURL(e.target.files[0]);
 }

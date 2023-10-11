@@ -4,16 +4,16 @@
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
-                    <img src="src/assets/IMG_1446.JPG" id="avatar">
-                    <p class="username">NenoSan</p>
+                    <img :src="uploader.avatar" id="avatar">
+                    <p class="username">{{ uploader.name }}</p>
                 </div>
-                <p class="post-time">Posted 12 hours ago</p>
+                <p class="post-time">{{ postTime }}</p>
             </div>
-            <ButtonSets class="button-sets"></ButtonSets>
+            <ButtonSets class="button-sets" :like="likes" :comments="commentsCount" :save="saves"></ButtonSets>
         </div>
         <div class="discription">
             <p>
-                P5真是太好玩啦！！！
+                {{ postContent }}
             </p>
         </div>
         <div class="tags">
@@ -26,6 +26,39 @@
 <script setup>
 import TheIcon from './TheIcon.vue';
 import ButtonSets from './ButtonSets.vue';
+import { ref, defineProps } from 'vue';
+// data set here
+defineProps({
+    uploader: {
+        type: Object,
+        default: () => ({
+            avatar: 'src/assets/avatarDefault.png',
+            name: 'Unknown',
+        }),
+    },
+    postContent: {
+        type: String,
+        default: '似乎没有内容呢'
+    },
+    likes: {
+        type: Number,
+        default: 0
+    },
+    commentsCount: {
+        type: Number,
+        default: 0
+    },
+    saves: {
+        type: Number,
+        default: 0
+    },
+    postTime: {
+        type: String,
+        default: 'unkown'
+    },
+})
+
+
 </script>
 
 <style lang="scss" scoped>

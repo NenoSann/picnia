@@ -16,9 +16,7 @@ defineProps({
         type: String,
         default: "33px"
     }
-
 })
-
 
 </script>
 <template>
@@ -27,7 +25,7 @@ defineProps({
             <div class="edit-btn-container" v-if=editable>
                 <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>
             </div>
-            <img :src="image_url || DefaultAvatar" :alt="alt">
+            <img :src="image_url || DefaultAvatar">
         </div>
     </router-link>
 </template>

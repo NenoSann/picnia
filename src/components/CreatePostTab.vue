@@ -82,7 +82,7 @@ export default {
         sendPost() {
             const vm = this;
             const jsonData = {
-                author: 'NenoSan',
+                author: this.$store.state.user.user.userName,
                 date: Date.now(),
                 content: vm.text,
                 comments: '',
@@ -90,12 +90,18 @@ export default {
             const data = {
                 image: vm.image,
             };
+            // show the loading page
+            this.$store.commit('toggleLoading')
             window.navigator.geolocation.getCurrentPosition((e) => {
                 data.json = JSON.stringify({
                     ...jsonData,
                     location: `(${e.coords.longitude},${e.coords.latitude})`,
                 });
-                createPost(data);
+                createPost(data).then(() => {
+                    // close loading page when done
+                    this.$store.commit('toggleLoading')
+                    this.$emit('toggleTab');
+                });
             },
                 // error function: not getting location
                 (e) => {
@@ -103,9 +109,11 @@ export default {
                         ...jsonData,
                         location: "undefined",
                     });
-                    createPost(data);
+                    createPost(data).then(() => {
+                        this.$store.commit('toggleLoading')
+                        this.$emit('toggleTab');
+                    });
                 });
-            this.$emit('toggleTab');
             console.log('Sending the post......');
         }
     },
