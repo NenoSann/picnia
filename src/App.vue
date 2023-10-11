@@ -12,11 +12,14 @@ const router = useRouter();
 // when app mounted
 
 import { getUser } from './apis/auth';
-onMounted(() => {
+onMounted(async () => {
   store.commit('setUser', getUser());
   if (toRaw(store.state.user).user == null) {
     router.push('login');
   }
+  store.commit('toggleLoading');
+  await store.dispatch('pullPost');
+  store.commit('toggleLoading')
 })
 </script>
 

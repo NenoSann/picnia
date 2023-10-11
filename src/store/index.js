@@ -22,5 +22,6 @@ export const store = createStore({
             state.loginSuccess = !state.loginSuccess;
         }
     },
-    actions: {},
+    actions: {
+    },
 })

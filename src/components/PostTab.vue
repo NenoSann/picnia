@@ -1,19 +1,21 @@
 <template>
     <div class="post-tab-main">
-        <img src="../assets/Persona 5R.png">
+        <img :src="postData.postImage">
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
-                    <img :src="uploader.avatar" id="avatar">
-                    <p class="username">{{ uploader.name }}</p>
+                    <img :src="postData.uploader.avatar" id="avatar">
+                    <p class="username">{{ postData.uploader.userName }}</p>
                 </div>
-                <p class="post-time">{{ postTime }}</p>
+                <p class="post-time">{{ postData.postTime }}</p>
             </div>
-            <ButtonSets class="button-sets" :like="likes" :comments="commentsCount" :save="saves"></ButtonSets>
+            <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts"
+                :save="postData.saves">
+            </ButtonSets>
         </div>
         <div class="discription">
             <p>
-                {{ postContent }}
+                {{ postData.postContent }}
             </p>
         </div>
         <div class="tags">
@@ -24,39 +26,15 @@
 </template>
 
 <script setup>
-import TheIcon from './TheIcon.vue';
 import ButtonSets from './ButtonSets.vue';
-import { ref, defineProps } from 'vue';
 // data set here
+
 defineProps({
-    uploader: {
+    postData: {
         type: Object,
-        default: () => ({
-            avatar: 'src/assets/avatarDefault.png',
-            name: 'Unknown',
-        }),
+        required: true,
     },
-    postContent: {
-        type: String,
-        default: '似乎没有内容呢'
-    },
-    likes: {
-        type: Number,
-        default: 0
-    },
-    commentsCount: {
-        type: Number,
-        default: 0
-    },
-    saves: {
-        type: Number,
-        default: 0
-    },
-    postTime: {
-        type: String,
-        default: 'unkown'
-    },
-})
+});
 
 
 </script>

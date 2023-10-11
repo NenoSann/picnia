@@ -8,7 +8,7 @@
             <input type="search" name="search" placeholder="搜索">
         </div>
         <div class="header-icons">
-            <TheIcon icon="home" />
+            <TheIcon icon="home" @click="testPullPost" />
             <TheIcon icon="publish" @click="toggleTab"></TheIcon>
             <TheAvatar :alt="userName" :image_url="userAvatar" widthString="40px" heightString="40px"></TheAvatar>
         </div>
@@ -44,6 +44,11 @@ export default {
         onCloseTab() {
             this.openTab = false;
         },
+        async testPullPost() {
+            this.$store.commit('toggleLoading');
+            await this.$store.dispatch('pullPost');
+            this.$store.commit('toggleLoading');
+        }
     },
     computed: {
         userAvatar() {

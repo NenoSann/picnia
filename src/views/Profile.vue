@@ -32,7 +32,7 @@
         </div>
         <p class="posts-count">162 篇帖子</p>
         <PostList :colunm="3" class="post-list">
-            <PostTab v-for="n in 10"></PostTab>
+            <PostTab v-for="post in posts" :postData="post"></PostTab>
         </PostList>
     </div>
 </template>
@@ -51,7 +51,9 @@ const store = useStore();
 const user = function () {
     return store.state.user.user;
 }
-
+const posts = computed(() => {
+    return store.state.post.post;
+})
 
 // ref data
 const isEditting = ref(false);

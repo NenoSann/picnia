@@ -41,5 +41,27 @@ export function makeMultipartRequest(url, method, body) {
     });
 }
 
+/**
+ * @NenoSann
+ * @description send http request using fetch, return a promise
+ * @param {URL | String} url 
+ * @param {'POST' | 'GET'} method 
+ * @param {*} body 
+ * @returns  {Promise}
+ */
+export function fetchRequest(url, method, body) {
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method,
+            body,
+        }).then((response) => {
+            console.log('success fetch')
+            resolve(response);
+        }).catch((error) => {
+            console.log('fail fetch', error);
+            reject(error);
+        })
+    })
+}
 
-export default { makeRequest, makeMultipartRequest };
+export default { makeRequest, makeMultipartRequest, fetchRequest };

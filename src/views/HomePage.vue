@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <PostList>
-            <PostTab class="post-tab" v-for="n in 10">
+            <PostTab class="post-tab" v-for="post in posts" :postData="post">
             </PostTab>
         </PostList>
     </div>
@@ -10,6 +10,14 @@
 <script setup>
 import PostTab from '../components/PostTab.vue';
 import PostList from '../components/PostList.vue';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const posts = computed(() => {
+    return store.state.post.post;
+})
+
 </script>
 
 <style lang="scss" scoped>
