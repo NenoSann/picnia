@@ -97,7 +97,8 @@ export default {
                     ...jsonData,
                     location: `(${e.coords.longitude},${e.coords.latitude})`,
                 });
-                createPost(data).then(() => {
+                createPost(data).then(async () => {
+                    await this.$store.dispatch('addPostLocal', data);
                     // close loading page when done
                     this.$store.commit('toggleLoading')
                     this.$emit('toggleTab');

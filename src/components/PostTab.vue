@@ -27,6 +27,7 @@
 
 <script setup>
 import ButtonSets from './ButtonSets.vue';
+import { onBeforeUnmount } from 'vue'
 // data set here
 
 defineProps({
@@ -35,6 +36,13 @@ defineProps({
         required: true,
     },
 });
+
+onBeforeUnmount(() => {
+    // revoke temp URL, if it is 
+    if (post.postImage && typeof post.postImage === 'string' && post.postImage.startsWith('blob:')) {
+        URL.revokeObjectURL(post.postImage);
+    }
+})
 
 
 </script>

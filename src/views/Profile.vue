@@ -30,7 +30,7 @@
                 <p class="text">收藏</p>
             </div>
         </div>
-        <p class="posts-count">162 篇帖子</p>
+        <p class="posts-count">{{ posts.length + '篇帖子' }}</p>
         <PostList :colunm="3" class="post-list">
             <PostTab v-for="post in posts" :postData="post"></PostTab>
         </PostList>
