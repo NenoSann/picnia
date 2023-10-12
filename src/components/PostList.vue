@@ -1,15 +1,23 @@
 <template>
     <div class="post-list">
-        <slot></slot>
+        <TransitionGroup name="postGroup">
+            <div v-for=" post in posts" :key="post">
+                <PostTab :postData="post" :key="post"></PostTab>
+            </div>
+        </TransitionGroup>
     </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import PostTab from './PostTab.vue';
 const props = defineProps({
     colunm: {
         type: Number,
         default: 2,
+    },
+    posts: {
+        type: Array
     }
 })
 
@@ -47,5 +55,24 @@ let templateColumn = computed(() => {
     .post-list {
         grid-template-columns: 1fr;
     }
+}
+
+.postGroup-move,
+/* 对移动中的元素应用的过渡 */
+.postGroup-enter-active,
+.postGroup-leave-active {
+    transition: all 2s ease;
+}
+
+.postGroup-enter-from,
+.postGroup-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+/* 确保将离开的元素从布局流中删除
+  以便能够正确地计算移动的动画。 */
+.postGroup-leave-active {
+    position: absolute;
 }
 </style>

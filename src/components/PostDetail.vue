@@ -1,41 +1,38 @@
 <template>
-    <Teleport to="body">
-        <div class="modal">
-            <TheIcon icon="close" class="btn-close" style="cursor: pointer;"></TheIcon>
-            <img src="src/assets/testImage3.png" class="image">
-            <div class="content">
-                <div class="uploader">
-                    <div class="detail">
-                        <TheAvatar image_url="src/assets/avatar2.JPG"></TheAvatar>
-                        <p class="user-name">NenoSan</p>
-                    </div>
-                    <p class="present">
-                        好可爱的插画！好可爱的插画！🧋
-                        好可爱的插画！好可爱的插画！🧋
-                        好可爱的插画！好可爱的插画！🧋
-                        好可爱的插画！好可爱的插画！🧋
-                        好可爱的插画！好可爱的插画！🧋
-                    </p>
-                    <p class="hash-tag">
-                        #Maid #BeautiGirl #Illustration
-                    </p>
+    <div class="modal">
+        <div class="btn-close">
+            <TheIcon icon="close" style="cursor: pointer;" @click="$emit('closeDetail')"></TheIcon>
+        </div>
+        <img :src="postData.postImage" class="image">
+        <div class="content">
+            <div class="uploader">
+                <div class="detail">
+                    <TheAvatar :image_url="postData.uploader.avatar"></TheAvatar>
+                    <p class="user-name">{{ postData.uploader.userName }}</p>
                 </div>
-                <div class="comments-list">
-                    <Comment v-for="n in 7"></Comment>
-                </div>
-                <div class="button-section">
-                    <div class="sent-comment">
-                        <ButtonSets :scale="0.8" :textTransform="-10"></ButtonSets>
-                        <p class="time">2h</p>
-                    </div>
-                </div>
-                <div class="input-section">
-                    <input type="text" placeholder="发条评论吧😄">
-                    <p class="submit" style="cursor: pointer;">发布</p>
+                <p class="present">
+                    {{ postData.postContent }}
+                </p>
+                <p class="hash-tag">
+                    #Maid #BeautiGirl #Illustration
+                </p>
+            </div>
+            <div class="comments-list">
+                <Comment v-for="n in 7"></Comment>
+            </div>
+            <div class="button-section">
+                <div class="sent-comment">
+                    <ButtonSets :scale="0.8" :textTransform="-10" :like="postData.likes" :comments="postData.commentCounts"
+                        :save="postData.saves"></ButtonSets>
+                    <p class="time">{{ postData.postTime }}</p>
                 </div>
             </div>
+            <div class="input-section">
+                <input type="text" placeholder="发条评论吧😄">
+                <p class="submit" style="cursor: pointer;">发布</p>
+            </div>
         </div>
-    </Teleport>
+    </div>
 </template>
 
 <script setup>
@@ -43,10 +40,23 @@ import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
+import { ref } from "vue";
+
+// props
+defineProps({
+    postData: {
+        type: Object,
+        required: true
+    }
+})
+
+// data filed
+defineEmits(['closeDetail']);
 </script>
 
 <style scoped lang="scss">
 .modal {
+    z-index: 9999;
     position: fixed;
     top: 12vh;
     left: 50%;

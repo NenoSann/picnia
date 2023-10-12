@@ -1,6 +1,6 @@
 <template>
     <div class="post-tab-main">
-        <img :src="postData.postImage">
+        <img :src="postData.postImage" @click="showOpenDetail = true">
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
@@ -23,11 +23,15 @@
             <a>#JRPG</a>
         </div>
     </div>
+    <Transition name="postDetail">
+        <PostDetail :postData="postData" v-if="showOpenDetail" @closeDetail="showOpenDetail = false"></PostDetail>
+    </Transition>
 </template>
 
 <script setup>
 import ButtonSets from './ButtonSets.vue';
-import { onBeforeUnmount } from 'vue'
+import { ref } from 'vue'
+import PostDetail from './PostDetail.vue';
 // data set here
 
 defineProps({
@@ -36,13 +40,7 @@ defineProps({
         required: true,
     },
 });
-
-onBeforeUnmount(() => {
-    // revoke temp URL, if it is 
-    if (post.postImage && typeof post.postImage === 'string' && post.postImage.startsWith('blob:')) {
-        URL.revokeObjectURL(post.postImage);
-    }
-})
+const showOpenDetail = ref(false);
 
 
 </script>
@@ -118,5 +116,15 @@ onBeforeUnmount(() => {
 
 .button-sets {
     margin-left: auto;
+}
+
+.postDetail-enter-active,
+.postDetail-leave-active {
+    transition: opacity 0.3s ease-out;
+}
+
+.postDetail-enter-from,
+.postDetail-leave-to {
+    opacity: 0;
 }
 </style>

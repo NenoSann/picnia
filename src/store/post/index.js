@@ -11,7 +11,7 @@ export const post = {
             state.post = post;
         },
         pushSinglePost(state, post) {
-            state.post.push(post);
+            state.post.unshift(post);
         }
     },
     actions: {

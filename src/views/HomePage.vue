@@ -1,9 +1,6 @@
 <template>
     <div class="content">
-        <PostList>
-            <PostTab class="post-tab" v-for="post in posts" :postData="post">
-            </PostTab>
-        </PostList>
+        <PostList :posts="posts"></PostList>
     </div>
 </template>
 
@@ -21,13 +18,6 @@ const posts = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-// .post-list {
-//     padding-top: 60px;
-//     display: grid;
-//     grid-template-columns: 600px 600px;
-//     gap: 50px;
-// }
-
 .content {
     display: flex;
     justify-content: center;

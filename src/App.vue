@@ -30,7 +30,6 @@ onMounted(async () => {
   <!-- <PostDetail /> -->
   <LodingOverlay></LodingOverlay>
   <LoginOverlay></LoginOverlay>
-  <!-- <ThePopup>测试Popup信息</ThePopup> -->
 </template>
 
 <style scoped lang="scss">
