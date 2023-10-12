@@ -25,7 +25,11 @@ onMounted(async () => {
 
 <template>
   <NavBar class="nav"></NavBar>
-  <router-view class="main-content"></router-view>
+  <router-view class="main-content" v-slot="{ Component }">
+    <Transition name="fade" mode="out-in">
+      <component :is="Component"></component>
+    </Transition>
+  </router-view>
   <!-- <CreatePostTab /> -->
   <!-- <PostDetail /> -->
   <LodingOverlay></LodingOverlay>
@@ -47,5 +51,15 @@ onMounted(async () => {
 
 ThePopup {
   margin-top: 50vh;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 </style>

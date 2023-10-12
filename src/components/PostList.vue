@@ -1,8 +1,8 @@
 <template>
     <div class="post-list">
         <TransitionGroup name="postGroup">
-            <div v-for=" post in posts" :key="post">
-                <PostTab :postData="post" :key="post"></PostTab>
+            <div v-for=" post in posts" :key="post.postID">
+                <PostTab :postData="post" :key="post.postID"></PostTab>
             </div>
         </TransitionGroup>
     </div>
@@ -61,7 +61,7 @@ let templateColumn = computed(() => {
 /* 对移动中的元素应用的过渡 */
 .postGroup-enter-active,
 .postGroup-leave-active {
-    transition: all 2s ease;
+    transition: all 1s ease;
 }
 
 .postGroup-enter-from,

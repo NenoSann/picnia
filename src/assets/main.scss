@@ -5,6 +5,16 @@
     overflow: hidden;
 }
 
+body,
+html {
+    overscroll-behavior: none;
+}
+
+html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 * {
     box-sizing: border-box;
     font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;

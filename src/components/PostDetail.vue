@@ -40,7 +40,6 @@ import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
-import { ref } from "vue";
 
 // props
 defineProps({
@@ -100,6 +99,7 @@ defineEmits(['closeDetail']);
 }
 
 .user-name {
+    font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
     padding-left: 16px;
 }
 

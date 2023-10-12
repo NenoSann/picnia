@@ -31,9 +31,7 @@
             </div>
         </div>
         <p class="posts-count">{{ posts.length + '篇帖子' }}</p>
-        <PostList :colunm="3" class="post-list">
-            <PostTab v-for="post in posts" :postData="post"></PostTab>
-        </PostList>
+        <PostList :posts="posts" colunm="3"></PostList>
     </div>
 </template>
 
