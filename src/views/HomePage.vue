@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <PostList :posts="posts"></PostList>
+        <PostList :posts="posts" :colunm=3></PostList>
     </div>
 </template>
 

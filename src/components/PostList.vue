@@ -41,7 +41,7 @@ let templateColumn = computed(() => {
     gap: 2vw;
 }
 
-@media (max-width:1200px) {
+@media (max-width:1440px) {
     .post-list {
         width: 100%;
         padding-top: 60px;
