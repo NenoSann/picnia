@@ -15,13 +15,14 @@ export const post = {
         }
     },
     actions: {
-        async pullPost({ commit }) {
-            const newPost = await randomPullPost();
+        async pullPost({ commit, rootState }) {
+            const newPost = await randomPullPost(rootState.user.user.userName);
             commit('pushPost', newPost);
         },
         async addPostLocal({ commit, state, rootState }, data) {
             // ES6 decouple object
-            const { date, content, comments, location } = JSON.parse(data.json);
+            const { date, content, comments, location, postId } = data;
+            console.log('addPostLocal / data: ', data);
             const image = data.image;
             const newPost = {
                 uploader: {
@@ -36,7 +37,8 @@ export const post = {
                 saves: 0,
                 commentsCounts: 0,
                 comments,
-                postImage: URL.createObjectURL(image)
+                postImage: URL.createObjectURL(image),
+                postID: postId
             };
             commit('pushSinglePost', newPost);
         }

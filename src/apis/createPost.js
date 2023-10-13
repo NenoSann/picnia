@@ -8,11 +8,10 @@ import { makeMultipartRequest } from './HTTPRequest'
  */
 export async function createPost(data) {
     return new Promise((resolve, reject) => {
-        makeMultipartRequest('/api/create/Post', 'POST', data).then(() => {
-            resolve();
-        }).catch(() => {
-            reject();
-        });
+        makeMultipartRequest('/api/create/Post', 'POST', data)
+            .then((response => response.json()))
+            .then(data => resolve(data))
+            .catch(error => reject(error));
     })
 }
 

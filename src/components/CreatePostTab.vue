@@ -93,12 +93,16 @@ export default {
             // show the loading page
             this.$store.commit('toggleLoading')
             window.navigator.geolocation.getCurrentPosition((e) => {
-                data.json = JSON.stringify({
+                const nonStringify = {
                     ...jsonData,
-                    location: `(${e.coords.longitude},${e.coords.latitude})`,
-                });
-                createPost(data).then(async () => {
-                    await this.$store.dispatch('addPostLocal', data);
+                    location: `(${e.coords.longitude},${e.coords.latitude})`
+                }
+                data.json = JSON.stringify(nonStringify);
+                createPost(data).then(async (responseData) => {
+                    console.log(responseData)
+                    nonStringify.postId = responseData.newPostId;
+                    nonStringify.image = vm.image;
+                    await this.$store.dispatch('addPostLocal', nonStringify);
                     // close loading page when done
                     this.$store.commit('toggleLoading')
                     this.$emit('toggleTab');

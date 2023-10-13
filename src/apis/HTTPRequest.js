@@ -30,9 +30,9 @@ export function makeMultipartRequest(url, method, body) {
             headers: {},
             body: formData,
         })
-            .then(() => {
+            .then((response) => {
                 console.log('成功传输post');
-                resolve();
+                resolve(response);
             })
             .catch((error) => {
                 console.log('传输post失败', error);

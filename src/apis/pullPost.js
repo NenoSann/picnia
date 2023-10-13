@@ -1,8 +1,8 @@
 import { fetchRequest } from "./HTTPRequest";
 
-export async function randomPullPost() {
+export async function randomPullPost(requestUserName) {
     try {
-        const response = await fetchRequest('/api/get/post', 'GET');
+        const response = await fetchRequest('/api/get/post', 'POST', { 'Content-Type': 'application/json' }, JSON.stringify({ requestUserName: requestUserName }));
         if (response.ok) {
             const data = await response.json();
             console.log('fetch request successful')
