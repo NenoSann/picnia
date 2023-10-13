@@ -49,10 +49,11 @@ export function makeMultipartRequest(url, method, body) {
  * @param {*} body 
  * @returns  {Promise}
  */
-export function fetchRequest(url, method, body) {
+export function fetchRequest(url, method, headers, body) {
     return new Promise((resolve, reject) => {
         fetch(url, {
             method,
+            headers: headers || undefined,
             body,
         }).then((response) => {
             console.log('success fetch')
