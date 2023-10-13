@@ -1,6 +1,6 @@
 <template>
     <div class="btn-section">
-        <div class="btn">
+        <div class="btn" @click="$emit('btnLikeOrSave', 'like')">
             <TheIcon icon="like"></TheIcon>
             <p class="count">{{ like }}</p>
         </div>
@@ -8,7 +8,7 @@
             <TheIcon icon="comment"></TheIcon>
             <p class="count">{{ comments }}</p>
         </div>
-        <div class="btn">
+        <div class="btn" @click="$emit('btnLikeOrSave', 'save')">
             <TheIcon icon="favorite"></TheIcon>
             <p class="count">{{ save }}</p>
         </div>
@@ -18,6 +18,7 @@
 <script setup>
 import TheIcon from './TheIcon.vue';
 import { computed } from 'vue';
+defineEmits(['btnLikeOrSave']);
 const props = defineProps({
     scale: {
         type: Number,
@@ -46,6 +47,8 @@ let scale = computed(() => {
 let transform = computed(() => {
     return props.textTransform + "px";
 })
+
+
 </script>
 
 <style lang="scss" scoped>

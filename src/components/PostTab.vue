@@ -9,8 +9,8 @@
                 </div>
                 <p class="post-time">{{ postData.postTime }}</p>
             </div>
-            <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts"
-                :save="postData.saves">
+            <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts" :save="postData.saves"
+                @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked" :isSave="postData.isSaved">
             </ButtonSets>
         </div>
         <div class="discription">
@@ -32,14 +32,29 @@
 import ButtonSets from './ButtonSets.vue';
 import { ref } from 'vue'
 import PostDetail from './PostDetail.vue';
+import { useStore } from 'vuex';
+import { likeOrSavePost } from '../apis/likeOrSavePost';
+const store = useStore();
 // data set here
-
-defineProps({
+const props = defineProps({
     postData: {
         type: Object,
         required: true,
     },
 });
+
+// methods 
+/**
+ * @description 按照type来like或者save当前的post，
+ * @param {'like'|'save'} type 
+ */
+const likeOrSave = function (type) {
+    likeOrSavePost({
+        'target': type,
+        'userName': store.state.user.user.userName,
+        'postId': props.postData.postID
+    });
+}
 const showOpenDetail = ref(false);
 
 
