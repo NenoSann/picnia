@@ -16,8 +16,10 @@ const props = defineProps({
         type: Number,
         default: 2,
     },
+    // posts is a MapIterator from post state in vuex,
+    // the value is Map.values();
     posts: {
-        type: Array
+        type: Object,
     }
 })
 
@@ -50,6 +52,16 @@ let templateColumn = computed(() => {
         gap: 2vw;
     }
 }
+
+// @media (max-width:2560px) {
+//     .post-list {
+//         width: 100%;
+//         padding-top: 60px;
+//         display: grid;
+//         grid-template-columns: 1fr 1fr 1fr;
+//         gap: 2vw;
+//     }
+// }
 
 @media (max-width: 820px) {
     .post-list {

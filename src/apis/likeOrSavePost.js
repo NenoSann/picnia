@@ -11,8 +11,6 @@ import { fetchRequest } from "./HTTPRequest";
  * @returns {Promise}
  */
 export async function likeOrSavePost(data) {
-    console.log(data)
-    console.log(JSON.stringify(data))
     try {
         const response = await fetchRequest('api/update/saveOrLikePost', 'POST', {
             'Content-Type': 'application/json'

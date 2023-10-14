@@ -1,7 +1,7 @@
 <template>
     <div class="btn-section">
         <div class="btn" @click="$emit('btnLikeOrSave', 'like')">
-            <TheIcon icon="like"></TheIcon>
+            <TheIcon icon="like" :like="isLike" stroke="#ed5b51"></TheIcon>
             <p class="count">{{ like }}</p>
         </div>
         <div class="btn">
@@ -9,7 +9,7 @@
             <p class="count">{{ comments }}</p>
         </div>
         <div class="btn" @click="$emit('btnLikeOrSave', 'save')">
-            <TheIcon icon="favorite"></TheIcon>
+            <TheIcon icon="favorite" :save="isSave" stroke="#f7bf45"></TheIcon>
             <p class="count">{{ save }}</p>
         </div>
     </div>
@@ -39,16 +39,24 @@ const props = defineProps({
     save: {
         type: Number,
         default: 0
+    },
+    isLike: {
+        type: Boolean,
+        default: false
+    },
+    isSave: {
+        type: Boolean,
+        default: false
     }
 })
+
 let scale = computed(() => {
     return props.scale
 })
+
 let transform = computed(() => {
     return props.textTransform + "px";
 })
-
-
 </script>
 
 <style lang="scss" scoped>

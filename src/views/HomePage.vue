@@ -12,7 +12,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const posts = computed(() => {
-    return store.state.post.post;
+    return Array.from(store.state.post.post.values()).reverse();
 })
 
 </script>

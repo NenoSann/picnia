@@ -50,7 +50,7 @@ const user = function () {
     return store.state.user.user;
 }
 const posts = computed(() => {
-    return store.state.post.post;
+    return Array.from(store.state.post.post.values()).reverse();
 })
 
 // ref data

@@ -53,6 +53,12 @@ const likeOrSave = function (type) {
         'target': type,
         'userName': store.state.user.user.userName,
         'postId': props.postData.postID
+    }).then(() => {
+        if (type === 'like') {
+            store.commit('toggleLike', props.postData.postID);
+        } else if (type === 'save') {
+            store.commit('toggleSave', props.postData.postID);
+        }
     });
 }
 const showOpenDetail = ref(false);

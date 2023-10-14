@@ -1,6 +1,6 @@
 <template>
     <svg>
-        <use :href="`${sprite}#icon-${icon}`"></use>
+        <use :href="`${sprite}#icon-${icon}`" :class="{ being_like: like, being_save: save }"></use>
     </svg>
 </template>
 
@@ -18,6 +18,14 @@ defineProps({
     width: {
         type: String,
         default: '40px'
+    },
+    like: {
+        type: Boolean,
+        default: false
+    },
+    save: {
+        type: Boolean,
+        default: false
     }
 });
 </script>
@@ -43,7 +51,16 @@ use {
 
     &:focus {
         stroke: v-bind(stroke);
-
     }
+}
+
+.being_like {
+    transition: all 0.2s ease-in-out;
+    stroke: #ed5b51;
+}
+
+.being_save {
+    transition: all 0.2s ease-in-out;
+    stroke: #f7bf45;
 }
 </style>
