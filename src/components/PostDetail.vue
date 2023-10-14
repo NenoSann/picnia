@@ -14,11 +14,10 @@
                     {{ postData.postContent }}
                 </p>
                 <p class="hash-tag">
-                    #Maid #BeautiGirl #Illustration
+                    {{ postData.hashTag ? postData.hashTag : null }}
                 </p>
             </div>
             <div class="comments-list">
-                <Comment v-for="n in 7"></Comment>
             </div>
             <div class="button-section">
                 <div class="sent-comment">

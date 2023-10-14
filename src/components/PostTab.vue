@@ -19,8 +19,7 @@
             </p>
         </div>
         <div class="tags">
-            <a>#P5R</a>
-            <a>#JRPG</a>
+            {{ postData.hashTag ? postData.hashTag : null }}
         </div>
     </div>
     <Transition name="postDetail">
@@ -30,10 +29,11 @@
 
 <script setup>
 import ButtonSets from './ButtonSets.vue';
-import { ref } from 'vue'
 import PostDetail from './PostDetail.vue';
+import { ref } from 'vue'
 import { useStore } from 'vuex';
 import { likeOrSavePost } from '../apis/likeOrSavePost';
+import { throttle } from 'lodash'
 const store = useStore();
 // data set here
 const props = defineProps({
@@ -48,19 +48,18 @@ const props = defineProps({
  * @description 按照type来like或者save当前的post，
  * @param {'like'|'save'} type 
  */
-const likeOrSave = function (type) {
+const likeOrSave = throttle(function (type) {
     likeOrSavePost({
         'target': type,
         'userName': store.state.user.user.userName,
         'postId': props.postData.postID
-    }).then(() => {
-        if (type === 'like') {
-            store.commit('toggleLike', props.postData.postID);
-        } else if (type === 'save') {
-            store.commit('toggleSave', props.postData.postID);
-        }
-    });
-}
+    })
+    if (type === 'like') {
+        store.commit('toggleLike', props.postData.postID);
+    } else if (type === 'save') {
+        store.commit('toggleSave', props.postData.postID);
+    }
+}, 500);
 const showOpenDetail = ref(false);
 
 

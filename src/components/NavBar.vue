@@ -4,13 +4,13 @@
             <p class="header-title">Picnia</p>
         </router-link>
         <div class="search-main">
-            <TheIcon icon="search"></TheIcon>
+            <TheIcon icon="search" :animatable=false></TheIcon>
             <input type="search" name="search" placeholder="搜索">
         </div>
         <div class="header-icons">
-            <TheIcon icon="home" @click="testPullPost" />
-            <TheIcon icon="publish" @click="toggleTab"></TheIcon>
-            <TheAvatar :alt="userName" :image_url="userAvatar" widthString="40px" heightString="40px"></TheAvatar>
+            <TheIcon icon="home" @click="testPullPost" :animatable=false />
+            <TheIcon icon="publish" @click="toggleTab" :animatable=false></TheIcon>
+            <TheAvatar :image_url="userAvatar" widthString="40px" heightString="40px"></TheAvatar>
         </div>
         <!-- dropdown -->
         <ul class="profile-menu">
@@ -64,9 +64,11 @@ export default {
 
 <style lang="scss" scoped>
 .header-main {
+    z-index: 0;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     height: 5rem;
+    min-height: 5rem;
     background-color: white;
     flex-direction: row;
     align-items: center;

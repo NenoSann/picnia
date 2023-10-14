@@ -18,20 +18,20 @@
         </div>
         <div class="button-section">
             <div class="button">
-                <TheIcon icon="posts" stroke="#32adf0"></TheIcon>
+                <TheIcon icon="posts" stroke="#32adf0" :animatable="false"></TheIcon>
                 <p class="text">我的</p>
             </div>
             <div class="button">
-                <TheIcon icon="like" stroke="#ed5b51"></TheIcon>
+                <TheIcon icon="like" stroke="#ed5b51" :animatable="false"></TheIcon>
                 <p class="text">赞过</p>
             </div>
             <div class="button">
-                <TheIcon icon="favorite" stroke="#f7bf45"></TheIcon>
+                <TheIcon icon="favorite" stroke="#f7bf45" :animatable="false"></TheIcon>
                 <p class="text">收藏</p>
             </div>
         </div>
         <p class="posts-count">{{ posts.length + '篇帖子' }}</p>
-        <PostList :posts="posts" colunm="3"></PostList>
+        <PostList :posts="posts" :colunm="3"></PostList>
     </div>
 </template>
 
@@ -39,7 +39,6 @@
 import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
-import PostTab from '../components/PostTab.vue';
 import { changeAvatar } from "../apis/changeAvatar";
 import { ref, computed } from 'vue'
 import { useStore } from "vuex";
@@ -103,6 +102,7 @@ const handleClick = () => {
 
 <style lang="scss" scoped>
 .profile-main {
+    border: none;
     padding-top: 10vh;
     display: flex;
     flex-direction: column;

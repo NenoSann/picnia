@@ -5,7 +5,7 @@
             <p class="count">{{ like }}</p>
         </div>
         <div class="btn">
-            <TheIcon icon="comment"></TheIcon>
+            <TheIcon icon="comment" :animatable=false></TheIcon>
             <p class="count">{{ comments }}</p>
         </div>
         <div class="btn" @click="$emit('btnLikeOrSave', 'save')">
@@ -17,7 +17,8 @@
 
 <script setup>
 import TheIcon from './TheIcon.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+const active = ref(false);
 defineEmits(['btnLikeOrSave']);
 const props = defineProps({
     scale: {
@@ -73,6 +74,7 @@ let transform = computed(() => {
             height: 32px;
             stroke: black;
             fill: transparent;
+            overflow: visible;
         }
     }
 
