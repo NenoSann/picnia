@@ -22,7 +22,8 @@
             <div class="button-section">
                 <div class="sent-comment">
                     <ButtonSets :scale="0.8" :textTransform="-10" :like="postData.likes" :comments="postData.commentCounts"
-                        :save="postData.saves"></ButtonSets>
+                        :save="postData.saves" @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked"
+                        :isSave="postData.isSaved"></ButtonSets>
                     <p class="time">{{ postData.postTime }}</p>
                 </div>
             </div>
@@ -39,15 +40,35 @@ import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
-
+import { throttle } from 'lodash'
+import { likeOrSavePost } from '../apis/likeOrSavePost';
+import { useStore } from 'vuex'
+const store = useStore();
 // props
-defineProps({
+const props = defineProps({
     postData: {
         type: Object,
         required: true
     }
 })
 
+// methods 
+/**
+ * @description 按照type来like或者save当前的post，
+ * @param {'like'|'save'} type 
+ */
+const likeOrSave = throttle(function (type) {
+    likeOrSavePost({
+        'target': type,
+        'userName': store.state.user.user.userName,
+        'postId': props.postData.postID
+    })
+    if (type === 'like') {
+        store.commit('toggleLike', props.postData.postID);
+    } else if (type === 'save') {
+        store.commit('toggleSave', props.postData.postID);
+    }
+}, 500);
 // data filed
 defineEmits(['closeDetail']);
 </script>
