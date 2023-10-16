@@ -3,10 +3,10 @@
         <div class="user-status">
             <TheAvatar :image_url="avatar" widthString="33px" heightString="33px"></TheAvatar>
             <p class="user-name">{{ userName }}</p>
-            <p class="time">{{ commentTime }}</p>
+            <p class="time">{{ comment.date }}</p>
         </div>
         <p class="comment">
-            {{ comment }}
+            {{ comment.content }}
         </p>
     </div>
 </template>
@@ -14,22 +14,8 @@
 <script setup>
 import TheAvatar from './TheAvatar.vue';
 defineProps({
-    avatar: {
-        type: String,
-        default: "src/assets/IMG_1446.JPG",
-    },
-    userName: {
-        type: String,
-        default: "NenoSan",
-        // require:true,
-    },
-    commentTime: {
-        type: String,
-        default: "None",
-    },
     comment: {
-        type: String,
-        default: "非常好图片！爱来自China🇨🇳",
+        type: Object
     }
 });
 </script>

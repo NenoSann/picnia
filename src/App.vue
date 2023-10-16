@@ -5,7 +5,6 @@ import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import ThePopup from './components/ThePopup.vue';
 const store = useStore();
 const router = useRouter();
 
@@ -40,6 +39,7 @@ onMounted(async () => {
 .main-content {
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
 

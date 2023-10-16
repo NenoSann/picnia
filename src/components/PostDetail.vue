@@ -18,6 +18,10 @@
                 </p>
             </div>
             <div class="comments-list">
+                <Comment v-for="comment in comments" :key="comment._id" :comment="comment"
+                    v-if="comments && comments.length !== 0">
+                </Comment>
+                <p v-if="comments && comments.length === 0">现在还没有评论哦</p>
             </div>
             <div class="button-section">
                 <div class="sent-comment">
@@ -28,8 +32,8 @@
                 </div>
             </div>
             <div class="input-section">
-                <input type="text" placeholder="发条评论吧😄">
-                <p class="submit" style="cursor: pointer;">发布</p>
+                <input type="text" placeholder="发条评论吧😄" v-model="commentContent">
+                <p class="submit" style="cursor: pointer;" @click="sendComment">发布</p>
             </div>
         </div>
     </div>
@@ -42,13 +46,44 @@ import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
 import { throttle } from 'lodash'
 import { likeOrSavePost } from '../apis/likeOrSavePost';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
+import { ref, onMounted, computed } from 'vue';
 const store = useStore();
+
+
 // props
 const props = defineProps({
     postData: {
         type: Object,
         required: true
+    }
+})
+
+defineEmits(['closeDetail']);
+// data filed
+const commentContent = ref('');
+
+//comments is computed from store and cache locally
+const comments = computed(() => {
+    return store.state.comment.comments;
+})
+
+// computed newComment is sent when hit send button
+/**
+  What server expected: 
+ * {
+            post: postId,
+            sender: sender,
+            reception: reception,
+            content: content,
+        }
+ */
+const newComment = computed(() => {
+    return {
+        postId: props.postData.postID,
+        sender: store.state.user.user.userId,
+        reception: props.postData.uploader.userId,
+        content: commentContent.value,
     }
 })
 
@@ -69,8 +104,20 @@ const likeOrSave = throttle(function (type) {
         store.commit('toggleSave', props.postData.postID);
     }
 }, 500);
-// data filed
-defineEmits(['closeDetail']);
+
+const sendComment = function () {
+    store.dispatch('sendComment', newComment.value);
+}
+
+//hook
+
+/**
+ * @description pull comments when post detail is mounted
+ */
+onMounted(() => {
+    console.log(store.comment)
+    store.dispatch('pullComment', props.postData.postID);
+})
 </script>
 
 <style scoped lang="scss">
