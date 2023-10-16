@@ -26,7 +26,7 @@ export const comment = {
          * the comments of this post
          * @param {String} postId 
          */
-        async pullComment({ state, commit, rootState }, postId) {
+        async pullComment({ commit, rootState }, postId) {
             const newCommentsArray = await pullComments(postId);
             console.log('new Comments Array: ', newCommentsArray)
             commit('replaceComments', newCommentsArray);
@@ -43,11 +43,16 @@ export const comment = {
             // optimistic save the comment in local
             commit('pushComment', {
                 post: commentBody.postId,
-                sender: commentBody.sender,
+                sender: {
+                    avatar: rootState.user.user.avatar,
+                    userName: rootState.user.user.userName,
+                    userId: rootState.user.user.userId
+                },
                 reception: commentBody.reception,
                 content: commentBody.content,
                 data: Date.now().toLocaleString()
-            })
+            });
+            commit('setCommentCount', { postId: commentBody.postId, count: 1 })
         },
     },
 }

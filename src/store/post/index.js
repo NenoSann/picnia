@@ -31,6 +31,10 @@ export const post = {
             // if post is saved. then post.saves -1, else +1
             targetPost.isSaved ? targetPost.saves = targetPost.saves - 1 : targetPost.saves = targetPost.saves + 1;
             targetPost.isSaved = !state.post.get(postId).isSaved;
+        },
+        setCommentCount(state, { postId, count }) {
+            console.log('set comment count', count)
+            state.post.get(postId).commentCounts = state.post.get(postId).commentCounts + count;
         }
     },
     actions: {

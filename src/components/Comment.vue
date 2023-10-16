@@ -1,8 +1,10 @@
 <template>
     <div class="comment-main">
         <div class="user-status">
-            <TheAvatar :image_url="avatar" widthString="33px" heightString="33px"></TheAvatar>
-            <p class="user-name">{{ userName }}</p>
+            <TheAvatar :image_url="comment.sender.avatar ? comment.sender.avatar : null" widthString="33px"
+                heightString="33px">
+            </TheAvatar>
+            <p class="user-name">{{ comment.sender.userName }}</p>
             <p class="time">{{ comment.date }}</p>
         </div>
         <p class="comment">
