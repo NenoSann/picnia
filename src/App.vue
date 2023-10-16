@@ -29,8 +29,7 @@ onMounted(async () => {
       <component :is="Component"></component>
     </Transition>
   </router-view>
-  <!-- <CreatePostTab /> -->
-  <!-- <PostDetail /> -->
+  <component></component>
   <LodingOverlay></LodingOverlay>
   <LoginOverlay></LoginOverlay>
 </template>
