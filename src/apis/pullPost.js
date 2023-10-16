@@ -17,4 +17,12 @@ export async function randomPullPost(requestUserName) {
     }
 }
 
-export default { randomPullPost }
+export async function pullUserPost(body) {
+    const response = await fetchRequest('/api/get/post/user', "POST", {
+        "Content-Type": "application/json"
+    }, JSON.stringify(body));
+    const data = await response.json();
+    return data;
+}
+
+export default { randomPullPost, pullUserPost }

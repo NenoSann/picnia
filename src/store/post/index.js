@@ -1,4 +1,4 @@
-import { randomPullPost } from "../../apis/pullPost";
+import { randomPullPost, pullUserPost } from "../../apis/pullPost";
 
 export const post = {
     state() {
@@ -16,6 +16,13 @@ export const post = {
             for (let i of post) {
                 state.post.set(i.postID, i);
             }
+        },
+        replaceSet(state, post) {
+            const newSet = new Map();
+            for (let i of post) {
+                newSet.set(i.postID, i);
+            }
+            state.post = newSet;
         },
         pushSinglePost(state, post) {
             state.post.set(post.postID, post);
@@ -41,6 +48,11 @@ export const post = {
         async pullPost({ commit, rootState }) {
             const newPost = await randomPullPost(rootState.user.user.userName);
             commit('pushPost', newPost);
+        },
+        async pullUserPost({ commit, rootState }, type) {
+            const newPost = await pullUserPost({ type: type, userId: rootState.user.user.userId });
+            console.log('newPost: ', newPost)
+            commit('replaceSet', newPost.post);
         },
         async addPostLocal({ commit, state, rootState }, data) {
             // ES6 decouple object

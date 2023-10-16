@@ -17,15 +17,15 @@
             </div>
         </div>
         <div class="button-section">
-            <div class="button">
+            <div class="button" @click="requestUserPost('own')">
                 <TheIcon icon="posts" stroke="#32adf0" :animatable="false"></TheIcon>
                 <p class="text">我的</p>
             </div>
-            <div class="button">
+            <div class="button" @click="requestUserPost('like')">
                 <TheIcon icon="like" stroke="#ed5b51" :animatable="false"></TheIcon>
                 <p class="text">赞过</p>
             </div>
-            <div class="button">
+            <div class="button" @click="requestUserPost('save')">
                 <TheIcon icon="favorite" stroke="#f7bf45" :animatable="false"></TheIcon>
                 <p class="text">收藏</p>
             </div>
@@ -97,6 +97,10 @@ const getInput = function (e) {
 // 使得Avatar在click时触发input的点击事件
 const handleClick = () => {
     avatarInput.value.click();
+}
+
+const requestUserPost = function (type) {
+    store.dispatch('pullUserPost', type);
 }
 </script>
 
