@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.vue';
 import LodingOverlay from './components/LodingOverlay.vue';
 import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
+import Setting from './components/Setting.vue';
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 const store = useStore();
@@ -29,7 +30,10 @@ onMounted(async () => {
       <component :is="Component"></component>
     </Transition>
   </router-view>
-  <component></component>
+  <Transition name="fade">
+    <Setting v-if="store.state.isSetting">
+    </Setting>
+  </Transition>
   <LodingOverlay></LodingOverlay>
   <LoginOverlay></LoginOverlay>
 </template>
