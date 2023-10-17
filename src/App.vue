@@ -12,6 +12,7 @@ const router = useRouter();
 // when app mounted
 
 import { getUser } from './apis/auth';
+import ImageCropper from './components/ImageCropper.vue';
 onMounted(async () => {
   store.commit('setUser', getUser());
   if (toRaw(store.state.user).user == null) {
@@ -36,6 +37,7 @@ onMounted(async () => {
   </Transition>
   <LodingOverlay></LodingOverlay>
   <LoginOverlay></LoginOverlay>
+  <!-- <ImageCropper></ImageCropper> -->
 </template>
 
 <style scoped lang="scss">
