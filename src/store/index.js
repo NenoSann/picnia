@@ -12,6 +12,7 @@ export const store = createStore({
         return {
             isLoading: false,
             loginSuccess: false,
+            isSetting: false,
         }
     },
     mutations: {
@@ -20,6 +21,12 @@ export const store = createStore({
         },
         toggleLogin(state) {
             state.loginSuccess = !state.loginSuccess;
+        },
+        toggleSetting(state, status) {
+            state.isSetting = status;
+        },
+        clearUser(state) {
+            state.user.user = {};
         }
     },
     actions: {
