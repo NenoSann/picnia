@@ -26,13 +26,12 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .btn-container {
-    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
     height: v-bind(heightString);
     width: v-bind(widthString);
     font-size: v-bind(textSize);
-    line-height: 1;
+    cursor: pointer;
 }
 </style>
