@@ -13,6 +13,7 @@ export const store = createStore({
             isLoading: false,
             loginSuccess: false,
             isSetting: false,
+            isAvatar: false,
         }
     },
     mutations: {
@@ -27,6 +28,9 @@ export const store = createStore({
         },
         clearUser(state) {
             state.user.user = {};
+        },
+        toggleAvatarCropper(state, status) {
+            state.isAvatar = status;
         }
     },
     actions: {

@@ -1,18 +1,37 @@
 <template>
     <div class="cropper-main">
-        <img ref="avatar" id="image" src="src/assets/Persona 5R.png" alt="avatar">
+        <VueCropper :ref="cropper" img="src\assets\testImage3.png" autoCrop=true fixed=true :fixedNumber="[1, 1]"
+            :canMoveBox="false" centerBox=true canMoveBox=false :high="true">
+        </VueCropper>
     </div>
 </template>
 
 <script setup>
+import { ref, reactive } from 'vue'
 import { VueCropper } from 'vue-cropper'
+import 'vue-cropper/dist/index.css'
+
+const props = defineProps({
+    img_url: {
+        type: String,
+    },
+    cropperHeight: {
+        type: String,
+        default: "600px"
+    },
+    cropperWidth: {
+        type: String,
+        default: "600px"
+    }
+})
+
 
 </script>
 
 <style lang="scss" scoped>
 .cropper-main {
-    height: 100vh;
-    width: 100vw;
+    height: v-bind(cropperHeight);
+    width: v-bind(cropperWidth);
 }
 
 img {

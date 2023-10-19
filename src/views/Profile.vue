@@ -1,7 +1,6 @@
 <template>
     <div class="profile-main">
         <div class="avatar-section">
-            <input @change="getInput" type="file" ref="avatarInput" id="avatar-upload" accept="image/*">
             <TheAvatar @click="handleClick" :image_url="avatarUrl" widthString="186px" heightString="186px" class="avatar"
                 :editable="true">
             </TheAvatar>
@@ -96,7 +95,7 @@ const getInput = function (e) {
 
 // 使得Avatar在click时触发input的点击事件
 const handleClick = () => {
-    avatarInput.value.click();
+    store.commit('toggleAvatarCropper', true);
 }
 
 const requestUserPost = function (type) {
