@@ -1,7 +1,7 @@
 <template>
     <div class="cropper-main">
-        <VueCropper :ref="cropper" img="src\assets\testImage3.png" autoCrop=true fixed=true :fixedNumber="[1, 1]"
-            :canMoveBox="false" centerBox=true canMoveBox=false :high="true">
+        <VueCropper ref="cropper" :img="img_url" :autoCrop=true :fixed=true :fixedNumber="[1, 1]" :canMoveBox=true
+            :centerBox=true :high="true">
         </VueCropper>
     </div>
 </template>
@@ -11,9 +11,12 @@ import { ref, reactive } from 'vue'
 import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'
 
+const cropper = ref();
+
 const props = defineProps({
     img_url: {
         type: String,
+        default: null
     },
     cropperHeight: {
         type: String,
@@ -26,6 +29,26 @@ const props = defineProps({
 })
 
 
+/**
+ * @description 
+ */
+const startCrop = function () {
+    cropper.value.startCrop();
+}
+
+const getCropData = function () {
+    return new Promise((resolve, reject) => {
+        cropper.value.getCropData(data => {
+            resolve(data);
+        });
+    });
+}
+
+// expose method 
+defineExpose({
+    startCrop,
+    getCropData
+});
 </script>
 
 <style lang="scss" scoped>

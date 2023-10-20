@@ -2,9 +2,9 @@
     <div class="main" v-if="showCropper">
         <div class="content">
             <input @change="getInput" type="file" ref="avatarInput" id="avatar-upload" accept="image/*">
-            <ImageCropper cropperHeight="600px" cropperWidth="500px"></ImageCropper>
+            <ImageCropper ref="cropper" cropperHeight="600px" cropperWidth="500px" :img_url="inputImage"></ImageCropper>
             <div class="btn-section">
-                <TheButton heightString="32px" widthString="64px">
+                <TheButton heightString="32px" widthString="64px" @click="activateInput">
                     <svg width="56px" height="56px" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" fill="none">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -16,7 +16,7 @@
                         </g>
                     </svg>
                 </TheButton>
-                <TheButton heightString="56px" widthString="56px" textSize="32px" class="camera">
+                <TheButton @click="startCrop" heightString="56px" widthString="56px" textSize="32px" class="camera">
                     <TheButton heightString="48px" widthString="48px" class="inner-camera"></TheButton>
                 </TheButton>
                 <TheButton heightString="32px" widthString="56px" @click="closeCropper">
@@ -38,11 +38,49 @@
 <script setup>
 import ImageCropper from './ImageCropper.vue';
 import TheButton from './TheButton.vue';
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex';
 const store = useStore();
 const showCropper = computed(() => { return store.state.isAvatar })
+
+// reference area
+const cropper = ref();
+const inputImage = ref(null);
+const avatarInput = ref()
+const cuttedImage = ref();
+// method area
 const closeCropper = () => store.commit('toggleAvatarCropper', false);
+const activateInput = () => {
+    avatarInput.value.click();
+}
+/**
+ * @description funtion that handle the camera click📸
+ */
+const startCrop = async function () {
+    cropper.value.startCrop();
+    cuttedImage.value = await cropper.value.getCropData();
+}
+
+
+
+/**
+ * @author NenoSan
+ * @description Get image input when input element is chagned, 
+ * and set the result to inputImage.
+ * @param {} event 
+ */
+const getInput = (event) => {
+    const reader = new FileReader();
+    reader.onload = (res) => {
+        inputImage.value = res.target.result
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// hook area
+onMounted(() => {
+    console.log('debug: avatarInput = ', avatarInput.value)
+})
 </script>
 
 <style lang="scss" scoped>
