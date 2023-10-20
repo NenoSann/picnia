@@ -1,6 +1,6 @@
 import { getUser, saveUser } from "../../apis/auth"
 import { register, login } from "../../apis/auth"
-
+import { changeAvatar } from "../../apis/changeAvatar";
 export const user = {
     state() {
         return {
@@ -34,6 +34,20 @@ export const user = {
             } finally {
                 commit('toggleLogin')
             }
+        },
+        async changeAvatar({ commit, state }, { avatar, blob }) {
+            commit('toggleLoading');
+            // create new userData from previous
+            const userData = state.user;
+            userData.avatar = avatar;
+            changeAvatar(JSON.stringify({
+                userName: state.user.userName,
+                email: state.user.email
+            }), blob).then(() => {
+                commit('setUser', userData);
+                commit('toggleLoading');
+                commit('toggleAvatarCropper', false);
+            });
         }
     },
 };

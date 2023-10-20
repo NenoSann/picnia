@@ -44,10 +44,19 @@ const getCropData = function () {
     });
 }
 
+const getCropBlob = function () {
+    return new Promise((resolve, reject) => {
+        cropper.value.getCropBlob(data => {
+            resolve(data);
+        })
+    })
+}
+
 // expose method 
 defineExpose({
     startCrop,
-    getCropData
+    getCropData,
+    getCropBlob
 });
 </script>
 

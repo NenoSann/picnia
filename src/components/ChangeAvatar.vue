@@ -59,6 +59,8 @@ const activateInput = () => {
 const startCrop = async function () {
     cropper.value.startCrop();
     cuttedImage.value = await cropper.value.getCropData();
+    const cuttedImageBlob = await cropper.value.getCropBlob();
+    store.dispatch('changeAvatar', { avatar: cuttedImage.value, blob: cuttedImageBlob });
 }
 
 
