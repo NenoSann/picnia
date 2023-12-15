@@ -1,6 +1,6 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
-import LodingOverlay from './components/LodingOverlay.vue';
+import LoadingOverlay from './components/LoadingOverlay.vue';
 import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import Setting from './components/Setting.vue';
@@ -36,7 +36,7 @@ onMounted(async () => {
     <Setting v-if="store.state.isSetting">
     </Setting>
   </Transition>
-  <LodingOverlay></LodingOverlay>
+  <LoadingOverlay></LoadingOverlay>
   <LoginOverlay></LoginOverlay>
   <Transition name="fade">
     <ChangeAvatar></ChangeAvatar>

@@ -1,5 +1,5 @@
 <script setup>
-import DefaultAvatar from '../assets/avatarDefault.png';
+import defaultAvatar from '/avatarDefault.png';
 import TheIcon from './TheIcon.vue';
 defineProps({
     image_url: String,
@@ -25,7 +25,7 @@ defineProps({
             <div class="edit-btn-container" v-if=editable>
                 <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>
             </div>
-            <img :src="image_url || DefaultAvatar">
+            <img :src="image_url || defaultAvatar">
         </div>
     </router-link>
 </template>

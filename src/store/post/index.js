@@ -46,8 +46,10 @@ export const post = {
     },
     actions: {
         async pullPost({ commit, rootState }) {
-            const newPost = await randomPullPost(rootState.user.user.userName);
-            commit('pushPost', newPost);
+            if (rootState.user?.user?.userName !== undefined) {
+                const newPost = await randomPullPost(rootState.user.user.userName);
+                commit('pushPost', newPost);
+            }
         },
         async pullUserPost({ commit, rootState }, type) {
             const newPost = await pullUserPost({ type: type, userId: rootState.user.user.userId });
