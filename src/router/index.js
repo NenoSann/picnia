@@ -9,13 +9,13 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: '/picnia',
       name: 'homePage',
       component: HomePageVue,
     },
 
     {
-      path: '/login',
+      path: '/picnia/login',
       name: 'loginPage',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -24,18 +24,18 @@ const router = createRouter({
     },
 
     {
-      path: '/profile',
+      path: '/picnia/profile',
       name: 'profilePage',
       component: ProfileVue,
     },
     {
-      path: '/profileEdit',
+      path: '/picnia/profileEdit',
       name: 'profileEdit',
       component: ProfileEdittingPageVue
     },
 
     {
-      path: '/search',
+      path: '/picnia/search',
       name: 'searchPage',
       component: SearchPageVue,
     }
