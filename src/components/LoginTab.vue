@@ -83,7 +83,7 @@ async function login() {
         if (message.value === 'correct') {
             message.value = '';
             console.log('登陆成功')
-            router.replace('/');
+            router.replace('/picnia');
         }
         console.log(message.value);
     }

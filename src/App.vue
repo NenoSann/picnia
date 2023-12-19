@@ -17,7 +17,7 @@ import ChangeAvatar from './components/ChangeAvatar.vue';
 onMounted(async () => {
   store.commit('setUser', getUser());
   if (toRaw(store.state.user).user == null) {
-    router.push('login');
+    router.push('/picnia/login');
   }
   store.commit('toggleLoading');
   await store.dispatch('pullPost');

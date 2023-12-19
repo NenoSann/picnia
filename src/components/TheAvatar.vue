@@ -20,7 +20,7 @@ defineProps({
 
 </script>
 <template>
-    <router-link to="/profile">
+    <router-link to="/picnia/profile">
         <div class="avatar">
             <div class="edit-btn-container" v-if=editable>
                 <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>

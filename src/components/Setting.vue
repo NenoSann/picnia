@@ -154,7 +154,7 @@ const exit = function () {
     console.log('即将退出登陆')
     window.localStorage.clear()
     close();
-    router.replace('/login')
+    router.replace('/picnia/login')
     store.commit('clearUser');
 }
 

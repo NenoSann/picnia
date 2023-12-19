@@ -1,6 +1,6 @@
 <template>
     <div class="header-main">
-        <router-link to="/">
+        <router-link to="/picnia">
             <p class="header-title">Picnia</p>
         </router-link>
         <div class="search-main">
