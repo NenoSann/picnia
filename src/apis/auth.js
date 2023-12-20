@@ -1,5 +1,5 @@
 import { request } from "../utils/request.js";
-
+import { fetchRequest } from "./HTTPRequest.js";
 export function getJwtToken() {
     return localStorage.getItem("jwtToken");
 }
@@ -53,15 +53,8 @@ export async function register(email, username, password) {
 
 //进行登录操作
 export async function login(email, password) {
-    const result = await request('/api/login', {
-        method: "POST",
-        auth: false,
-        body: JSON.stringify({
-            email,
-            password,
-        })
-    });
-    console.log(result)
+    const result = await (await fetchRequest('/api/login', 'POST', { "content-type": "application/json" }, JSON.stringify({ email, password }))).json();
+    console.log(result);
     setJwtToken(result.token);
     saveUser(result.user);
     return result.message;
