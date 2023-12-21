@@ -79,10 +79,6 @@ const getInput = (event) => {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-// hook area
-onMounted(() => {
-    console.log('debug: avatarInput = ', avatarInput.value)
-})
 </script>
 
 <style lang="scss" scoped>
