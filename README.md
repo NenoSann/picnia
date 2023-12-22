@@ -1,6 +1,6 @@
 # post-frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a Image post & share platform written in Vue3! 
 
 ## Recommended IDE Setup
 

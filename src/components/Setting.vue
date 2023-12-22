@@ -189,7 +189,6 @@ const close = function () {
         width: 60%;
         height: 80%;
         background-color: white;
-        overflow: scroll;
     }
 }
 

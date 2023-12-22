@@ -1,0 +1,4 @@
+1: using skeleton screen for homepage loading
+2: using image compress 
+3: implement post search
+4: implement infinite scrolling and pagnigation
