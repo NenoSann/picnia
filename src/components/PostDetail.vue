@@ -28,7 +28,7 @@
                     <ButtonSets :scale="0.8" :textTransform="-10" :like="postData.likes" :comments="postData.commentCounts"
                         :save="postData.saves" @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked"
                         :isSave="postData.isSaved"></ButtonSets>
-                    <p class="time">{{ postData.postTime }}</p>
+                    <p class="time">{{ formatTimestamp(postData.postTime) }}</p>
                 </div>
             </div>
             <div class="input-section">
@@ -46,6 +46,7 @@ import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
 import { throttle } from 'lodash'
 import { likeOrSavePost } from '../apis/likeOrSavePost';
+import { formatTimestamp } from '../utils/date';
 import { useStore } from 'vuex';
 import { ref, onMounted, computed } from 'vue';
 const store = useStore();

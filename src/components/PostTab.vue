@@ -7,7 +7,7 @@
                     <img :src="postData.uploader.avatar" id="avatar">
                     <p class="username">{{ postData.uploader.userName }}</p>
                 </div>
-                <p class="post-time">{{ postData.postTime }}</p>
+                <p class="post-time">{{ formatTimestamp(postData.postTime) }}</p>
             </div>
             <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts" :save="postData.saves"
                 @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked" :isSave="postData.isSaved">
@@ -34,6 +34,7 @@ import { ref } from 'vue'
 import { useStore } from 'vuex';
 import { likeOrSavePost } from '../apis/likeOrSavePost';
 import { throttle } from 'lodash'
+import { formatTimestamp } from '../utils/date'
 const store = useStore();
 // data set here
 const props = defineProps({

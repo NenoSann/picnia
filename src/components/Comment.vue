@@ -5,7 +5,7 @@
                 heightString="33px">
             </TheAvatar>
             <p class="user-name">{{ comment.sender.userName }}</p>
-            <p class="time">{{ comment.date }}</p>
+            <p class="time">{{ comment.date !== undefine ? formatTimestamp(comment.date) : undefined }}</p>
         </div>
         <p class="comment">
             {{ comment.content }}
@@ -15,6 +15,7 @@
 
 <script setup>
 import TheAvatar from './TheAvatar.vue';
+import { formatTimestamp } from '../utils/date';
 defineProps({
     comment: {
         type: Object
