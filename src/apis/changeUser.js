@@ -16,4 +16,9 @@ export async function changeUsername(userId, newUsername) {
     })
 }
 
-export default { changeUsername }
+export async function changeUserPassword(userId, prePwd, newPwd) {
+    return new Promise((resolve, reject) => {
+
+    })
+}
+export default { changeUsername, changeUserPassword }

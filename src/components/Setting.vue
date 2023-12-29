@@ -1,5 +1,10 @@
 <template>
     <div class="setting-main">
+        <Teleport to="body">
+            <TheModal @close="toggleModal" :show="showModal">
+                <ChangeUser :type="'username'"></ChangeUser>
+            </TheModal>
+        </Teleport>
         <div class="setting-body">
             <div class="close-btn" @click="close">
                 <svg width="18px" height="18px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +89,7 @@
                 <div class="header">
                     账号设置
                 </div>
-                <SettingSection settingText="修改密码">
+                <SettingSection settingText="修改密码" @click="toggleModal">
                     <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         stroke="#383838">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -99,7 +104,7 @@
                         </g>
                     </svg>
                 </SettingSection>
-                <SettingSection settingText="修改用户名">
+                <SettingSection settingText="修改用户名" @click="toggleModal">
                     <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         stroke="#383838">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -122,10 +127,12 @@
 
 <script setup>
 import TheAvatar from './TheAvatar.vue';
+import TheModal from './TheModal.vue';
+import ChangeUser from './ChangeUser.vue';
+import SettingSection from './SettingSection.vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { computed } from 'vue';
-import SettingSection from './SettingSection.vue';
+import { computed, ref } from 'vue';
 const store = useStore();
 const router = useRouter();
 const userInfo = computed(() => {
@@ -160,6 +167,11 @@ const exit = function () {
 
 const close = function () {
     store.commit('toggleSetting', false);
+}
+
+const showModal = ref(false);
+const toggleModal = function () {
+    showModal.value = !showModal.value;
 }
 </script>
 
