@@ -1,3 +1,4 @@
+const HTTP_TMEOUT = 5000;
 /**
  * @description: 封装的HTTPRequest方法，接受URL和请求类型，进行http请求
  * @param {URL | string} url
@@ -51,14 +52,19 @@ export function makeMultipartRequest(url, method, body) {
  */
 export function fetchRequest(url, method, headers, body) {
     return new Promise((resolve, reject) => {
+        const controler = new AbortController();
+        const timeout = setTimeout(controler.abort, HTTP_TMEOUT);
         fetch(url, {
             method,
             headers: headers || undefined,
             body,
+            signal: controler.signal
         }).then((response) => {
+            clearTimeout(timeout);
             console.log('success fetch')
             resolve(response);
         }).catch((error) => {
+            clearTimeout(timeout);
             console.log('fail fetch', error);
             reject(error);
         })

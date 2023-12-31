@@ -1,7 +1,7 @@
 <template>
     <div class="setting-main">
         <Teleport to="body">
-            <TheModal @close="toggleModal" :show="showModal">
+            <TheModal @close="toggleModal" :show="showModal" :WidthPx="400" :HeightPx="560">
                 <ChangeUser :type="'username'"></ChangeUser>
             </TheModal>
         </Teleport>

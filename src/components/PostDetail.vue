@@ -116,7 +116,6 @@ const sendComment = function () {
  * @description pull comments when post detail is mounted
  */
 onMounted(() => {
-    console.log(store.comment)
     store.dispatch('pullComment', props.postData.postID);
 })
 </script>

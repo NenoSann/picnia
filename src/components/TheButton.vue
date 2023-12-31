@@ -1,37 +1,23 @@
 <template>
     <div class="btn-container">
-        <div>
-            <slot></slot>
-
-        </div>
+        <p>{{ text }}</p>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    widthString: {
-        type: String,
-        default: '32px'
-    },
-    heightString: {
-        type: String,
-        default: '16px'
-    },
-    textSize: {
-        type: String,
-        default: '1rem'
-    }
+    text: String
 })
 </script>
 
 <style lang="scss" scoped>
 .btn-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: v-bind(heightString);
-    width: v-bind(widthString);
-    font-size: v-bind(textSize);
+    padding: 0.4rem;
+    text-align: center;
+    width: 100%;
+    background-image: linear-gradient(to right, #00c2ff, #0047ff, );
+    border-radius: 6px;
+    color: white;
     cursor: pointer;
 }
 </style>

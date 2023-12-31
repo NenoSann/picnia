@@ -22,10 +22,25 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 const props = defineProps({
     show: {
         type: Boolean,
         default: false
+    },
+    WidthPx: {
+        type: Number,
+        default: 400
+    },
+    HeightPx: {
+        type: Number,
+        default: 560
+    }
+})
+const computedCss = computed(() => {
+    return {
+        width: `${props.WidthPx}px`,
+        height: `${props.HeightPx}px`
     }
 })
 </script>
@@ -33,12 +48,12 @@ const props = defineProps({
 <style scoped>
 .modal-mask {
     position: fixed;
-    z-index: 9998;
+    z-index: 4;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,8 +62,8 @@ const props = defineProps({
 
 .modal {
     position: relative;
-    width: 40vw;
-    height: 60vh;
+    width: v-bind(computedCss.width);
+    max-width: v-bind(computedCss.height);
 }
 
 .close-btn {
