@@ -1,8 +1,8 @@
 <template>
     <div class="setting-main">
         <Teleport to="body">
-            <TheModal @close="toggleModal" :show="showModal" :WidthPx="400" :HeightPx="560">
-                <ChangeUser :type="'username'"></ChangeUser>
+            <TheModal @close="toggleModal" :show="modalConfig.show" :WidthPx="400" :HeightPx="560">
+                <ChangeUser :type="modalConfig.type" @close="toggleModal"></ChangeUser>
             </TheModal>
         </Teleport>
         <div class="setting-body">
@@ -89,7 +89,7 @@
                 <div class="header">
                     账号设置
                 </div>
-                <SettingSection settingText="修改密码" @click="toggleModal">
+                <SettingSection settingText="修改密码" type="changePassword" @settingSectionActive="handleSettingSection">
                     <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         stroke="#383838">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -104,7 +104,7 @@
                         </g>
                     </svg>
                 </SettingSection>
-                <SettingSection settingText="修改用户名" @click="toggleModal">
+                <SettingSection settingText="修改用户名" type="changeUsername" @settingSectionActive="handleSettingSection">
                     <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                         stroke="#383838">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -132,13 +132,16 @@ import ChangeUser from './ChangeUser.vue';
 import SettingSection from './SettingSection.vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { computed, ref } from 'vue';
+import { computed, ref, reactive } from 'vue';
 const store = useStore();
 const router = useRouter();
 const userInfo = computed(() => {
     return store.state.user.user;
 })
-
+const modalConfig = reactive({
+    show: false,
+    type: 'username'
+})
 /**
  * @description 根据settingSection emits的参数类型来决定进行哪种操作
  * @param {String} type 
@@ -147,6 +150,8 @@ const handleSettingSection = function (type) {
     const functionMap = {
         "clearLocal": clearLocalStorage,
         "exit": exit,
+        "changeUsername": changeUsername,
+        "changePassword": changePassword
     }
     functionMap[type]();
 }
@@ -169,9 +174,22 @@ const close = function () {
     store.commit('toggleSetting', false);
 }
 
-const showModal = ref(false);
+const changeUsername = function () {
+    changeModalType('username');
+    toggleModal();
+}
+
+const changePassword = function () {
+    changeModalType('password');
+    toggleModal();
+}
+
+const changeModalType = function (type) {
+    modalConfig.type = type;
+}
+
 const toggleModal = function () {
-    showModal.value = !showModal.value;
+    modalConfig.show = !modalConfig.show;
 }
 </script>
 

@@ -2,7 +2,7 @@
     <Transition name="modal">
         <div class="modal-mask" v-if="props.show">
             <div class="modal">
-                <div class="close-btn" @click="$emit('close')">
+                <div class="close-btn" @click="closeModal">
                     <svg width="18px" height="18px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                         stroke="#383838">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -37,12 +37,16 @@ const props = defineProps({
         default: 560
     }
 })
+const emit = defineEmits(['close']);
 const computedCss = computed(() => {
     return {
         width: `${props.WidthPx}px`,
         height: `${props.HeightPx}px`
     }
 })
+function closeModal() {
+    emit('close');
+}
 </script>
 
 <style scoped>

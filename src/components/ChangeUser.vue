@@ -3,14 +3,19 @@
         <header class="setting-header">
             {{ type === 'username' ? '修改用户名' : '密码设置' }}
         </header>
-        <input :type="type === 'password' ? 'password' : 'text'" v-model="input.previousVal">
-        <input :type="type === 'password' ? 'password' : 'text'" v-if="type === 'password'" v-model="input.inputVal">
-        <TheButton text="确定" @click="sendRequest"></TheButton>
+        <form class="form" autocomplete="off">
+            <input autocomplete="false" :type="type === 'password' ? 'password' : 'text'" v-model="input.previousVal">
+            <input autocomplete="false" :type="type === 'password' ? 'password' : 'text'" v-if="type === 'password'"
+                v-model="input.inputVal">
+        </form>
+        <div @click="sendRequest">
+            <TheButton text="确定"></TheButton>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue';
+import { computed, ref, reactive, toRaw, getCurrentInstance } from 'vue';
 import { changeUsername, changeUserPassword } from '../apis/changeUser';
 import TheButton from '../components/TheButton.vue'
 import { useStore } from "vuex";
@@ -21,14 +26,22 @@ const store = useStore();
 const props = defineProps({
     type: String
 })
+const emit = defineEmits(['close', 'test'])
 const input = reactive({
     previousVal: '',
     inputVal: ''
-})
+});
 const functionMap = {
     'password': changeUserPassword,
     'username': changeUsername
 }
+const user = computed(() => {
+    return store?.state.user.user;
+})
+
+const userId = computed(() => {
+    return user.value.userId;
+})
 
 const targetFunction = computed(() => {
     if (props.type) {
@@ -42,8 +55,18 @@ const targetFunction = computed(() => {
 
 const sendRequest = async function () {
     try {
-        console.log('DEBUG:changeUserName');
         store.commit('toggleLoading');
+        let res;
+        if (props.type === 'password') {
+            res = await targetFunction.value(userId.value, input.previousVal, input.intputVal);
+        } else if (props.type === 'username') {
+            await targetFunction.value(userId.value, input.previousVal);
+            const rawUser = toRaw(user.value);
+            rawUser.userName = input.previousVal;
+            store.commit('setUser', rawUser);
+        }
+        store.commit('toggleLoading');
+        emit('close')
     } catch {
         store.commit('toggleLoading');
     }
@@ -62,9 +85,20 @@ const sendRequest = async function () {
     flex-direction: column;
     gap: 16px;
     padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    background-color: aliceblue;
+    background-color: white;
     border-radius: 12px;
     box-shadow: 0px 4.30151px 46.2412px rgba(0, 0, 0, 0.06);
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    input {
+        width: 100%;
+    }
 }
 
 .setting-header {
