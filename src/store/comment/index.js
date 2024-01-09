@@ -2,7 +2,15 @@ import { pullComments } from "../../apis/pullComments";
 import { createComment } from "../../apis/createComment";
 export const comment = {
     state() {
-        comments: []
+        return {
+            comments: {}
+        }
+    },
+    getters: {
+        // return a function to use parameter
+        getCommentsByPostId: (state) => (postId) => {
+            return state.comments[postId];
+        }
     },
     mutations: {
         replaceComments(state, comments) {
@@ -15,8 +23,17 @@ export const comment = {
          * @param {*} state 
          * @param {Object} comment 
          */
-        pushComment(state, comment) {
-            state.comments.push(comment);
+        pushComment(state, { postId, comments }) {
+            state.comments[postId] = comments;
+        },
+        /**
+         * 
+         * @param {String} postId 
+         * @description check wether comments map contains psotId, return true/false
+         * @returns {Boolean}
+         */
+        checkCommentMap(state, postId) {
+            return state?.comments[postId] !== undefined;
         }
     },
     actions: {
@@ -27,9 +44,11 @@ export const comment = {
          * @param {String} postId 
          */
         async pullComment({ commit, rootState }, postId) {
-            const newCommentsArray = await pullComments(postId);
-            console.log('new Comments Array: ', newCommentsArray)
-            commit('replaceComments', newCommentsArray);
+            const newComments = await pullComments(postId);
+            commit('pushComment', {
+                postId: newComments.postId,
+                comments: newComments.item
+            });
         },
         /**
          * @NenoSann

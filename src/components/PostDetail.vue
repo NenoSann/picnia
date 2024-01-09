@@ -66,7 +66,8 @@ const commentContent = ref('');
 
 //comments is computed from store and cache locally
 const comments = computed(() => {
-    return store.state.comment.comments;
+    console.log('debug:check postData  ', props.postData.postID);
+    return store.state.comment.comments[props.postData.postID];
 })
 
 // computed newComment is sent when hit send button
