@@ -47,13 +47,19 @@ export const post = {
     actions: {
         async pullPost({ commit, rootState }) {
             if (rootState.user?.user?.userName !== undefined) {
-                const newPost = await randomPullPost(rootState.user.user.userName);
-                commit('pushPost', newPost);
+                try {
+                    commit('toggleLoading');
+                    const newPost = await randomPullPost(rootState.user.user.userName);
+                    commit('pushPost', newPost);
+                } catch (err) {
+                    console.log('debug: catch error');
+                } finally {
+                    commit('toggleLoading');
+                }
             }
         },
-        async pullUserPost({ commit, rootState }, type) {
-            const newPost = await pullUserPost({ type: type, userId: rootState.user.user.userId });
-            console.log('newPost: ', newPost)
+        async pullUserPost({ commit, rootState }, requestBody) {
+            const newPost = await pullUserPost(requestBody);
             commit('replaceSet', newPost.post);
         },
         async addPostLocal({ commit, state, rootState }, data) {

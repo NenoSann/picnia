@@ -13,6 +13,7 @@ export async function randomPullPost(requestUserName) {
         }
     } catch (error) {
         console.error('Fetch request failed:', error);
+        throw error;
         // 在请求失败时执行的代码
     }
 }
@@ -21,6 +22,7 @@ export async function pullUserPost(body) {
     const response = await fetchRequest('/api/get/post/user', "POST", {
         "Content-Type": "application/json"
     }, JSON.stringify(body));
+    console.log('request body;', body)
     const data = await response.json();
     return data;
 }

@@ -1,16 +1,16 @@
 <template>
     <div class="profile-main">
         <div class="avatar-section">
-            <TheAvatar @click="handleClick" :image_url="avatarUrl" widthString="186px" heightString="186px" class="avatar"
-                :editable="true">
+            <TheAvatar @click="handleClick" :image_url="profileData.avatar" widthString="186px" heightString="186px"
+                class="avatar" :editable="true">
             </TheAvatar>
             <div class="user-info">
                 <div class="user-name">
-                    <p>{{ userName }}</p>
+                    <p>{{ profileData.userName }}</p>
                     <span @click="() => { isEditting = !isEditting }">{{ isEditting ? '完成编辑' : '编辑资料' }}</span>
                 </div>
-                <p class="user-id">{{ email }}</p>
-                <p class="introduction" v-if="!isEditting">{{ brief }}
+                <p class="user-id">{{ profileData.email }}</p>
+                <p class="introduction" v-if="!isEditting">{{ profileData.userBrief }}
                 </p>
                 <textarea class="introduction" cols="20" v-if="isEditting" v-model="brief"></textarea>
             </div>
@@ -38,11 +38,25 @@
 import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
-import { changeAvatar } from "../apis/changeAvatar";
-import { ref, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
 import { useStore } from "vuex";
-const store = useStore();
+import { getProfileData } from '../apis/getProfileData';
 
+const store = useStore();
+const route = useRoute();
+const profileData = reactive({
+    userName: '',
+    userBrief: '',
+    avatar: '',
+    posts: [],
+    likePosts: [],
+    savedPosts: [],
+    userId: ''
+});
+const targetUserName = computed(() => {
+    return route.params['userName'];
+})
 //将user数据格式从store中提取出来，避免多重链式调用
 const user = function () {
     return store.state.user.user;
@@ -53,45 +67,7 @@ const posts = computed(() => {
 
 // ref data
 const isEditting = ref(false);
-const avatarInput = ref('');
-const avatarUrl = computed(() => {
-    return user().avatar !== undefined ? user().avatar : "src/assets/avatarDefault.png";
-})
-const userName = computed(() => {
-    return user().userName !== undefined ? user().userName : '未登录';
 
-})
-const brief = computed(() => {
-    return user().userBrief ? user().userBrief : '这个人虽然不懒，但还是什么都没写';
-})
-
-const email = computed(() => {
-    return user().email ? user().email : '';
-})
-
-const getInput = function (e) {
-    const imageType = e.target.files[0].type;
-    const imageFile = e.target.files[0];
-    store.commit('toggleLoading');
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        const userData = user();
-        userData.avatar = event.target.result;
-        // event.target.result is base64
-        changeAvatar(
-            JSON.stringify({
-                userName: userData.userName,
-                email: userData.email
-            })
-            , imageFile).then(() => {
-                console.log()
-                store.commit('setUser', userData);
-                store.commit('toggleLoading');
-            })
-
-    }
-    reader.readAsDataURL(e.target.files[0]);
-}
 
 // 使得Avatar在click时触发input的点击事件
 const handleClick = () => {
@@ -99,8 +75,15 @@ const handleClick = () => {
 }
 
 const requestUserPost = function (type) {
-    store.dispatch('pullUserPost', type);
+    console.log('userId: ', profileData.userId);
+    store.dispatch('pullUserPost', { type, userId: profileData.userId });
 }
+
+onMounted(async () => {
+    const requestedData = await getProfileData(targetUserName.value);
+    console.log(requestedData);
+    Object.assign(profileData, requestedData);
+})
 </script>
 
 <style lang="scss" scoped>

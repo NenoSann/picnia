@@ -24,7 +24,7 @@ const router = createRouter({
     },
 
     {
-      path: '/picnia/profile',
+      path: '/picnia/profile/:userName',
       name: 'profilePage',
       component: ProfileVue,
     },

@@ -27,8 +27,8 @@
                         </TheAvatar>
                     </div>
                     <div class="text-section">
-                        <div class="userName">{{ userInfo.userName }}</div>
-                        <div class="email">{{ userInfo.email }}</div>
+                        <p>{{ userInfo.userName }}</p>
+                        <p class="email">{{ userInfo.email }}</p>
                     </div>
                 </div>
             </div>
@@ -223,18 +223,17 @@ const toggleModal = function () {
 }
 
 .info-main {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
 
     .avatar {
+        flex-grow: 0;
+        flex-shrink: 0;
         padding-top: 20px;
         padding-bottom: 20px;
-    }
-
-    .userName {
-        margin-left: 40px;
     }
 
     .email {
@@ -244,7 +243,9 @@ const toggleModal = function () {
     }
 
     .text-section {
+        margin-left: 16px;
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         justify-content: center;
         align-items: baseline;

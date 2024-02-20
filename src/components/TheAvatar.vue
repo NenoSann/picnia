@@ -1,6 +1,8 @@
 <script setup>
 import defaultAvatar from '/avatarDefault.png';
 import TheIcon from './TheIcon.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 defineProps({
     image_url: String,
     alt: String,
@@ -17,10 +19,13 @@ defineProps({
         default: "33px"
     }
 })
-
+const User = useStore().state.user.user;
+const userURL = computed(() => {
+    return `/picnia/profile/${User.userName}`;
+})
 </script>
 <template>
-    <router-link to="/picnia/profile">
+    <router-link :to="userURL">
         <div class="avatar">
             <div class="edit-btn-container" v-if=editable>
                 <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>

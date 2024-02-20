@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   base: '/picnia/',
   server: {
+    // host: '192.168.2.110',
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
