@@ -2,12 +2,13 @@
     <Teleport to="body">
         <Transition name="postTab">
             <div class="create-post-tab-main" v-if="open">
-                <div class="main-container" :style="{ width: `${mainWidth}vw`, height: `${mainHeight}vh` }">
-                    <div class="image-section" :style="{ height: `${imageHeight}%` }">
+                <div class="main-container"
+                    :style="{ width: `${postContent.mainWidth}vw`, height: `${postContent.mainHeight}vh` }">
+                    <div class="image-section" :style="{ height: `${postContent.imageHeight}%` }">
                         <input @change="setInputBackground" ref="imageInput" type="file" name="image-upload"
                             id="image-input" accept="image/*" multiple>
                         <label for="image-input">
-                            <img :src="this.imageSrc" id="inputed-image" alt="" v-show="this.imageSrc !== ''">
+                            <img :src="this.imageSrc" id="inputed-image" alt="" v-show="postContent.postImageSrc !== ''">
                             <p class="choose-text" v-show="this.imageSrc === ''">
                                 选择一张图片吧！
                             </p>
@@ -31,100 +32,33 @@
     </Teleport>
 </template>
 
-<script>
+<script setup>
 import TheIcon from './TheIcon.vue';
 import createPost from '../apis/createPost';
-export default {
-    data() {
-        return {
-            image: '',
-            text: '',
-            imageSrc: '',
-            imageRatio: 1,
-            mainWidth: 60,
-            mainHeight: 80,
-            imageHeight: 70,
-        }
-    },
-    emits: ['toggleTab'],
-    props: {
-        open: Boolean,
-    },
-    methods: {
-        hiddeTab() {
-            this.$emit('toggleTab');
-        },
-        setInputBackground(e) {
-            console.log(e)
-            this.image = e.target.files[0];
-            const image = e.target.files[0];
-            this.imageSrc = URL.createObjectURL(image);
-            const reader = new FileReader();
-            const vm = this;
-            reader.onload = function (event) {
-                const image = new Image();
-                image.onload = function () {
-                    vm.imageRatio = image.width / image.height;
-                    console.log(vm.imageRatio);
-                    if (vm.imageRatio > 1) {
-                        vm.mainHeight = 80;
-                        vm.mainWidth = 60;
-                        vm.imageHeight = 100 / vm.imageRatio;
-                    } else {
-                        vm.imageHeight = 70;
-                        vm.mainWidth = 80 * vm.imageRatio;
-                    }
-                }
-                image.src = event.target.result;
-            }
-            reader.readAsDataURL(image);
-        },
-        sendPost() {
-            const vm = this;
-            const jsonData = {
-                author: this.$store.state.user.user.userName,
-                date: Date.now(),
-                content: vm.text,
-                comments: '',
-            };
-            const data = {
-                image: vm.image,
-            };
-            // show the loading page
-            this.$store.commit('toggleLoading')
-            window.navigator.geolocation.getCurrentPosition((e) => {
-                const nonStringify = {
-                    ...jsonData,
-                    location: `(${e.coords.longitude},${e.coords.latitude})`
-                }
-                data.json = JSON.stringify(nonStringify);
-                createPost(data).then(async (responseData) => {
-                    console.log(responseData)
-                    nonStringify.postId = responseData.newPostId;
-                    nonStringify.image = vm.image;
-                    await this.$store.dispatch('addPostLocal', nonStringify);
-                    // close loading page when done
-                    this.$store.commit('toggleLoading')
-                    this.$emit('toggleTab');
-                });
-            },
-                // error function: not getting location
-                (e) => {
-                    data.json = JSON.stringify({
-                        ...jsonData,
-                        location: "undefined",
-                    });
-                    createPost(data).then(() => {
-                        this.$store.commit('toggleLoading')
-                        this.$emit('toggleTab');
-                    });
-                });
-            console.log('Sending the post......');
-        }
-    },
-    components: {
-        TheIcon,
+import { ref, reactive } from 'vue';
+const postContent = reactive({
+    postImage: {},
+    postText: '',
+    postImageSrc: '',
+    postImageRatio: 1,
+    mainWidth: 60,
+    mainHeight: 80,
+    imageHeight: 70,
+})
+const props = defineProps({
+    open: {
+        type: Boolean,
+        default: false
     }
+});
+const emit = defineEmits(['toggleTab']);
+
+function hiddeTab() {
+    emit('toggleTab');
+};
+
+function setInputBackground(event) {
+    console.log('post image input :\n', event.target.files)
 }
 </script>
 
