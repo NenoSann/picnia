@@ -4,7 +4,8 @@
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
-                    <img :src="postData.uploader.avatar" id="avatar">
+                    <TheAvatar :image_url="postData.uploader.avatar" :profile_url="avatarProfileURL" id="avatar">
+                    </TheAvatar>
                     <p class="username">{{ postData.uploader.userName }}</p>
                 </div>
                 <p class="post-time">{{ formatTimestamp(postData.postTime) }}</p>
@@ -30,11 +31,13 @@
 <script setup>
 import ButtonSets from './ButtonSets.vue';
 import PostDetail from './PostDetail.vue';
-import { ref } from 'vue'
+import TheAvatar from './TheAvatar.vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { likeOrSavePost } from '../apis/likeOrSavePost';
 import { throttle } from 'lodash'
 import { formatTimestamp } from '../utils/date'
+import { useRoute } from 'vue-router';
 const store = useStore();
 // data set here
 const props = defineProps({
@@ -43,7 +46,10 @@ const props = defineProps({
         required: true,
     },
 });
-
+const route = useRoute();
+const avatarProfileURL = computed(() => {
+    return `${route.fullPath}${props.postData.uploader.userName}`;
+})
 // methods 
 /**
  * @description 按照type来like或者save当前的post，

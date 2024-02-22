@@ -17,15 +17,19 @@ defineProps({
     heightString: {
         type: String,
         default: "33px"
+    },
+    profileURL: {
+        type: URL | String,
+        default: null
     }
 })
-const User = useStore().state.user.user;
+
 const userURL = computed(() => {
     return `/picnia/profile/${User.userName}`;
 })
 </script>
 <template>
-    <router-link :to="userURL">
+    <router-link v-if="profileURL" :to="profileURL">
         <div class="avatar">
             <div class="edit-btn-container" v-if=editable>
                 <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>
