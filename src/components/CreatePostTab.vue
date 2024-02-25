@@ -2,7 +2,7 @@
     <Teleport to="body">
         <Transition name="postTab">
             <div class="create-post-tab-main" v-if="open">
-                <div class="main-container"
+                <div class="main-container" <<<<<<< HEAD
                     :style="{ width: `${postData.mainWidth}vw`, height: `${postData.mainHeight}vh` }">
                     <div class="image-section" :style="{ height: `${postData.imageHeight}%` }">
                         <input @change="setInputAsBackground" ref="imageInput" type="file" name="image-upload"
@@ -11,24 +11,35 @@
                             <img :src="postData.imageSrc" id="inputed-image" alt=""
                                 v-show="postData.imageSrc?.length !== 0">
                             <p class="choose-text" v-show="postData.imageSrc?.length === 0">
-                                选择一张图片吧！
-                            </p>
-                        </label>
+                                =======
+                                :style="{ width: `${postContent.mainWidth}vw`, height: `${postContent.mainHeight}vh` }">
+                            <div class="image-section" :style="{ height: `${postContent.imageHeight}%` }">
+                                <input @change="setInputBackground" ref="imageInput" type="file" name="image-upload"
+                                    id="image-input" accept="image/*" multiple>
+                                <label for="image-input">
+                                    <img :src="this.imageSrc" id="inputed-image" alt=""
+                                        v-show="postContent.postImageSrc !== ''">
+                                    <p class="choose-text" v-show="this.imageSrc === ''">
+                                        >>>>>>> dfcf3a2836b41f650a784e7323a05f4be7170648
+                                        选择一张图片吧！
+                                    </p>
+                                </label>
+                            </div>
+                            <div class="text-section" :style="{ height: `${100 - imageHeight}%` }">
+                                <textarea id="text" cols="30" rows="10" placeholder="写点什么？"
+                                    v-model="postData.text"></textarea>
+                            </div>
+                            <span class="close-button" @click="hideTab">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
+                                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <button class="button-post" @click="sendPost">
+                                发布
+                            </button>
                     </div>
-                    <div class="text-section" :style="{ height: `${100 - imageHeight}%` }">
-                        <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="postData.text"></textarea>
-                    </div>
-                    <span class="close-button" @click="hideTab">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
-                            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <button class="button-post" @click="sendPost">
-                        发布
-                    </button>
                 </div>
-            </div>
         </Transition>
     </Teleport>
 </template>
