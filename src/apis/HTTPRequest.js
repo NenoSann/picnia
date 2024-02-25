@@ -52,7 +52,7 @@ export function fetchRequest(url, method, headers, body) {
         const controler = new AbortController();
         const timeout = setTimeout(controler.abort, HTTP_TMEOUT);
         const jwtToken = localStorage.getItem('jwtToken');
-
+        console.log('jwtToken: \n', jwtToken);
         // append jwt Token into header
         if (!headers['Authorization']) {
             headers['Authorization'] = `Bearer ${jwtToken}`;

@@ -2,21 +2,23 @@
     <Teleport to="body">
         <Transition name="postTab">
             <div class="create-post-tab-main" v-if="open">
-                <div class="main-container" :style="{ width: `${mainWidth}vw`, height: `${mainHeight}vh` }">
-                    <div class="image-section" :style="{ height: `${imageHeight}%` }">
-                        <input @change="setInputBackground" ref="imageInput" type="file" name="image-upload"
+                <div class="main-container"
+                    :style="{ width: `${postData.mainWidth}vw`, height: `${postData.mainHeight}vh` }">
+                    <div class="image-section" :style="{ height: `${postData.imageHeight}%` }">
+                        <input @change="setInputAsBackground" ref="imageInput" type="file" name="image-upload"
                             id="image-input" accept="image/*" multiple>
                         <label for="image-input">
-                            <img :src="this.imageSrc" id="inputed-image" alt="" v-show="this.imageSrc !== ''">
-                            <p class="choose-text" v-show="this.imageSrc === ''">
+                            <img :src="postData.imageSrc" id="inputed-image" alt=""
+                                v-show="postData.imageSrc?.length !== 0">
+                            <p class="choose-text" v-show="postData.imageSrc?.length === 0">
                                 选择一张图片吧！
                             </p>
                         </label>
                     </div>
                     <div class="text-section" :style="{ height: `${100 - imageHeight}%` }">
-                        <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="text"></textarea>
+                        <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="postData.text"></textarea>
                     </div>
-                    <span class="close-button" @click="hiddeTab">
+                    <span class="close-button" @click="hideTab">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
                             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" />
@@ -31,100 +33,62 @@
     </Teleport>
 </template>
 
-<script>
+<script setup>
 import TheIcon from './TheIcon.vue';
 import createPost from '../apis/createPost';
-export default {
-    data() {
-        return {
-            image: '',
-            text: '',
-            imageSrc: '',
-            imageRatio: 1,
-            mainWidth: 60,
-            mainHeight: 80,
-            imageHeight: 70,
-        }
-    },
-    emits: ['toggleTab'],
-    props: {
-        open: Boolean,
-    },
-    methods: {
-        hiddeTab() {
-            this.$emit('toggleTab');
-        },
-        setInputBackground(e) {
-            console.log(e)
-            this.image = e.target.files[0];
-            const image = e.target.files[0];
-            this.imageSrc = URL.createObjectURL(image);
-            const reader = new FileReader();
-            const vm = this;
-            reader.onload = function (event) {
-                const image = new Image();
-                image.onload = function () {
-                    vm.imageRatio = image.width / image.height;
-                    console.log(vm.imageRatio);
-                    if (vm.imageRatio > 1) {
-                        vm.mainHeight = 80;
-                        vm.mainWidth = 60;
-                        vm.imageHeight = 100 / vm.imageRatio;
-                    } else {
-                        vm.imageHeight = 70;
-                        vm.mainWidth = 80 * vm.imageRatio;
-                    }
-                }
-                image.src = event.target.result;
-            }
-            reader.readAsDataURL(image);
-        },
-        sendPost() {
-            const vm = this;
-            const jsonData = {
-                author: this.$store.state.user.user.userName,
-                date: Date.now(),
-                content: vm.text,
-                comments: '',
-            };
-            const data = {
-                image: vm.image,
-            };
-            // show the loading page
-            this.$store.commit('toggleLoading')
-            window.navigator.geolocation.getCurrentPosition((e) => {
-                const nonStringify = {
-                    ...jsonData,
-                    location: `(${e.coords.longitude},${e.coords.latitude})`
-                }
-                data.json = JSON.stringify(nonStringify);
-                createPost(data).then(async (responseData) => {
-                    console.log(responseData)
-                    nonStringify.postId = responseData.newPostId;
-                    nonStringify.image = vm.image;
-                    await this.$store.dispatch('addPostLocal', nonStringify);
-                    // close loading page when done
-                    this.$store.commit('toggleLoading')
-                    this.$emit('toggleTab');
-                });
-            },
-                // error function: not getting location
-                (e) => {
-                    data.json = JSON.stringify({
-                        ...jsonData,
-                        location: "undefined",
-                    });
-                    createPost(data).then(() => {
-                        this.$store.commit('toggleLoading')
-                        this.$emit('toggleTab');
-                    });
-                });
-            console.log('Sending the post......');
-        }
-    },
-    components: {
-        TheIcon,
+import { ref, reactive } from 'vue';
+const postData = reactive({
+    image: [],
+    text: '',
+    imageSrc: [],
+    mainWidth: 60,
+    mainHeight: 80,
+    imageHeight: 70,
+    imageRatio: 1
+});
+
+const emit = defineEmits(['toggleTab']);
+const props = defineProps({
+    open: {
+        type: Boolean,
+        default: false
     }
+})
+
+function hideTab() {
+    emit('toggleTab');
+}
+
+async function setInputAsBackground(event) {
+    const input = event.target;
+    console.log(input.files);
+    // get input files and bind into reactive data
+    postData.image = input.files;
+    postData.imageSrc = URL.createObjectURL(postData.image[0]);
+    const imageResult = await readImageRatio(postData.image[0]);
+    console.log('debug: imageResult is : \n', imageResult);
+    postData.imageRatio = imageResult.ratio;
+    postData.mainWidth = imageResult.mainWidth;
+    postData.mainHeight = imageResult.mainHeight;
+
+}
+
+async function readImageRatio(image) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const image = new Image();
+            image.onload = () => {
+                resolve({
+                    width: image.width,
+                    height: image.height,
+                    ratio: image.width / image.height
+                });
+            }
+            image.src = event.target.result;
+        }
+        reader.readAsDataURL(image);
+    })
 }
 </script>
 

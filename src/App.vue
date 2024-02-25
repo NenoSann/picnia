@@ -10,7 +10,6 @@ const store = useStore();
 const router = useRouter();
 
 // when app mounted
-
 import { getUser } from './apis/auth';
 import ChangeAvatar from './components/ChangeAvatar.vue';
 onMounted(async () => {
