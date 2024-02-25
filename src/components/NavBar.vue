@@ -10,7 +10,8 @@
         <div class="header-icons">
             <TheIcon icon="home" @click="testPullPost" :animatable=false />
             <TheIcon icon="publish" @click="toggleTab" :animatable=false></TheIcon>
-            <TheAvatar :image_url="userAvatar" widthString="40px" heightString="40px"></TheAvatar>
+            <TheAvatar :image_url="userAvatar" widthString="40px" heightString="40px" :profile_Url="userProfileURL">
+            </TheAvatar>
             <div @click="openSetting">
                 <svg id="setting-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <path
@@ -61,6 +62,9 @@ export default {
         userName() {
             // return this.$store.state.user.user.userName || '未登录';
             return this.$store.state.user.user ? this.$store.state.user.user.userName : '未登陆';
+        },
+        userProfileURL() {
+            return this.$store.state.user.user ? `/picnia/profile/${this.$store.state.user.user.userName}` : '/picnia';
         }
     },
 }

@@ -1,9 +1,11 @@
 <script setup>
 import defaultAvatar from '/avatarDefault.png';
 import TheIcon from './TheIcon.vue';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-defineProps({
+import { useRouter } from 'vue-router';
+import { computed } from 'vue'
+const router = useRouter();
+
+const props = defineProps({
     image_url: String,
     alt: String,
     widthString: {
@@ -18,25 +20,29 @@ defineProps({
         type: String,
         default: "33px"
     },
-    profileURL: {
-        type: URL | String,
+    profile_Url: {
+        type: String,
         default: null
     }
 })
 
-const userURL = computed(() => {
-    return `/picnia/profile/${User.userName}`;
+function redirectToProfile() {
+    if (props.profile_Url) {
+        router.push(props.profile_Url);
+    }
+}
+
+const isCursor = computed(() => {
+    return props.profile_Url ? true : false;
 })
 </script>
 <template>
-    <router-link v-if="profileURL" :to="profileURL">
-        <div class="avatar">
-            <div class="edit-btn-container" v-if=editable>
-                <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>
-            </div>
-            <img :src="image_url || defaultAvatar">
+    <div class="avatar" @click="redirectToProfile" :class="{ pointer: isCursor }">
+        <div class="edit-btn-container" v-if=editable>
+            <TheIcon v-if=editable icon="publish" class="edit-icon"></TheIcon>
         </div>
-    </router-link>
+        <img :src="image_url || defaultAvatar">
+    </div>
 </template>
 
 
@@ -88,5 +94,9 @@ img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.pointer {
+    cursor: pointer;
 }
 </style>

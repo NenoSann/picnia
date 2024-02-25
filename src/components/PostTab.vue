@@ -4,7 +4,7 @@
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
-                    <TheAvatar :image_url="postData.uploader.avatar" :profile_url="avatarProfileURL" id="avatar">
+                    <TheAvatar :image_url="postData.uploader.avatar" :profile_Url="avatarProfileURL" id="avatar">
                     </TheAvatar>
                     <p class="username">{{ postData.uploader.userName }}</p>
                 </div>
@@ -38,18 +38,21 @@ import { likeOrSavePost } from '../apis/likeOrSavePost';
 import { throttle } from 'lodash'
 import { formatTimestamp } from '../utils/date'
 import { useRoute } from 'vue-router';
+const route = useRoute();
 const store = useStore();
-// data set here
+const user = store.state.user.user;
+const uploader = props.postData.uploader;
+
 const props = defineProps({
     postData: {
         type: Object,
         required: true,
     },
 });
-const route = useRoute();
 const avatarProfileURL = computed(() => {
-    return `${route.fullPath}${props.postData.uploader.userName}`;
+    return `${route.fullPath}profile/${uploader.userName}`;
 })
+const showOpenDetail = ref(false);
 // methods 
 /**
  * @description 按照type来like或者save当前的post，
@@ -58,7 +61,7 @@ const avatarProfileURL = computed(() => {
 const likeOrSave = throttle(function (type) {
     likeOrSavePost({
         'target': type,
-        'userName': store.state.user.user.userName,
+        'userName': user.userName,
         'postId': props.postData.postID
     })
     if (type === 'like') {
@@ -67,8 +70,6 @@ const likeOrSave = throttle(function (type) {
         store.commit('toggleSave', props.postData.postID);
     }
 }, 500);
-const showOpenDetail = ref(false);
-
 
 </script>
 
