@@ -36,7 +36,6 @@
 </template>
 
 <script setup>
-import TheIcon from './TheIcon.vue';
 import createPost from '../apis/createPost';
 import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
@@ -68,11 +67,11 @@ function hideTab() {
 
 async function setInputAsBackground(event) {
     const input = event.target;
-    console.log(input.files);
+    console.log(input.files[0]);
     // get input files and bind into reactive data
-    postData.image = input.files;
-    postData.imageSrc = URL.createObjectURL(postData.image[0]);
-    const imageResult = await readImageRatio(postData.image[0]);
+    postData.image = input.files[0];
+    postData.imageSrc = URL.createObjectURL(postData.image);
+    const imageResult = await readImageRatio(postData.image);
     postData.imageRatio = imageResult.ratio;
     postData.mainWidth = imageResult.mainWidth;
     postData.mainHeight = imageResult.mainHeight;
@@ -105,9 +104,8 @@ async function readImageRatio(image) {
 async function sendPost() {
     const location = await requestGeolocation();
     startSpining();
-
     // build the request body
-    const requestBody = {
+    const json = {
         author: user?.userName ? user.userName : 'undefined',
         date: Date.now(),
         content: postData.text,
@@ -115,9 +113,23 @@ async function sendPost() {
         imageRatio: postData.imageRatio,
         orientation: postData.orientation,
         location,
+    }
+    const requestBody = {
+        json: JSON.stringify(json),
         image: postData.image
     };
-
+    try {
+        const response = await createPost(requestBody);
+        const localPost = {
+            ...json,
+            postId: response.newPostId,
+            image: postData.image
+        }
+        await store.dispath('addPostLocal', localPost);
+        emit('toggleTab');
+    } finally {
+        stopSpining();
+    }
 }
 
 /**
@@ -140,7 +152,7 @@ async function requestGeolocation() {
 function startSpining() {
     spining.value = true;
 }
-function stopSpininv() {
+function stopSpining() {
     spining.value = false;
 }
 </script>
