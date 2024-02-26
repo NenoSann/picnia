@@ -37,7 +37,6 @@
 
 <script setup>
 import ImageCropper from './ImageCropper.vue';
-import TheButton from './TheButton.vue';
 import { computed, ref, onMounted } from 'vue'
 import { NButton } from 'naive-ui';
 import { useStore } from 'vuex';
@@ -60,8 +59,9 @@ const activateInput = () => {
 const startCrop = async function () {
     cropper.value.startCrop();
     cuttedImage.value = await cropper.value.getCropData();
+    const imgType = cuttedImage.value.split(';')[0].split('/')[1];
     const cuttedImageBlob = await cropper.value.getCropBlob();
-    store.dispatch('changeAvatar', { avatar: cuttedImage.value, blob: cuttedImageBlob });
+    store.dispatch('changeAvatar', { avatar: cuttedImage.value, imgType, blob: cuttedImageBlob });
 }
 
 

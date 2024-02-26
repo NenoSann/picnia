@@ -35,15 +35,21 @@ export const user = {
                 commit('toggleLogin')
             }
         },
-        async changeAvatar({ commit, state }, { avatar, blob }) {
+        async changeAvatar({ commit, state }, { avatar, imgType, blob }) {
             commit('toggleLoading');
             // create new userData from previous
             const userData = state.user;
-            userData.avatar = avatar;
+            console.log('debug avatar:\n', {
+                userName: state.user.userName,
+                email: state.user.email,
+                imgType
+            })
             changeAvatar(JSON.stringify({
                 userName: state.user.userName,
-                email: state.user.email
+                email: state.user.email,
+                imgType
             }), blob).then(() => {
+                userData.avatar = avatar;
                 commit('setUser', userData);
                 commit('toggleLoading');
                 commit('toggleAvatarCropper', false);
