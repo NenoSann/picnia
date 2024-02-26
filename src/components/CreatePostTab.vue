@@ -2,44 +2,35 @@
     <Teleport to="body">
         <Transition name="postTab">
             <div class="create-post-tab-main" v-if="open">
-                <div class="main-container" <<<<<<< HEAD
-                    :style="{ width: `${postData.mainWidth}vw`, height: `${postData.mainHeight}vh` }">
-                    <div class="image-section" :style="{ height: `${postData.imageHeight}%` }">
-                        <input @change="setInputAsBackground" ref="imageInput" type="file" name="image-upload"
-                            id="image-input" accept="image/*" multiple>
-                        <label for="image-input">
-                            <img :src="postData.imageSrc" id="inputed-image" alt=""
-                                v-show="postData.imageSrc?.length !== 0">
-                            <p class="choose-text" v-show="postData.imageSrc?.length === 0">
-                                =======
-                                :style="{ width: `${postContent.mainWidth}vw`, height: `${postContent.mainHeight}vh` }">
-                            <div class="image-section" :style="{ height: `${postContent.imageHeight}%` }">
-                                <input @change="setInputBackground" ref="imageInput" type="file" name="image-upload"
-                                    id="image-input" accept="image/*" multiple>
-                                <label for="image-input">
-                                    <img :src="this.imageSrc" id="inputed-image" alt=""
-                                        v-show="postContent.postImageSrc !== ''">
-                                    <p class="choose-text" v-show="this.imageSrc === ''">
-                                        >>>>>>> dfcf3a2836b41f650a784e7323a05f4be7170648
-                                        选择一张图片吧！
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="text-section" :style="{ height: `${100 - imageHeight}%` }">
-                                <textarea id="text" cols="30" rows="10" placeholder="写点什么？"
-                                    v-model="postData.text"></textarea>
-                            </div>
-                            <span class="close-button" @click="hideTab">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
-                                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                            <button class="button-post" @click="sendPost">
-                                发布
-                            </button>
+                <n-spin :show="spining" size="large" stroke="#66ccff" :delay="300">
+                    <div class="main-container"
+                        :style="{ width: `${postData.mainWidth}vw`, height: `${postData.mainHeight}vh` }">
+                        <div class="image-section" :style="{ height: `${postData.imageHeight}%` }">
+                            <input @change="setInputAsBackground" ref="imageInput" type="file" name="image-upload"
+                                id="image-input" accept="image/*" multiple>
+                            <label for="image-input">
+                                <img :src="postData.imageSrc" id="inputed-image" alt=""
+                                    v-show="postData.imageSrc?.length !== 0">
+                                <p class="choose-text" v-show="postData.imageSrc?.length === 0">
+                                    选择一张图片吧！
+                                </p>
+                            </label>
+                        </div>
+                        <div class="text-section" :style="{ height: `${100 - postData.imageHeight}%` }">
+                            <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="postData.text"></textarea>
+                        </div>
+                        <span class="close-button" @click="hideTab">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
+                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <button class="button-post" @click="sendPost">
+                            发布
+                        </button>
                     </div>
-                </div>
+                </n-spin>
+            </div>
         </Transition>
     </Teleport>
 </template>
@@ -48,6 +39,10 @@
 import TheIcon from './TheIcon.vue';
 import createPost from '../apis/createPost';
 import { ref, reactive } from 'vue';
+import { useStore } from 'vuex';
+import { NSpin, NAlert } from 'naive-ui';
+const store = useStore();
+const user = store.state.user.user;
 const postData = reactive({
     image: [],
     text: '',
@@ -55,9 +50,10 @@ const postData = reactive({
     mainWidth: 60,
     mainHeight: 80,
     imageHeight: 70,
-    imageRatio: 1
+    imageRatio: 1,
+    orientation: ''
 });
-
+const spining = ref(false);
 const emit = defineEmits(['toggleTab']);
 const props = defineProps({
     open: {
@@ -77,11 +73,10 @@ async function setInputAsBackground(event) {
     postData.image = input.files;
     postData.imageSrc = URL.createObjectURL(postData.image[0]);
     const imageResult = await readImageRatio(postData.image[0]);
-    console.log('debug: imageResult is : \n', imageResult);
     postData.imageRatio = imageResult.ratio;
     postData.mainWidth = imageResult.mainWidth;
     postData.mainHeight = imageResult.mainHeight;
-
+    postData.orientation = imageResult.mainHeight > imageResult.mainWidth ? 'portrait' : 'landscape';
 }
 
 async function readImageRatio(image) {
@@ -100,6 +95,53 @@ async function readImageRatio(image) {
         }
         reader.readAsDataURL(image);
     })
+}
+
+/**
+ * @description handle the send button event, it will collect all input  
+ *              context and request a geolocation (if possible) and send  
+ *              to server
+ */
+async function sendPost() {
+    const location = await requestGeolocation();
+    startSpining();
+
+    // build the request body
+    const requestBody = {
+        author: user?.userName ? user.userName : 'undefined',
+        date: Date.now(),
+        content: postData.text,
+        comments: '',
+        imageRatio: postData.imageRatio,
+        orientation: postData.orientation,
+        location,
+        image: postData.image
+    };
+
+}
+
+/**
+ * @description request user to give geolocation, return as promise  
+ *              the promise might got rejected
+ * @returns {Promise}
+ */
+async function requestGeolocation() {
+    return new Promise((resolve, reject) => {
+        function success(position) {
+            resolve(`${position.coords.longitude},${position.coords.latitude}`);
+        }
+        function error() {
+            resolve(null);
+        }
+        window.navigator.geolocation.getCurrentPosition(success, error);
+    })
+}
+
+function startSpining() {
+    spining.value = true;
+}
+function stopSpininv() {
+    spining.value = false;
 }
 </script>
 
