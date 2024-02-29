@@ -1,33 +1,28 @@
 <script setup>
 import NavBar from './components/NavBar.vue';
 import LoadingOverlay from './components/LoadingOverlay.vue';
-import { onMounted, toRaw } from 'vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import Setting from './components/Setting.vue';
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useDialog, NDialogProvider } from 'naive-ui'
 const store = useStore();
 const router = useRouter();
 
 // when app mounted
-import { getUser } from './apis/auth';
 import ChangeAvatar from './components/ChangeAvatar.vue';
-onMounted(async () => {
-  store.commit('setUser', getUser());
-  if (toRaw(store.state.user).user == null) {
-    router.push('/picnia/login');
-  }
-  await store.dispatch('pullPost');
-})
+
 </script>
 
 <template>
   <NavBar class="nav"></NavBar>
-  <router-view class="main-content" v-slot="{ Component }">
-    <Transition name="fade" mode="out-in">
-      <component :is="Component"></component>
-    </Transition>
-  </router-view>
+  <n-dialog-provider>
+    <router-view class="main-content" v-slot="{ Component }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component"></component>
+      </Transition>
+    </router-view>
+  </n-dialog-provider>
   <Transition name="fade">
     <Setting v-if="store.state.isSetting">
     </Setting>

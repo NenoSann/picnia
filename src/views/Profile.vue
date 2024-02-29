@@ -29,6 +29,9 @@
                 <p class="text">收藏</p>
             </div>
         </div>
+        <div v-show="isLoading">
+            <n-spin></n-spin>
+        </div>
         <p class="posts-count">{{ posts.length + '篇帖子' }}</p>
         <PostList :posts="posts" :colunm="3"></PostList>
     </div>
@@ -38,11 +41,12 @@
 import TheAvatar from '../components/TheAvatar.vue';
 import TheIcon from '../components/TheIcon.vue';
 import PostList from '../components/PostList.vue';
+import { NSpin } from 'naive-ui';
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router';
 import { useStore } from "vuex";
 import { getProfileData } from '../apis/getProfileData';
-
+import { pullUserPost } from '../apis/pullPost';
 const store = useStore();
 const route = useRoute();
 const profileData = reactive({
@@ -54,35 +58,41 @@ const profileData = reactive({
     savedPosts: [],
     userId: ''
 });
+const posts = ref([]);
+const isLoading = ref(true);
+const isEditting = ref(false);
 const targetUserName = computed(() => {
     return route.params['userName'];
 })
-//将user数据格式从store中提取出来，避免多重链式调用
-const user = function () {
-    return store.state.user.user;
-}
-const posts = computed(() => {
-    return Array.from(store.state.post.post.values()).reverse();
-})
-
-// ref data
-const isEditting = ref(false);
-
 
 // 使得Avatar在click时触发input的点击事件
 const handleClick = () => {
     store.commit('toggleAvatarCropper', true);
 }
 
-const requestUserPost = function (type) {
-    console.log('userId: ', profileData.userId);
-    store.dispatch('pullUserPost', { type, userId: profileData.userId });
+/**
+ * @description pull current profile user's posts, depends on type
+ * @param {'save'|'own'|'like'} type 
+ * @returns {[*]}
+ */
+async function requestUserPost(type) {
+    try {
+        isLoading.value = true;
+        const newPosts = await pullUserPost({ type, userId: profileData.userId })
+        console.log(newPosts)
+        posts.value.length = 0;
+        posts.value.push(...newPosts.post);
+    } catch {
+
+    } finally {
+        isLoading.value = false;
+    }
 }
 
 onMounted(async () => {
     const requestedData = await getProfileData(targetUserName.value);
-    console.log(requestedData);
     Object.assign(profileData, requestedData);
+    requestUserPost('own');
 })
 </script>
 
