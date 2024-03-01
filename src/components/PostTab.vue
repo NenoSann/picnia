@@ -1,6 +1,6 @@
 <template>
     <div class="post-tab-main">
-        <img :src="postData.postImage" @click="showOpenDetail = true">
+        <img id="PostImage" :src="postData.postImage" @click="showOpenDetail = true">
         <div class="post-tab-mid">
             <div class="avatar-section">
                 <div class="avatar">
@@ -24,7 +24,7 @@
         </div>
     </div>
     <Transition name="postDetail">
-        <PostDetail :postData="postData" v-if="showOpenDetail" @closeDetail="showOpenDetail = false"></PostDetail>
+        <PostDetail :postData="postData" v-show="showOpenDetail" @closeDetail="showOpenDetail = false"></PostDetail>
     </Transition>
 </template>
 
@@ -122,10 +122,17 @@ const likeOrSave = throttle(function (type) {
             margin-top: 10px;
             color: #9f9f9f;
             font-family: "Noto Sans SC", sans-serif;
-
         }
     }
 
+}
+
+#PostImage {
+    transition: all .2s ease;
+
+    &:hover {
+        filter: brightness(50%);
+    }
 }
 
 .discription {

@@ -3,7 +3,9 @@
         <div class="btn-close">
             <TheIcon icon="close" style="cursor: pointer;" @click="$emit('closeDetail')"></TheIcon>
         </div>
-        <img :src="postData.postImage" class="image">
+        <div class="image">
+            <img :src="postData.postImage">
+        </div>
         <div class="content">
             <div class="uploader">
                 <div class="detail">
@@ -70,16 +72,6 @@ const comments = computed(() => {
     return store.state.comment.comments[props.postData.postID];
 })
 
-// computed newComment is sent when hit send button
-/**
-  What server expected: 
- * {
-            post: postId,
-            sender: sender,
-            reception: reception,
-            content: content,
-        }
- */
 const newComment = computed(() => {
     return {
         postId: props.postData.postID,
@@ -127,13 +119,14 @@ onMounted(() => {
     position: fixed;
     top: 12vh;
     left: 50%;
-    max-height: 80vh;
+    height: 80vh;
+    // width: 100%;
+    max-width: 80vw;
     transform: translateX(-50%);
     display: flex;
     background-color: white;
     border-radius: 51px;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 .btn-close {
@@ -145,19 +138,26 @@ onMounted(() => {
 }
 
 .image {
-    width: 400px;
-    height: auto;
-    object-fit: cover;
-}
+    flex-shrink: 1;
+    flex-grow: 2;
+    height: 100%;
+    max-width: 60vw;
+    display: flex;
 
-.close-btn {
-    position: absolute;
+    img {
+        width: -webkit-fill-available;
+        max-height: 100%;
+        object-fit: contain;
+        object-position: 50% 50%;
+    }
 }
 
 .content {
+    flex-grow: 1;
     padding: 20px 30px;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .detail {
