@@ -6,7 +6,7 @@
 
 <script setup>
 import PostList from '../components/PostList.vue';
-import { ref, computed, onMounted, toRaw } from 'vue';
+import { computed, onMounted, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { useDialog } from 'naive-ui';
 import { useRouter } from 'vue-router';

@@ -4,7 +4,8 @@
             <TheIcon icon="close" style="cursor: pointer;" @click="$emit('closeDetail')"></TheIcon>
         </div>
         <div class="image">
-            <img :src="postData.postImage">
+            <!-- <img :src="postData.postImage"> -->
+            <TheCarousel :img_urls="[postData.postImage]"></TheCarousel>
         </div>
         <div class="content">
             <div class="uploader">
@@ -46,6 +47,7 @@ import TheIcon from './TheIcon.vue';
 import TheAvatar from './TheAvatar.vue';
 import Comment from './Comment.vue';
 import ButtonSets from './ButtonSets.vue';
+import TheCarousel from './TheCarousel.vue';
 import { throttle } from 'lodash'
 import { likeOrSavePost } from '../apis/likeOrSavePost';
 import { formatTimestamp } from '../utils/date';
@@ -62,6 +64,12 @@ const props = defineProps({
     }
 })
 
+const imgs = ref([
+    'https://imagebucket-1322308688.cos.ap-tokyo.myqcloud.com/picnia//image/65dc5df15d4e9eb0696c77cb.jpg',
+    'https://imagebucket-1322308688.cos.ap-tokyo.myqcloud.com/picnia//image/65dc6115543aa0eebeb994be.jpg',
+    'https://imagebucket-1322308688.cos.ap-tokyo.myqcloud.com/picnia//image/65e1a2e46ca5dabb37885d85.jpg',
+    'https://imagebucket-1322308688.cos.ap-tokyo.myqcloud.com/picnia//image/65d5c1931a5e81d79e39bba1.jpg'
+]);
 defineEmits(['closeDetail']);
 // data filed
 const commentContent = ref('');
@@ -141,7 +149,7 @@ onMounted(() => {
     flex-shrink: 1;
     flex-grow: 2;
     height: 100%;
-    max-width: 60vw;
+    max-width: 70%;
     display: flex;
 
     img {
