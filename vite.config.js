@@ -18,6 +18,9 @@ export default defineConfig(async ({ mode }) => {
           rewrite: (path) => path.replace(/^\/api/, ""),
         }
       }
+    },
+    build: {
+      assetsDir: 'assets'
     }
   }
 })
