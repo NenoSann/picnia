@@ -85,7 +85,7 @@ export function fetchRequest(url, method, headers, body) {
 function getProductionURL(localURL) {
     if (import.meta.env.PROD) {
         if (localURL.startsWith('/api')) {
-            return `http://43.163.234.220:3000${localURL.slice(4)}`;
+            return `https://43.163.234.220:80${localURL.slice(4)}`;
         }
     } else {
         return localURL;
