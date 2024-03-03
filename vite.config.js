@@ -20,7 +20,7 @@ export default defineConfig(async ({ mode }) => {
       }
     },
     build: {
-      assetsDir: 'assets'
+      assetsDir: 'picnia/assets'
     }
   }
 })
