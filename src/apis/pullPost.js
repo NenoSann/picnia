@@ -5,7 +5,6 @@ export async function randomPullPost(requestUserName) {
         const response = await fetchRequest('/api/get/post', 'POST', { 'Content-Type': 'application/json' }, JSON.stringify({ requestUserName: requestUserName }));
         if (response.ok) {
             const data = await response.json();
-            console.log('fetch request successful')
             return data.post;
         } else {
             console.error('Fetch request failed with status:', response.status);
@@ -22,7 +21,6 @@ export async function pullUserPost(body) {
     const response = await fetchRequest('/api/get/post/user', "POST", {
         "Content-Type": "application/json"
     }, JSON.stringify(body));
-    console.log('request body;', body)
     const data = await response.json();
     return data;
 }

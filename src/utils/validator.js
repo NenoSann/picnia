@@ -25,8 +25,6 @@ export function jwtTokenValidate(jwtToken) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
     const payload = JSON.parse(jsonPayload);
-    console.log(payload)
-    console.log('check validate: \n', `${Date.now()}\n`, `${payload.exp}`);
     // jwt token expire
     // payload.exp is in seconds, so multiply by 1000 to compare with Date.now();
     if (Date.now() >= payload.exp * 1000) {

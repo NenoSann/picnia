@@ -14,11 +14,13 @@
             <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
             <label for="checkbox">我已阅读且同意用户协议</label>
         </div>
-        <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" : "还没有加入Picnia吗？点击注册！"
-        }}
+        <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
+                "还没有加入Picnia吗？点击注册！"
+            }}
         </p>
     </form>
 </template>
+
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
@@ -60,8 +62,6 @@ async function createUser() {
             username: userName.value,
             password: password.value
         })
-        console.log(message.value)
-        console.log(emailError.value)
         if (success.value) {
             isRegister.value = !isRegister.value
         }

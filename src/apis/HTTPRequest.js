@@ -23,13 +23,13 @@ export function makeRequest(url, method, body) {
  * @returns {Promise}
  */
 export function makeMultipartRequest(url, method, body) {
+    url = getProductionURL(url);
     return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('json', new Blob([body.json], { type: 'application/json' }), 'json');
         formData.append('image', body.image, 'image');
         fetchRequest(url, method, {}, formData)
             .then((response) => {
-                console.log('成功传输post');
                 resolve(response);
             })
             .catch((error) => {
@@ -48,16 +48,15 @@ export function makeMultipartRequest(url, method, body) {
  * @returns  {Promise}
  */
 export function fetchRequest(url, method, headers, body) {
+    url = getProductionURL(url);
     return new Promise((resolve, reject) => {
         const controler = new AbortController();
         const timeout = setTimeout(controler.abort, HTTP_TMEOUT);
         const jwtToken = localStorage.getItem('jwtToken');
-        console.log('jwtToken: \n', jwtToken);
         // append jwt Token into header
         if (!headers['Authorization']) {
             headers['Authorization'] = `Bearer ${jwtToken}`;
         }
-        console.log('debug: headers, ', headers);
         fetch(url, {
             method,
             headers: headers || undefined,
@@ -68,7 +67,6 @@ export function fetchRequest(url, method, headers, body) {
             if (!response.ok) {
                 throw new Error(`Request failed with status ${response.status}`);
             }
-            console.log('success fetch')
             resolve(response);
         }).catch((error) => {
             clearTimeout(timeout);
@@ -76,6 +74,22 @@ export function fetchRequest(url, method, headers, body) {
             reject(error);
         })
     })
+}
+
+/**
+ * @description set the request url depends on mode, in development mode return localURL  
+ *              to make vite proxy works, and return server ip in production mode.
+ * @param {string} localURL 
+ * @returns {String}
+ */
+function getProductionURL(localURL) {
+    if (import.meta.env.PROD) {
+        if (localURL.startsWith('/api')) {
+            return `http://43.163.234.220:3000${localURL.slice(4)}`;
+        }
+    } else {
+        return localURL;
+    }
 }
 
 export default { makeRequest, makeMultipartRequest, fetchRequest };

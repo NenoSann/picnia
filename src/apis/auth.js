@@ -54,7 +54,6 @@ export async function register(email, username, password) {
 //进行登录操作
 export async function login(email, password) {
     const result = await (await fetchRequest('/api/login', 'POST', { "content-type": "application/json" }, JSON.stringify({ email, password }))).json();
-    console.log('debug: login, ', result);
     setJwtToken(result.token);
     saveUser(result.user);
     return result.message;

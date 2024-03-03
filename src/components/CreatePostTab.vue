@@ -17,12 +17,13 @@
                             </label>
                         </div>
                         <div class="text-section" :style="{ height: `${100 - postData.imageHeight}%` }">
-                            <textarea id="text" cols="30" rows="10" placeholder="写点什么？" v-model="postData.text"></textarea>
+                            <textarea id="text" cols="30" rows="10" placeholder="写点什么？"
+                                v-model="postData.text"></textarea>
                         </div>
                         <span class="close-button" @click="hideTab">
                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
-                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
+                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </span>
                         <button class="button-post" @click="sendPost">
@@ -67,7 +68,6 @@ function hideTab() {
 
 async function setInputAsBackground(event) {
     const input = event.target;
-    console.log(input.files[0]);
     // get input files and bind into reactive data
     postData.image = input.files[0];
     postData.imageSrc = URL.createObjectURL(postData.image);

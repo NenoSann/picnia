@@ -79,7 +79,6 @@ async function requestUserPost(type) {
     try {
         isLoading.value = true;
         const newPosts = await pullUserPost({ type, userId: profileData.userId })
-        console.log(newPosts)
         posts.value.length = 0;
         posts.value.push(...newPosts.post);
     } catch {

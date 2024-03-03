@@ -39,11 +39,6 @@ export const user = {
             commit('toggleLoading');
             // create new userData from previous
             const userData = state.user;
-            console.log('debug avatar:\n', {
-                userName: state.user.userName,
-                email: state.user.email,
-                imgType
-            })
             changeAvatar(JSON.stringify({
                 userName: state.user.userName,
                 email: state.user.email,

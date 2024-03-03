@@ -35,6 +35,8 @@ function handleError(dialogConfig) {
 }
 
 onMounted(async () => {
+    // test import.meta.env
+    console.log('debug: check env: \n', import.meta.env.DEV);
     store.commit('setUser', getUser());
     if (toRaw(store.state.user).user == null) {
         router.push('/picnia/login');

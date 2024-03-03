@@ -40,7 +40,6 @@ export const post = {
             targetPost.isSaved = !state.post.get(postId).isSaved;
         },
         setCommentCount(state, { postId, count }) {
-            console.log('set comment count', count)
             state.post.get(postId).commentCounts = state.post.get(postId).commentCounts + count;
         }
     },
@@ -65,7 +64,6 @@ export const post = {
         async addPostLocal({ commit, state, rootState }, data) {
             // ES6 decouple object
             const { date, content, comments, location, postId } = data;
-            console.log('addPostLocal / data: ', data);
             const image = data.image;
             const newPost = {
                 uploader: {
