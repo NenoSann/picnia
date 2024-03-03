@@ -26,7 +26,7 @@ dist
 *.njsproj
 *.sln
 *.sw?
-
+*.local
 *.exe
 ngrok
 .push
