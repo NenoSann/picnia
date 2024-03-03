@@ -20,7 +20,7 @@ export default defineConfig(async ({ mode }) => {
       }
     },
     build: {
-      outDir: 'dist/picnia', // 指定构建后的输出目录为 'picnia'
+      outDir: 'picnia', // 指定构建后的输出目录为 'picnia'
       assetsDir: 'assets', // 指定生成的资源文件的路径为 'assets'
       publicDir: '/picnia/', // 指定公共资源的访问路径为 '/picnia/'
     }
