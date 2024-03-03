@@ -1,6 +1,6 @@
 {
     "rewrites": [
-      { "source": "/picnia/api/(.*)", "destination": "/picnia/api/$1" },
+      { "source": "/picnia/api/(.*)", "destination": "/43.168.234.220:3000/api/$1" },
       { "source": "/(.*)", "destination": "/picnia/index.html" }
     ]
   }
