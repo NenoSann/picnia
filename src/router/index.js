@@ -1,10 +1,11 @@
-import HomePageVue from '../views/HomePage.vue'
-import LoginPageVue from '../views/LoginPage.vue'
-import ProfileEdittingPageVue from '../views/ProfileEdittingPage.vue'
-import SearchPageVue from '../views/SearchPage.vue'
-import ProfileVue from '../views/Profile.vue'
-import NotFound404Vue from '../views/NotFound404.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+const HomePageVue = () => import('../views/HomePage.vue');
+const LoginPageVue = () => import('../views/LoginPage.vue');
+const ProfileEdittingPageVue = () => import('../views/ProfileEdittingPage.vue');
+const SearchPageVue = () => import('../views/SearchPage.vue');
+const ProfileVue = () => import('../views/Profile.vue');
+const _ProfileVue = () => import('../views/PostDetail.vue');
+const NotFound404Vue = () => import('../views/NotFound404.vue');
 
 const router = createRouter({
   history: createWebHistory(),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/picnia/search',
       name: 'searchPage',
       component: SearchPageVue,
+    },
+    {
+      path: '/picnia/:postId',
+      name: 'post',
+      component: _ProfileVue
     },
     {
       path: "/:pathMatch(.*)*",

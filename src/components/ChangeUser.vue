@@ -74,6 +74,7 @@ const sendRequest = async function () {
 </script>
 
 <style scoped lang="scss">
+@import '../assets/_var.scss';
 @import '../assets/main.scss';
 
 .main {

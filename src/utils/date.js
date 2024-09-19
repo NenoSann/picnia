@@ -19,7 +19,7 @@ export function formatTimestamp(timestamp) {
 }
 export function formatDate(timestamp) {
     const date = new Date(timestamp);
-    const formattedDate = format(date, "yyyy年M月d日HH时mm分", { locale: zhCN });
+    const formattedDate = format(date, "yyyy-M-d", { locale: zhCN });
     return formattedDate;
 }
 export default { formatTimestamp, formatDate };

@@ -83,13 +83,13 @@ export function fetchRequest(url, method, headers, body) {
  * @returns {String}
  */
 function getProductionURL(localURL) {
-    if (import.meta.env.PROD) {
-        if (localURL.startsWith('/api')) {
-            return `https://43.163.234.220:80${localURL.slice(4)}`;
-        }
-    } else {
-        return localURL;
-    }
+    // if (import.meta.env.PROD) {
+    //     if (localURL.startsWith('/api')) {
+    //         return `http://43.163.234.220:3000${localURL.slice(4)}`;
+    //     }
+    // } else {
+    return localURL;
+    // }
 }
 
 export default { makeRequest, makeMultipartRequest, fetchRequest };

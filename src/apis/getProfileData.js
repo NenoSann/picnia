@@ -6,6 +6,7 @@ const profileBase = '/api/profile/';
  * @returns {Promise}
  */
 export async function getProfileData(userName) {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         if (!fetchRequest) {
             throw new Error('userName is not provided.');

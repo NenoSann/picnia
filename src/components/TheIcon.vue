@@ -41,11 +41,12 @@ const props = defineProps({
 svg {
     height: v-bind(height);
     width: v-bind(width);
-    transition: stroke 0.3 ease-in-out;
+    transition: all 0.3 ease-in-out;
+    background-color: transparent;
 }
 
 use {
-    transition: stroke 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         cursor: pointer;
@@ -59,6 +60,9 @@ use {
     &:focus {
         stroke: v-bind(stroke);
     }
+
+    fill: var(--color-background);
+    stroke: var(--color-primary-label);
 }
 
 .being_like {

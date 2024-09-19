@@ -1,7 +1,9 @@
 <template>
-    <div class="modal s-shadow">
-        <n-icon class="btn-close" size="32" @click="$emit('closeDetail')" :component="Close"></n-icon>
-        <div class="image-container">
+    <div class="modal light-shadow">
+        <div class="btn-close">
+            <TheIcon icon="close" style="cursor: pointer;" @click="$emit('closeDetail')"></TheIcon>
+        </div>
+        <div class="image">
             <!-- <img :src="postData.postImage"> -->
             <TheCarousel :img_urls="[postData.postImage]"></TheCarousel>
         </div>
@@ -14,9 +16,7 @@
                 <p class="present">
                     {{ postData.postContent }}
                 </p>
-                <br>
-                <span style="color:var(--color-secondary-label)">{{ formatTimestamp(postData.postTime) }}</span>
-                <p class="hash-tag" v-if="postData?.hashTag">
+                <p class="hash-tag">
                     {{ postData.hashTag ? postData.hashTag : null }}
                 </p>
             </div>
@@ -43,14 +43,16 @@
 </template>
 
 <script setup>
-import { TheAvatar, Comment, ButtonSets, TheCarousel } from './index.js';
+import TheIcon from '../components/TheIcon.vue';
+import TheAvatar from '../components/TheAvatar.vue';
+import Comment from '../components/Comment.vue';
+import ButtonSets from '../components/ButtonSets.vue';
+import TheCarousel from '../components/TheCarousel.vue';
 import { throttle } from 'lodash'
 import { likeOrSavePost } from '../apis/likeOrSavePost';
-import { formatTimestamp } from '../utils';
+import { formatTimestamp } from '../utils/date';
 import { useStore } from 'vuex';
 import { ref, onMounted, computed } from 'vue';
-import { NIcon } from 'naive-ui';
-import { Close } from '@vicons/carbon';
 const store = useStore();
 
 
@@ -115,76 +117,40 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import '../assets/main.scss';
-@import '../assets/_var.scss';
+@import url('../assets//main.scss');
 
 .modal {
+    z-index: 9999;
     position: fixed;
-    z-index: 10;
+    top: 12vh;
+    left: 50%;
+    height: 80vh;
+    max-width: 80vw;
+    transform: translateX(-50%);
     display: flex;
-    overflow: hidden;
-    background-color: var(--color-background);
+    border-radius: 51px;
+
+    @media screen {}
 }
 
-@media (max-width:$md) {
-    .modal {
-        flex-direction: column;
-        height: 100vh;
-        width: 100vw;
-        top: 0;
-        left: 0;
-        transform: none;
-    }
 
-    .image-container {
-        max-width: 100%;
-        min-height: 50vw;
-        max-height: 60vw;
-    }
-
-    .btn-close {
-        z-index: 11;
-        top: 12px;
-        left: 12px;
-    }
-}
-
-@media (min-width:$md) {
-    .modal {
-        border-radius: 18px;
-        flex-direction: row;
-        top: 12vh;
-        left: 50%;
-        height: 80vh;
-        max-width: 80vw;
-        transform: translateX(-50%);
-    }
-
-    .image-container {
-        flex-shrink: 1;
-        flex-grow: 2;
-        height: 100%;
-        max-width: 70%;
-    }
-
-    .btn-close {
-        top: 12px;
-        right: 12px;
-    }
-}
 
 .btn-close {
+    width: 32px;
+    height: 32px;
     position: absolute;
-    cursor: pointer;
-    @extend .full-round;
-    @extend .blur;
+    right: 20px;
+    top: 20px;
 }
 
-
-.image-container {
+.image {
+    flex-shrink: 1;
+    flex-grow: 2;
+    height: 100%;
+    max-width: 70%;
     display: flex;
+
     overflow: hidden;
-    background-color: var(--color-active-background);
 
     img {
         width: -webkit-fill-available 100%;
@@ -194,13 +160,7 @@ onMounted(() => {
     }
 }
 
-.content {
-    flex-grow: 1;
-    padding: 20px 30px;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
+
 
 .detail {
     display: flex;
@@ -211,11 +171,10 @@ onMounted(() => {
 .user-name {
     font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
     padding-left: 16px;
-    color: var(--color-secondary-label);
 }
 
 .present {
-    color: var(--color-primary-label);
+    color: #4b4b4b;
     padding-top: 20px;
     width: 30vw;
     max-width: 1200px;
@@ -223,7 +182,7 @@ onMounted(() => {
 }
 
 .hash-tag {
-    color: $primary-color;
+    color: #1DA0ff;
     margin-top: 20px;
 }
 

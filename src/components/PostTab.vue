@@ -10,8 +10,9 @@
                 </div>
                 <p class="post-time">{{ formatTimestamp(postData.postTime) }}</p>
             </div>
-            <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts" :save="postData.saves"
-                @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked" :isSave="postData.isSaved">
+            <ButtonSets class="button-sets" :like="postData.likes" :comments="postData.commentCounts"
+                :save="postData.saves" @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked"
+                :isSave="postData.isSaved">
             </ButtonSets>
         </div>
         <div class="discription">
@@ -24,19 +25,17 @@
         </div>
     </div>
     <Transition name="postDetail">
-        <PostDetail :postData="postData" v-show="showOpenDetail" @closeDetail="showOpenDetail = false"></PostDetail>
+        <PostDetail :postData="postData" v-if="showOpenDetail" @closeDetail="showOpenDetail = false"></PostDetail>
     </Transition>
 </template>
 
 <script setup>
-import ButtonSets from './ButtonSets.vue';
-import PostDetail from './PostDetail.vue';
-import TheAvatar from './TheAvatar.vue';
+import { ButtonSets, PostDetail, TheAvatar } from './index';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { likeOrSavePost } from '../apis/likeOrSavePost';
 import { throttle } from 'lodash'
-import { formatTimestamp } from '../utils/date'
+import { formatTimestamp } from '../utils'
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const store = useStore();
@@ -74,19 +73,20 @@ const likeOrSave = throttle(function (type) {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/main.scss';
+
 .post-tab-main {
     width: 100%;
-    background-color: white;
+    background-color: var(--color-background);
     max-height: 600px;
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 6px 6px;
     display: flex;
     flex-direction: column;
+    @extend .s-shadow;
 
     img {
         max-width: 100%;
         max-height: 400px;
-        background-color: #c4c4c4;
         object-fit: cover;
         object-position: center;
     }

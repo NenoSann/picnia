@@ -1,6 +1,6 @@
 <template>
     <div class="login-page-main">
-        <img src="../assets/phone2.png">
+        <img src="../assets/phone2.webp">
         <LoginTab />
     </div>
 </template>

@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue';
 import NavBar from './components/NavBar.vue';
 import LoadingOverlay from './components/LoadingOverlay.vue';
 import LoginOverlay from './components/LoginOverlay.vue';
@@ -9,9 +10,11 @@ import { useDialog, NDialogProvider } from 'naive-ui'
 const store = useStore();
 const router = useRouter();
 
-// when app mounted
 import ChangeAvatar from './components/ChangeAvatar.vue';
-
+import { setTheme } from './utils';
+onMounted(() => {
+  setTheme();
+})
 </script>
 
 <template>
