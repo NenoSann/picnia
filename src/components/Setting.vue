@@ -64,6 +64,7 @@ const options = [
 const userInfo = computed(() => {
     return store.state.user.user;
 })
+
 const modalConfig = reactive({
     show: false,
     type: 'username'

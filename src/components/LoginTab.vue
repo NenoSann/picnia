@@ -15,7 +15,7 @@
             <label for="checkbox">我已阅读且同意用户协议</label>
         </div>
         <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
-                "还没有加入Picnia吗？点击注册！"
+            "还没有加入Picnia吗？点击注册！"
             }}
         </p>
     </form>

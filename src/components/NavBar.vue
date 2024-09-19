@@ -1,11 +1,11 @@
 <template>
     <div class="header-main">
-        <router-link to="/picnia">
+        <router-link to="/picnia/">
             <p class="header-title">Picnia</p>
         </router-link>
         <div class="search-main">
             <TheIcon icon="search" :animatable=false></TheIcon>
-            <input type="search" name="search" placeholder="搜索">
+            <input class="header-input" autocomplete="false" type="text" name="search" placeholder="搜索">
         </div>
         <div class="header-icons">
             <Icon size="40">
@@ -25,7 +25,7 @@
 
 <script>
 import { TheIcon, TheAvatar, CreatePostTab, Icon, Setting } from './index';
-import { Explore, Send, Settings } from '@vicons/carbon'
+import { Explore, Send } from '@vicons/carbon'
 export default {
     data() {
         return {
@@ -37,7 +37,7 @@ export default {
         TheAvatar,
         CreatePostTab,
         Icon,
-        Explore, Send, Settings,
+        Explore, Send,
         Setting
     },
     methods: {
@@ -80,7 +80,7 @@ export default {
     display: flex;
     height: 5rem;
     min-height: 5rem;
-    background-color: var(--color-background);
+    background-color: var(--color-primary-background);
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
@@ -91,7 +91,7 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 14px;
-    background-color: var(--color-active-background);
+    background-color: var(--color-secondary-background);
     overflow: hidden;
     padding-left: 16px;
 
@@ -118,6 +118,10 @@ export default {
         // add thie property to all child elements
         cursor: pointer;
     }
+}
+
+.header-input {
+    background-color: transparent;
 }
 
 #setting-icon {

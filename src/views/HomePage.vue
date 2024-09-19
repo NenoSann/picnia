@@ -50,9 +50,12 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/main.scss';
+
 .content {
     display: flex;
     justify-content: center;
+    background-color: var(--color-primary-background);
 }
 
 .tab {
