@@ -1,5 +1,6 @@
 <template>
-    <n-dropdown :menu-props="menuProps" :node-props="nodeProps" trigger="hover" :options="options" :show-arrow="true">
+    <n-dropdown class="test-class" :menu-props="menuProps" :node-props="nodeProps" trigger="hover" :options="options"
+        :show-arrow="true">
         <n-icon size="40">
             <Settings />
         </n-icon>
@@ -15,6 +16,7 @@ import { Settings, Sun, Moon, AudioConsole } from '@vicons/carbon';
 import { setTheme } from '../utils/index';
 const store = useStore();
 const router = useRouter();
+
 const renderIcon = (icon) => {
     return () => {
         return h(NIcon, null, {
@@ -34,6 +36,7 @@ const nodeProps = () => {
         id: 'dropdown-item'
     }
 }
+
 const options = [
     {
         label: '清除本地数据',
@@ -102,72 +105,7 @@ const toggleModal = function () {
 </script>
 
 <style lang="scss" scoped>
-.close-btn {
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-}
-
-.setting-main {
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    background-color: rgba($color: #000000, $alpha: 0.2);
-
-    .setting-body {
-        position: relative;
-        padding: 20px;
-        border-radius: 12px;
-        width: 60%;
-        height: 80%;
-        background-color: white;
-    }
-}
-
-.info-main {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-
-    .avatar {
-        flex-grow: 0;
-        flex-shrink: 0;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    .email {
-        margin-top: 10px;
-        color: #5f6361;
-        font-size: 14px;
-    }
-
-    .text-section {
-        margin-left: 16px;
-        display: flex;
-        flex-grow: 1;
-        flex-direction: column;
-        justify-content: center;
-        align-items: baseline;
-    }
-}
-
-.general-main {
-    margin-bottom: 20px;
-}
-
-.header {
-    font-size: 16px;
-    font-weight: 700;
-    border-bottom: 1px solid #c5c9c6;
-    padding-bottom: 8px;
+.test-class {
+    background-color: black !important;
 }
 </style>

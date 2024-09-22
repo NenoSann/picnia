@@ -96,9 +96,12 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import url('../assets/main.scss');
+
 .profile-main {
     border: none;
     padding-top: 10vh;
+    background-color: var(--color-primary-background);
     display: flex;
     flex-direction: column;
     align-items: center;

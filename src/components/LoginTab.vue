@@ -8,8 +8,12 @@
         <input type="email" class="email" placeholder="邮箱" v-model="email"
             :class="{ error: emailError, shake: emailError }">
         <input type="password" class="password" placeholder="密码" v-model="password">
-        <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
-        <button type="submit" class="login-button" v-else-if="!isRegister" @click="login">登陆</button>
+        <n-config-provider :themeOverrides="themeOverrides">
+            <n-button class="login-button" type="info" v-if="isRegister" @click.prevent="createUser">注册</n-button>
+            <n-button class="login-button" type="info" v-else-if="!isRegister" @click="login">登录</n-button>
+        </n-config-provider>
+        <!-- <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
+        <button type="submit" class="login-button" v-else-if="!isRegister" @click="login">登陆</button> -->
         <div class="agreement">
             <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
             <label for="checkbox">我已阅读且同意用户协议</label>
@@ -22,6 +26,7 @@
 </template>
 
 <script setup>
+import { NButton, NConfigProvider } from 'naive-ui';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { useStore } from "vuex";
@@ -51,6 +56,13 @@ const usernameError = computed(() => {
 const success = computed(() => {
     return message.value.includes('success');
 })
+
+const themeOverrides = {
+    Button: {
+        textColor: 'var(--color-primary-label)',
+        colorInfo: 'var(--color-primary)'
+    }
+}
 
 async function createUser() {
     if (!agreementCheckd.value) {
@@ -88,6 +100,9 @@ async function login() {
         console.log(message.value);
     }
 }
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -117,7 +132,7 @@ async function login() {
     font-family: 'Raleway', sans-serif;
     font-weight: 300;
     font-size: 2rem;
-    color: black;
+    color: var(--color-primary-label);
     margin-bottom: 30px;
     margin-top: 10px;
 }
@@ -139,17 +154,16 @@ input {
     width: 100%;
 }
 
-.login-button {
-    width: 100%;
-    background-image: linear-gradient(to right, #00c2ff, #0047ff, );
+:deep(.login-button) {
+    width: 320px;
     border-radius: 6px;
-    color: white;
+
 }
 
 .select {
     cursor: pointer;
     text-decoration: none;
-    color: #1DA0FF;
+    color: var(--color-primary);
 }
 
 .error {

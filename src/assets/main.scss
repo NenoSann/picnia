@@ -48,6 +48,7 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
+    background-color: var(--color-primary-background);
 }
 
 body,
@@ -110,6 +111,10 @@ a {
 .n-dropdown-menu .n-dropdown-option .n-dropdown-option-body:not(.n-dropdown-option-body--disabled).n-dropdown-option-body--pending::before {
     // change the naive-ui library color
     background-color: var(--color-active-background) !important;
+}
+
+.n-dropdown-menu {
+    background-color: var(--color-primary-background) !important;
 }
 
 .n-popover-arrow {

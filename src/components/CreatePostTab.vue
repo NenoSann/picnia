@@ -40,7 +40,7 @@
 import createPost from '../apis/createPost';
 import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
-import { NSpin, NAlert } from 'naive-ui';
+import { NSpin } from 'naive-ui';
 const store = useStore();
 const user = store.state.user.user;
 const postData = reactive({
@@ -125,7 +125,7 @@ async function sendPost() {
             postId: response.newPostId,
             image: postData.image
         }
-        await store.dispath('addPostLocal', localPost);
+        await store.dispatch('addPostLocal', localPost);
         emit('toggleTab');
     } finally {
         stopSpining();
@@ -166,7 +166,6 @@ function stopSpining() {
     z-index: 10;
 
 
-    // width: 60vw;
     border-radius: 51px;
     background-color: white;
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
@@ -175,7 +174,6 @@ function stopSpining() {
     transition-property: opacity, transform;
     transition-duration: 0.3s;
     transition-timing-function: ease;
-    // transition: opacity 0.3s ease, transform 0.3s ease;
 
     .main-container {
         position: relative;

@@ -184,7 +184,7 @@ onMounted(() => {
 .image-container {
     display: flex;
     overflow: hidden;
-    background-color: var(--color-active-background);
+    background-color: var(--color-primary-background);
 
     img {
         width: -webkit-fill-available 100%;
@@ -217,7 +217,6 @@ onMounted(() => {
 .present {
     color: var(--color-primary-label);
     padding-top: 20px;
-    width: 30vw;
     max-width: 1200px;
     min-width: 300px;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { pullComments } from "../../apis/pullComments";
 import { createComment } from "../../apis/createComment";
 export const comment = {
