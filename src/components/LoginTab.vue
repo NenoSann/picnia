@@ -1,32 +1,38 @@
 <template>
-    <form class="login-tab-main" @submit.prevent>
-        <p class="title">Picnia</p>
-        <Transition>
-            <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
-                :class="{ error: usernameError, shake: usernameError }">
-        </Transition>
-        <input type="email" class="email" placeholder="邮箱" v-model="email"
-            :class="{ error: emailError, shake: emailError }">
-        <input type="password" class="password" placeholder="密码" v-model="password">
-        <n-config-provider :themeOverrides="themeOverrides">
-            <n-button class="login-button" type="info" v-if="isRegister" @click.prevent="createUser">注册</n-button>
-            <n-button class="login-button" type="info" v-else-if="!isRegister" @click="login">登录</n-button>
-        </n-config-provider>
-        <!-- <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
-        <button type="submit" class="login-button" v-else-if="!isRegister" @click="login">登陆</button> -->
-        <div class="agreement">
-            <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
-            <label for="checkbox">我已阅读且同意用户协议</label>
-        </div>
-        <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
-            "还没有加入Picnia吗？点击注册！"
-            }}
-        </p>
-    </form>
+    <n-config-provider :themeOverrides="themeOverrides">
+        <form class="login-tab-main" @submit.prevent>
+            <p class="title">Picnia</p>
+            <Transition>
+                <!-- <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
+                :class="{ error: usernameError, shake: usernameError }"> -->
+                <n-input class="username" placeholder="用户名" v-model:value="userName" v-if="isRegister">
+                </n-input>
+            </Transition>
+            <!-- <input type="email" class="email" placeholder="邮箱" v-model="email"
+                :class="{ error: emailError, shake: emailError }"> -->
+            <n-input :status="emailValid" class="email" placeholder="邮箱" v-model:value="email">
+            </n-input>
+            <n-input type="password" class="password" show-password-on="mousedown" placeholder="密码"
+                v-model:value="password"></n-input>
+            <n-button :disabled="!allValid" class="login-button" type="info" v-if="isRegister"
+                @click.prevent="createUser">注册</n-button>
+            <n-button :disabled="!allValid" class="login-button" type="info" v-else-if="!isRegister"
+                @click="login">登录</n-button>
+            <div class="agreement">
+                <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
+                <label for="checkbox">我已阅读且同意用户协议</label>
+            </div>
+            <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
+                "还没有加入Picnia吗？点击注册！"
+                }}
+            </p>
+        </form>
+    </n-config-provider>
 </template>
 
 <script setup>
-import { NButton, NConfigProvider } from 'naive-ui';
+import { emailValidate } from '../utils/validator';
+import { NButton, NConfigProvider, NInput } from 'naive-ui';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { useStore } from "vuex";
@@ -53,14 +59,41 @@ const usernameError = computed(() => {
     return message.value.includes('duplicate') && message.value.includes('userName');
 })
 
+const emailValid = computed(() => {
+    return emailValidate(email.value) ? 'success' : 'error';
+})
+
+const userNameValid = computed(() => {
+
+})
+
+const allValid = computed(() => {
+    return emailValid.value && password.value.length;
+})
+
 const success = computed(() => {
     return message.value.includes('success');
 })
 
+
+const colorPrimary = 'var(--color-primary)';
+const colorBackgroundTer = 'var(--color-teriary-background)';
+const colorPrimaryTrans = 'var(--color-primary-trans-50)';
+const colorLabelTer = 'var(--color-teriary-label)';
 const themeOverrides = {
     Button: {
         textColor: 'var(--color-primary-label)',
-        colorInfo: 'var(--color-primary)'
+        colorInfo: colorPrimary
+    },
+    Input: {
+        border: `1px solid ${colorBackgroundTer}`,
+        placeholderColor: colorLabelTer,
+        caretColor: colorPrimary,
+        loadingColor: colorPrimary,
+        colorFocus: colorPrimaryTrans,
+        boxShadowFocus: `0 0 8px 0 ${colorPrimaryTrans}`,
+        borderHover: `1px solid ${colorPrimary}`,
+        borderFocus: `1px solid ${colorPrimary}`,
     }
 }
 
@@ -68,7 +101,7 @@ async function createUser() {
     if (!agreementCheckd.value) {
         alert("请先阅读并且统一隐私协议和使用规范");
         return;
-    } else {
+    } else if (allValid.value) {
         message.value = await store.dispatch('registerUser', {
             email: email.value,
             username: userName.value,
@@ -148,11 +181,7 @@ async function login() {
     flex-direction: row;
 }
 
-input {
-    background-color: #fafafa;
-    border-radius: 6px;
-    width: 100%;
-}
+
 
 :deep(.login-button) {
     width: 320px;

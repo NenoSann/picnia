@@ -1,6 +1,10 @@
+$shared: (
+    color-primary:#1DA0FF,
+    color-primary-trans-50:rgba(29, 160, 255, 0.5),
+);
+
 $themes: (
-    light:(color-primary: #1DA0FF,
-        color-primary-label:#333,
+    light:(color-primary-label:#333,
         color-secondary-label:rgba(51, 51, 51, 0.8),
         color-teriary-label:rgba(51, 51, 51, 0.6),
         color-primary-background:#fff,
@@ -8,8 +12,7 @@ $themes: (
         color-teriary-background:#ddd,
         color-active-background:rgba(0, 0, 0, 0.03)),
 
-    dark:(color-primary: #1DA0FF,
-        color-primary-label:#fff,
+    dark:(color-primary-label:#fff,
         color-secondary-label:hsla(0, 0%, 100%, 0.8),
         color-teriary-label:hsla(0, 0%, 100%, 0.6),
         color-primary-background:#0a0a0a,
@@ -33,6 +36,10 @@ $themes: (
     $theme-map: map-get($themes, $theme-name);
 
     @each $key, $value in $theme-map {
+        --#{$key}: #{$value};
+    }
+
+    @each $key, $value in $shared {
         --#{$key}: #{$value};
     }
 }

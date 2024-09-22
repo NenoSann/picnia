@@ -120,3 +120,38 @@ a {
 .n-popover-arrow {
     background-color: var(--color-background) !important;
 }
+
+// fix the color of placeholder is replaced by golbal color
+.n-input {
+    background-color: var(--color-secondary-background);
+
+    .n-input__input {
+        input {
+            &:-internal-autofill-previewed {
+                transition: background-color 5000s ease-in-out 0s !important;
+                background-color: transparent !important;
+            }
+
+            &:-internal-autofill-selected {
+                transition: background-color 5000s ease-in-out 0s !important;
+                background-color: transparent !important;
+            }
+
+            &:-webkit-autofill,
+            &:-webkit-autofill:focus {
+                transition: background-color 0s 600000s, color 0s 600000s !important;
+                background-color: transparent !important;
+
+            }
+
+        }
+    }
+
+    .n-input__placeholder {
+        span {
+            color: inherit;
+        }
+    }
+
+
+}
