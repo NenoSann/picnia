@@ -14,7 +14,7 @@ export default defineConfig(async ({ mode }) => {
       proxy: {
         '/api': {
           // target: isDev ? 'http://localhost:3000' : `http://${env.VITE_SERVER_IP}:${env.VITE_PORT}`,
-          target: 'https://43.163.233.68:3000',
+          target: 'https://localhost:3000',
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),

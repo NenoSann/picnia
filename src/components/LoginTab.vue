@@ -1,35 +1,50 @@
 <template>
-    <form class="login-tab-main" @submit.prevent>
-        <p class="title">Picnia</p>
-        <Transition>
-            <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
-                :class="{ error: usernameError, shake: usernameError }">
-        </Transition>
-        <input type="email" class="email" placeholder="邮箱" v-model="email"
-            :class="{ error: emailError, shake: emailError }">
-        <input type="password" class="password" placeholder="密码" v-model="password">
-        <n-config-provider :themeOverrides="themeOverrides">
-            <n-button class="login-button" type="info" v-if="isRegister" @click.prevent="createUser">注册</n-button>
-            <n-button class="login-button" type="info" v-else-if="!isRegister" @click="login">登录</n-button>
-        </n-config-provider>
-        <!-- <button type="submit" class="login-button" v-if="isRegister" @click.prevent="createUser">注册</button>
-        <button type="submit" class="login-button" v-else-if="!isRegister" @click="login">登陆</button> -->
-        <div class="agreement">
-            <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
-            <label for="checkbox">我已阅读且同意用户协议</label>
-        </div>
-        <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
-            "还没有加入Picnia吗？点击注册！"
-            }}
-        </p>
-    </form>
+    <n-config-provider :themeOverrides="themeOverrides">
+        <form class="login-tab-main" @submit.prevent>
+            <p class="title">Picnia</p>
+            <Transition>
+                <n-input @change="debounce(check, 200)('username', userName)" :loading="userNameLoading"
+                    class="username" :status="userNameValid" placeholder="用户名" v-model:value="userName"
+                    v-if="isRegister">
+                    <template #suffix>
+                        <n-icon :component="Checkmark" v-if="userNameError === false && !userNameLoading"></n-icon>
+                    </template>
+                </n-input>
+            </Transition>
+            <n-input @change="debounce(check, 200)('useremail', email)" :loading="userEmailLoading" :status="emailValid"
+                class="email" placeholder="邮箱" v-model:value="email">
+                <template #suffix>
+                    <n-icon :component="Checkmark"
+                        v-if="email.length && userEmailError === false && !userEmailLoading"></n-icon>
+                </template>
+            </n-input>
+            <n-input type="password" class="password" show-password-on="mousedown" placeholder="密码"
+                v-model:value="password"></n-input>
+            <n-button :disabled="!allValid" class="login-button" type="info" v-if="isRegister"
+                @click.prevent="createUser">注册</n-button>
+            <n-button :disabled="!allValid" class="login-button" type="info" v-else-if="!isRegister"
+                @click="login">登录</n-button>
+            <div class="agreement">
+                <input type="checkbox" name="checkbox" id="checkbox" v-model="agreementCheckd">
+                <label for="checkbox">我已阅读且同意用户协议</label>
+            </div>
+            <p class="select" @click="() => { isRegister = !isRegister }">{{ isRegister ? "已有账号？点击登陆！" :
+                "还没有加入Picnia吗？点击注册！"
+                }}
+            </p>
+        </form>
+    </n-config-provider>
 </template>
 
 <script setup>
-import { NButton, NConfigProvider } from 'naive-ui';
+import { emailValidate } from '../utils/validator';
+import { NButton, NConfigProvider, NInput, NIcon } from 'naive-ui';
+import { Checkmark } from '@vicons/carbon';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { useStore } from "vuex";
+import { debounce } from 'lodash';
+import { checkValidity } from '../apis/Query/index';
 let isRegister = ref(false);
 
 // data ream
@@ -38,29 +53,61 @@ const userName = ref("");
 const password = ref("");
 const message = ref('');
 const agreementCheckd = ref(false);
-
+const userNameLoading = ref(false);
+const userNameError = ref(null);
+const userEmailLoading = ref(null);
+const userEmailError = ref(null);
 // component
 const router = useRouter();
 const store = useStore();
 
-
-//computed value
-const emailError = computed(() => {
-    return message.value.includes('duplicate') && message.value.includes('email');
+const emailValid = computed(() => {
+    if (email.value.length === 0) {
+        return 'error';
+    }
+    return emailValidate(email.value) && !userEmailError.value ? 'success' : 'error';
 })
 
-const usernameError = computed(() => {
-    return message.value.includes('duplicate') && message.value.includes('userName');
+const userNameValid = computed(() => {
+    if (!userNameError.value && userName.value.length) {
+        return 'success';
+    }
+    return 'error';
+})
+
+const allValid = computed(() => {
+    if (!isRegister.value) {
+        return emailValid.value && password.value.length;
+    } else {
+        return emailValid.value && password.value.length;
+    }
 })
 
 const success = computed(() => {
     return message.value.includes('success');
 })
 
+
+const colorPrimary = 'var(--color-primary)';
+const colorBackgroundTer = 'var(--color-teriary-background)';
+const colorPrimaryTrans = 'var(--color-primary-trans-50)';
+const colorLabelTer = 'var(--color-teriary-label)';
+const colorFocusError = 'var(--color-error)';
 const themeOverrides = {
     Button: {
         textColor: 'var(--color-primary-label)',
-        colorInfo: 'var(--color-primary)'
+        colorInfo: colorPrimary
+    },
+    Input: {
+        border: `1px solid ${colorBackgroundTer}`,
+        placeholderColor: colorLabelTer,
+        caretColor: colorPrimary,
+        loadingColor: colorPrimary,
+        colorFocus: colorPrimaryTrans,
+        colorFocusError: colorFocusError,
+        boxShadowFocus: `0 0 8px 0 ${colorPrimaryTrans}`,
+        borderHover: `1px solid ${colorPrimary}`,
+        borderFocus: `1px solid ${colorPrimary}`,
     }
 }
 
@@ -68,7 +115,7 @@ async function createUser() {
     if (!agreementCheckd.value) {
         alert("请先阅读并且统一隐私协议和使用规范");
         return;
-    } else {
+    } else if (allValid.value) {
         message.value = await store.dispatch('registerUser', {
             email: email.value,
             username: userName.value,
@@ -101,7 +148,36 @@ async function login() {
     }
 }
 
-
+/**
+ * 检查输入的注册用户名和邮箱是否有重复
+ */
+async function check(type, value) {
+    if (isRegister.value) {
+        if (type === 'username') {
+            userNameLoading.value = true;
+            checkValidity(type, value).then((result) => {
+                if (result?.status === 'fail') {
+                    userNameError.value = true;
+                } else {
+                    userNameError.value = false;
+                }
+            }).finally(() => {
+                userNameLoading.value = undefined;
+            });
+        } else if (type === 'useremail' && emailValidate(email.value)) {
+            userEmailLoading.value = true;
+            checkValidity(type, value).then((result) => {
+                if (result?.status === 'fail') {
+                    userEmailError.value = true;
+                } else {
+                    userEmailError.value = false;
+                }
+            }).finally(() => {
+                userEmailLoading.value = undefined;
+            });
+        }
+    }
+}
 
 </script>
 
@@ -148,11 +224,7 @@ async function login() {
     flex-direction: row;
 }
 
-input {
-    background-color: #fafafa;
-    border-radius: 6px;
-    width: 100%;
-}
+
 
 :deep(.login-button) {
     width: 320px;
@@ -160,22 +232,6 @@ input {
 
 }
 
-.select {
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--color-primary);
-}
-
-.error {
-    background: rgb(224, 12, 40);
-    background: linear-gradient(90deg, rgba(224, 12, 40, 0.5346931008731617) 0%, rgba(222, 1, 1, 1) 100%);
-    animation: errorAnimation 0.3s ease-in-out infinite;
-}
-
-.shake {
-    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    transform: translate3d(0, 0, 0);
-}
 
 @keyframes shake {
 

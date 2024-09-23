@@ -25,6 +25,20 @@ export const user = {
                 commit('toggleLoading');
             }
         },
+
+        /**
+         * 在用户注册前将信息发往服务器,查看注册信息是否正确
+         * 例如:查看用户名和邮箱是否重复
+         * @param {*} param0 
+         * @param {*} param1 
+         */
+        async checkRegisterInfo({ _commit }, { email, username, password }) {
+            try {
+
+            } catch (err) {
+
+            }
+        },
         async loginUser({ commit }, { email, password }) {
             try {
                 commit('toggleLogin');
