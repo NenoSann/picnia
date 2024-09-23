@@ -79,16 +79,20 @@ export function fetchRequest(url, method, headers, body) {
 /**
  * @description set the request url depends on mode, in development mode return localURL  
  *              to make vite proxy works, and return server ip in production mode.
- * @param {string} localURL 
+ * @param {string | URL} localURL 
  * @returns {String}
  */
 function getProductionURL(localURL) {
-    if (import.meta.env.PROD) {
-        if (localURL.startsWith('/api')) {
-            return `https://nenosannn.icu:3000${localURL.slice(4)}`;
+    if (typeof localURL === 'string') {
+        if (import.meta.env.PROD) {
+            if (localURL.startsWith('/api')) {
+                return `https://nenosannn.icu:3000${localURL.slice(4)}`;
+            }
+        } else {
+            return localURL;
         }
-    } else {
-        return localURL;
+    } else if (Object.getPrototypeOf(localURL) === URL.prototype) {
+        console.log(localURL);
     }
 }
 

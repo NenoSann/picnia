@@ -3,14 +3,20 @@
         <form class="login-tab-main" @submit.prevent>
             <p class="title">Picnia</p>
             <Transition>
-                <!-- <input type="username" class="username" placeholder="用户名" v-if="isRegister" v-model="userName"
-                :class="{ error: usernameError, shake: usernameError }"> -->
-                <n-input class="username" placeholder="用户名" v-model:value="userName" v-if="isRegister">
+                <n-input @change="debounce(check, 200)('username', userName)" :loading="userNameLoading"
+                    class="username" :status="userNameValid" placeholder="用户名" v-model:value="userName"
+                    v-if="isRegister">
+                    <template #suffix>
+                        <n-icon :component="Checkmark" v-if="userNameError === false && !userNameLoading"></n-icon>
+                    </template>
                 </n-input>
             </Transition>
-            <!-- <input type="email" class="email" placeholder="邮箱" v-model="email"
-                :class="{ error: emailError, shake: emailError }"> -->
-            <n-input :status="emailValid" class="email" placeholder="邮箱" v-model:value="email">
+            <n-input @change="debounce(check, 200)('useremail', email)" :loading="userEmailLoading" :status="emailValid"
+                class="email" placeholder="邮箱" v-model:value="email">
+                <template #suffix>
+                    <n-icon :component="Checkmark"
+                        v-if="email.length && userEmailError === false && !userEmailLoading"></n-icon>
+                </template>
             </n-input>
             <n-input type="password" class="password" show-password-on="mousedown" placeholder="密码"
                 v-model:value="password"></n-input>
@@ -32,10 +38,13 @@
 
 <script setup>
 import { emailValidate } from '../utils/validator';
-import { NButton, NConfigProvider, NInput } from 'naive-ui';
+import { NButton, NConfigProvider, NInput, NIcon } from 'naive-ui';
+import { Checkmark } from '@vicons/carbon';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router'
 import { useStore } from "vuex";
+import { debounce } from 'lodash';
+import { checkValidity } from '../apis/Query/index';
 let isRegister = ref(false);
 
 // data ream
@@ -44,31 +53,34 @@ const userName = ref("");
 const password = ref("");
 const message = ref('');
 const agreementCheckd = ref(false);
-
+const userNameLoading = ref(false);
+const userNameError = ref(null);
+const userEmailLoading = ref(null);
+const userEmailError = ref(null);
 // component
 const router = useRouter();
 const store = useStore();
 
-
-//computed value
-const emailError = computed(() => {
-    return message.value.includes('duplicate') && message.value.includes('email');
-})
-
-const usernameError = computed(() => {
-    return message.value.includes('duplicate') && message.value.includes('userName');
-})
-
 const emailValid = computed(() => {
-    return emailValidate(email.value) ? 'success' : 'error';
+    if (email.value.length === 0) {
+        return 'error';
+    }
+    return emailValidate(email.value) && !userEmailError.value ? 'success' : 'error';
 })
 
 const userNameValid = computed(() => {
-
+    if (!userNameError.value && userName.value.length) {
+        return 'success';
+    }
+    return 'error';
 })
 
 const allValid = computed(() => {
-    return emailValid.value && password.value.length;
+    if (!isRegister.value) {
+        return emailValid.value && password.value.length;
+    } else {
+        return emailValid.value && password.value.length;
+    }
 })
 
 const success = computed(() => {
@@ -80,6 +92,7 @@ const colorPrimary = 'var(--color-primary)';
 const colorBackgroundTer = 'var(--color-teriary-background)';
 const colorPrimaryTrans = 'var(--color-primary-trans-50)';
 const colorLabelTer = 'var(--color-teriary-label)';
+const colorFocusError = 'var(--color-error)';
 const themeOverrides = {
     Button: {
         textColor: 'var(--color-primary-label)',
@@ -91,6 +104,7 @@ const themeOverrides = {
         caretColor: colorPrimary,
         loadingColor: colorPrimary,
         colorFocus: colorPrimaryTrans,
+        colorFocusError: colorFocusError,
         boxShadowFocus: `0 0 8px 0 ${colorPrimaryTrans}`,
         borderHover: `1px solid ${colorPrimary}`,
         borderFocus: `1px solid ${colorPrimary}`,
@@ -134,7 +148,36 @@ async function login() {
     }
 }
 
-
+/**
+ * 检查输入的注册用户名和邮箱是否有重复
+ */
+async function check(type, value) {
+    if (isRegister.value) {
+        if (type === 'username') {
+            userNameLoading.value = true;
+            checkValidity(type, value).then((result) => {
+                if (result?.status === 'fail') {
+                    userNameError.value = true;
+                } else {
+                    userNameError.value = false;
+                }
+            }).finally(() => {
+                userNameLoading.value = undefined;
+            });
+        } else if (type === 'useremail' && emailValidate(email.value)) {
+            userEmailLoading.value = true;
+            checkValidity(type, value).then((result) => {
+                if (result?.status === 'fail') {
+                    userEmailError.value = true;
+                } else {
+                    userEmailError.value = false;
+                }
+            }).finally(() => {
+                userEmailLoading.value = undefined;
+            });
+        }
+    }
+}
 
 </script>
 
@@ -189,22 +232,6 @@ async function login() {
 
 }
 
-.select {
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--color-primary);
-}
-
-.error {
-    background: rgb(224, 12, 40);
-    background: linear-gradient(90deg, rgba(224, 12, 40, 0.5346931008731617) 0%, rgba(222, 1, 1, 1) 100%);
-    animation: errorAnimation 0.3s ease-in-out infinite;
-}
-
-.shake {
-    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    transform: translate3d(0, 0, 0);
-}
 
 @keyframes shake {
 
