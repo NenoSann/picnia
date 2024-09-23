@@ -5,15 +5,12 @@ import LoadingOverlay from './components/LoadingOverlay.vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import Setting from './components/Setting.vue';
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { useDialog, NDialogProvider } from 'naive-ui'
 const store = useStore();
-const router = useRouter();
 
 import ChangeAvatar from './components/ChangeAvatar.vue';
-import { setTheme } from './utils';
 onMounted(() => {
-  setTheme();
+  store.dispatch('setTheme');
 })
 </script>
 

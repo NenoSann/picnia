@@ -18,6 +18,7 @@ const store = useStore();
 const posts = computed(() => {
     return Array.from(store.state.post.post.values()).reverse();
 })
+
 const dialogConfigs = {
     tokenError: {
         title: 'Token过期',

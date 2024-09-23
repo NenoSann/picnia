@@ -13,10 +13,12 @@ import { useRouter } from 'vue-router';
 import { computed, h, reactive } from 'vue';
 import { NDropdown, NIcon } from 'naive-ui';
 import { Settings, Sun, Moon, AudioConsole } from '@vicons/carbon';
-import { setTheme } from '../utils/index';
+// import { setTheme } from '../utils/index';
 const store = useStore();
 const router = useRouter();
-
+const changeTheme = (mode) => {
+    store.dispatch('setTheme', mode);
+}
 const renderIcon = (icon) => {
     return () => {
         return h(NIcon, null, {
@@ -50,9 +52,9 @@ const options = [
         label: '切换配色',
         key: 'theme',
         children: [
-            { label: '跟随系统', key: 0, props: { onClick: () => setTheme() }, icon: renderIcon(AudioConsole) },
-            { label: '浅色', key: 1, props: { onClick: () => setTheme('light') }, icon: renderIcon(Sun) },
-            { label: '深色', key: 2, props: { onClick: () => setTheme('dark') }, icon: renderIcon(Moon) }
+            { label: '跟随系统', key: 0, props: { onClick: () => changeTheme() }, icon: renderIcon(AudioConsole) },
+            { label: '浅色', key: 1, props: { onClick: () => changeTheme('light') }, icon: renderIcon(Sun) },
+            { label: '深色', key: 2, props: { onClick: () => changeTheme('dark') }, icon: renderIcon(Moon) }
         ]
     },
     {

@@ -7,11 +7,12 @@ function setTheme(mode) {
     const darkPrefer = window.matchMedia("(prefres-color-scheme: dark)");
     const dataset = document.documentElement.dataset;
     if (!mode) {
-        dataset['theme'] = darkPrefer ? 'dark' : 'light';
+        dataset['theme'] = darkPrefer.matches ? 'dark' : 'light';
     } else {
         dataset['theme'] = mode;
     }
 }
+
 
 export { setTheme }
 
