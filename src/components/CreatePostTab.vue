@@ -2,7 +2,7 @@
     <Teleport to="body">
         <Transition name="postTab">
             <div class="create-post-tab-main" v-if="open">
-                <n-spin :show="spining" size="large" stroke="#66ccff" :delay="300">
+                <n-spin :show="spining" size="large" stroke="var(--color-primary)" :delay="300">
                     <div class="main-container"
                         :style="{ width: `${postData.mainWidth}vw`, height: `${postData.mainHeight}vh` }">
                         <div class="image-section" :style="{ height: `${postData.imageHeight}%` }">
@@ -167,10 +167,10 @@ function stopSpining() {
 
 
     border-radius: 51px;
-    background-color: white;
+    background-color: var(--color-primary-background);
     box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
 
-    font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
+    //font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
     transition-property: opacity, transform;
     transition-duration: 0.3s;
     transition-timing-function: ease;
@@ -244,7 +244,7 @@ input {
     right: 24px;
 
     border-radius: 24px;
-    background-color: #1DA0FF;
+    background-color: var(--color-primary);
     color: white;
 }
 

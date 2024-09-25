@@ -8,7 +8,6 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useDialog, NDialogProvider } from 'naive-ui'
 const store = useStore();
-const router = useRouter();
 
 import ChangeAvatar from './components/ChangeAvatar.vue';
 import { setTheme } from './utils';
