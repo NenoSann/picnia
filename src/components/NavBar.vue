@@ -14,6 +14,10 @@
             <Icon @click="toggleTab" size="40">
                 <send />
             </Icon>
+            <div class="search-main search-in-icons">
+                <TheIcon icon="search" :animatable=false></TheIcon>
+                <input class="header-input" autocomplete="false" type="text" name="search" placeholder="搜索">
+            </div>
             <TheAvatar :image_url="userAvatar" widthString="40px" heightString="40px" :profile_Url="userProfileURL">
             </TheAvatar>
             <Setting>
@@ -29,6 +33,7 @@ import { Explore, Send } from '@vicons/carbon'
 export default {
     data() {
         return {
+            user: this.$store.state.user.user,
             openTab: false,
         }
     },
@@ -47,25 +52,21 @@ export default {
         onCloseTab() {
             this.openTab = false;
         },
-        async testPullPost() {
-            this.$store.commit('toggleLoading');
-            await this.$store.dispatch('pullPost');
-            this.$store.commit('toggleLoading');
-        },
         openSetting() {
             this.$store.commit('toggleSetting', true);
         }
     },
     computed: {
         userAvatar() {
-            return this.$store.state.user.user ? this.$store.state.user.user.avatar : undefined;
+            return this.user ? this.user.avatar : undefined;
         },
         userName() {
             // return this.$store.state.user.user.userName || '未登录';
-            return this.$store.state.user.user ? this.$store.state.user.user.userName : '未登陆';
+
+            return this.user ? this.user.userName : '未登陆';
         },
         userProfileURL() {
-            return this.$store.state.user.user ? `/picnia/profile/${this.$store.state.user.user.userName}` : '/picnia';
+            return this.user ? `/picnia/profile/${this.user.userName}` : '/picnia';
         }
     },
 }
@@ -74,9 +75,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/main.scss';
+@import '../assets/var';
 
 .header-main {
-    z-index: 0;
+    z-index: 20;
     display: flex;
     height: 5rem;
     min-height: 5rem;
@@ -85,6 +87,10 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     @extend .s-shadow;
+
+    @media (max-width:$sm) {
+        flex-direction: column;
+    }
 }
 
 .search-main {
@@ -98,6 +104,18 @@ export default {
     >svg {
         width: 20px;
         height: 20px;
+    }
+
+    @media (max-width:$sm) {
+        display: none;
+    }
+
+    &.search-in-icons {
+        display: none;
+
+        @media (max-width:$sm) {
+            display: flex;
+        }
     }
 }
 
@@ -117,6 +135,15 @@ export default {
     >* {
         // add thie property to all child elements
         cursor: pointer;
+    }
+
+    @media (max-width:$sm) {
+        position: absolute;
+        width: 100vw;
+        padding: 20px 20vw;
+        bottom: 0;
+        background-color: var(--color-primary-background);
+
     }
 }
 
@@ -160,7 +187,7 @@ input {
 }
 
 ::placeholder {
-    color: #949494;
+    color: var(--color-secondary-label);
     opacity: 1;
 }
 

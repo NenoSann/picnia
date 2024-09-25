@@ -5,7 +5,7 @@ import LoadingOverlay from './components/LoadingOverlay.vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import Setting from './components/Setting.vue';
 import { useStore } from "vuex";
-import { useDialog, NDialogProvider } from 'naive-ui'
+import { NDialogProvider } from 'naive-ui'
 const store = useStore();
 
 import ChangeAvatar from './components/ChangeAvatar.vue';

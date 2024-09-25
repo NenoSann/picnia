@@ -21,9 +21,10 @@
                 </p>
             </div>
             <div class="comments-list">
-                <Comment v-for="comment in comments" :key="comment._id" :comment="comment"
-                    v-if="comments && comments.length !== 0">
-                </Comment>
+                <div class="comment-wrapper" v-if="comments && comments.length !== 0">
+                    <Comment v-for="comment in comments" :key="comment._id" :comment="comment">
+                    </Comment>
+                </div>
                 <p v-if="comments && comments.length === 0">现在还没有评论哦</p>
             </div>
             <div class="button-section">

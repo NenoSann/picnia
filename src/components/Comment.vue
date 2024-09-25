@@ -5,7 +5,7 @@
                 heightString="33px">
             </TheAvatar>
             <p class="user-name">{{ comment.sender.userName }}</p>
-            <p class="time">{{ comment.date !== undefine ? formatTimestamp(comment.date) : undefined }}</p>
+            <p class="time">{{ comment.date ? formatTimestamp(comment.date) : undefined }}</p>
         </div>
         <p class="comment">
             {{ comment.content }}
@@ -42,7 +42,7 @@ defineProps({
 
     .time {
         margin-left: auto;
-        color: #a7a7a7;
+        color: var(--color-secondary-label);
     }
 }
 

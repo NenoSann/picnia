@@ -52,7 +52,7 @@ const options = [
         label: '切换配色',
         key: 'theme',
         children: [
-            { label: '跟随系统', key: 0, props: { onClick: () => changeTheme() }, icon: renderIcon(AudioConsole) },
+            { label: '跟随系统', key: 0, props: { onClick: () => changeTheme('system') }, icon: renderIcon(AudioConsole) },
             { label: '浅色', key: 1, props: { onClick: () => changeTheme('light') }, icon: renderIcon(Sun) },
             { label: '深色', key: 2, props: { onClick: () => changeTheme('dark') }, icon: renderIcon(Moon) }
         ]
@@ -66,14 +66,6 @@ const options = [
     }
 ]
 
-const userInfo = computed(() => {
-    return store.state.user.user;
-})
-
-const modalConfig = reactive({
-    show: false,
-    type: 'username'
-})
 
 const exit = function () {
     console.log('即将退出登陆')
@@ -87,23 +79,6 @@ const close = function () {
     store.commit('toggleSetting', false);
 }
 
-const changeUsername = function () {
-    changeModalType('username');
-    toggleModal();
-}
-
-const changePassword = function () {
-    changeModalType('password');
-    toggleModal();
-}
-
-const changeModalType = function (type) {
-    modalConfig.type = type;
-}
-
-const toggleModal = function () {
-    modalConfig.show = !modalConfig.show;
-}
 </script>
 
 <style lang="scss" scoped>

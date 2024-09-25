@@ -23,14 +23,25 @@ export const config = {
         /**
         * @description set the theme mode in the html, set to browser preference
         *              if param is undefined
-        * @param {'light' | 'dark' | undefined} mode 
+        * @param {'light' | 'dark' | 'system' | undefined} mode 
         */
         setTheme({ commit, state, dispatch }, mode) {
             const darkPrefer = window.matchMedia("(prefres-color-scheme: dark)");
             const dataset = document.documentElement.dataset;
-            if (!mode) {
+
+            if (mode === undefined) {
+                if (state.theme) {
+                    dataset['theme'] = state.theme;
+                    dispatch('saveConfig');
+                    return;
+                } else {
+                    dispatch('setTheme', 'system')
+                }
+            }
+
+            if (mode === 'system') {
                 const theme = darkPrefer.matches ? 'dark' : 'light';
-                dataset['theme'] = state.theme;
+                dataset['theme'] = theme;
                 commit('setTheme', theme);
             } else {
                 dataset['theme'] = mode;
