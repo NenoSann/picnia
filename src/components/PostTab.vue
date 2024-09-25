@@ -77,7 +77,7 @@ const likeOrSave = throttle(function (type) {
 
 .post-tab-main {
     width: 100%;
-    background-color: var(--color-background);
+    background-color: var(--color-secondary-background);
     max-height: 600px;
     border-radius: 0 0 6px 6px;
     display: flex;

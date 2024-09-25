@@ -195,6 +195,7 @@ onMounted(() => {
 }
 
 .content {
+    background-color: var(--color-secondary-background);
     flex-grow: 1;
     padding: 20px 30px;
     display: flex;
