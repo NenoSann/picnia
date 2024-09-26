@@ -39,5 +39,5 @@ jobs:
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         REMOTE_HOST: ${{secrets.SERVER_HOST}}
         REMOTE_USER: ${{secrets.SERVER_USER}}
-        TARGET: /home/ubuntu/picnia-dist/dist # target to server root
+        TARGET: /home/ubuntu/picnia-dist/ # target to server root
     
