@@ -32,6 +32,12 @@ jobs:
     - name: build
       run: npm run build
 
+    # clean leftover
+    - name: Clean up
+      run: |
+        find . -type f ! -path './dist/*' -delete
+        find . -type d ! -path './dist' -exec rm -rf {} +
+        
     # connect to the server and deploy
     - name: deploy
       uses: easingthemes/ssh-deploy@v5.1.0
@@ -39,5 +45,5 @@ jobs:
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         REMOTE_HOST: ${{secrets.SERVER_HOST}}
         REMOTE_USER: ${{secrets.SERVER_USER}}
-        TARGET: /home/ubuntu/picnia-dist # target to server root
+        TARGET: /home/ubuntu/picnia-dist/dist # target to server root
     
