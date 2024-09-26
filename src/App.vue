@@ -4,28 +4,33 @@ import NavBar from './components/NavBar.vue';
 import LoadingOverlay from './components/LoadingOverlay.vue';
 import LoginOverlay from './components/LoginOverlay.vue';
 import Setting from './components/Setting.vue';
-import { useStore } from "vuex";
-import { NDialogProvider } from 'naive-ui'
+import { useStore } from 'vuex';
+import { NDialogProvider } from 'naive-ui';
 const store = useStore();
 
 import ChangeAvatar from './components/ChangeAvatar.vue';
 onMounted(() => {
   store.dispatch('setTheme');
-})
+});
 </script>
 
 <template>
   <NavBar class="nav"></NavBar>
   <n-dialog-provider>
-    <router-view class="main-content" v-slot="{ Component }">
-      <Transition name="fade" mode="out-in">
+    <router-view
+      class="main-content"
+      v-slot="{ Component }"
+    >
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
         <component :is="Component"></component>
       </Transition>
     </router-view>
   </n-dialog-provider>
   <Transition name="fade">
-    <Setting v-if="store.state.isSetting">
-    </Setting>
+    <Setting v-if="store.state.isSetting"> </Setting>
   </Transition>
   <LoadingOverlay></LoadingOverlay>
   <LoginOverlay></LoginOverlay>

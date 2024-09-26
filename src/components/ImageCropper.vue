@@ -1,74 +1,81 @@
 <template>
-    <div class="cropper-main">
-        <VueCropper ref="cropper" :img="img_url" :autoCrop=true :fixed=true :fixedNumber="[1, 1]" :canMoveBox=true
-            :centerBox=true :high="true">
-        </VueCropper>
-    </div>
+  <div class="cropper-main">
+    <VueCropper
+      ref="cropper"
+      :img="img_url"
+      :autoCrop="true"
+      :fixed="true"
+      :fixedNumber="[1, 1]"
+      :canMoveBox="true"
+      :centerBox="true"
+      :high="true"
+    >
+    </VueCropper>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { VueCropper } from 'vue-cropper'
-import 'vue-cropper/dist/index.css'
+import { ref, reactive } from 'vue';
+import { VueCropper } from 'vue-cropper';
+import 'vue-cropper/dist/index.css';
 
 const cropper = ref();
 
 const props = defineProps({
-    img_url: {
-        type: String,
-        default: null
-    },
-    cropperHeight: {
-        type: String,
-        default: "600px"
-    },
-    cropperWidth: {
-        type: String,
-        default: "600px"
-    }
-})
-
+  img_url: {
+    type: String,
+    default: null
+  },
+  cropperHeight: {
+    type: String,
+    default: '600px'
+  },
+  cropperWidth: {
+    type: String,
+    default: '600px'
+  }
+});
 
 /**
- * @description 
+ * @description
  */
 const startCrop = function () {
-    cropper.value.startCrop();
-}
+  cropper.value.startCrop();
+};
 
 const getCropData = function () {
-    return new Promise((resolve, reject) => {
-        cropper.value.getCropData(data => {
-            resolve(data);
-        });
+  return new Promise((resolve, reject) => {
+    cropper.value.getCropData((data) => {
+      resolve(data);
     });
-}
+  });
+};
 
 const getCropBlob = function () {
-    return new Promise((resolve, reject) => {
-        cropper.value.getCropBlob(data => {
-            resolve(data);
-        })
-    })
-}
+  return new Promise((resolve, reject) => {
+    cropper.value.getCropBlob((data) => {
+      resolve(data);
+    });
+  });
+};
 
-// expose method 
+// expose method
 defineExpose({
-    startCrop,
-    getCropData,
-    getCropBlob
+  startCrop,
+  getCropData,
+  getCropBlob
 });
 </script>
 
 <style lang="scss" scoped>
 .cropper-main {
-    height: v-bind(cropperHeight);
-    width: v-bind(cropperWidth);
+  height: v-bind(cropperHeight);
+  width: v-bind(cropperWidth);
 }
 
 img {
-    display: block;
-    height: 100%;
-    max-width: 100%;
+  display: block;
+  height: 100%;
+  max-width: 100%;
 }
 </style>

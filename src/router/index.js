@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 const HomePageVue = () => import('../views/HomePage.vue');
 const LoginPageVue = () => import('../views/LoginPage.vue');
 const ProfileEdittingPageVue = () => import('../views/ProfileEdittingPage.vue');
@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/picnia',
       name: 'homePage',
-      component: HomePageVue,
+      component: HomePageVue
     },
 
     {
@@ -22,13 +22,13 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: LoginPageVue,
+      component: LoginPageVue
     },
 
     {
       path: '/picnia/profile/:userName',
       name: 'profilePage',
-      component: ProfileVue,
+      component: ProfileVue
     },
     {
       path: '/picnia/profileEdit',
@@ -39,7 +39,7 @@ const router = createRouter({
     {
       path: '/picnia/search',
       name: 'searchPage',
-      component: SearchPageVue,
+      component: SearchPageVue
     },
     {
       path: '/picnia/:postId',
@@ -47,11 +47,11 @@ const router = createRouter({
       component: _ProfileVue
     },
     {
-      path: "/:pathMatch(.*)*",
+      path: '/:pathMatch(.*)*',
       name: '404NotFound',
       component: NotFound404Vue
     }
   ]
-})
+});
 
-export default router
+export default router;

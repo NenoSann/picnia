@@ -8,4 +8,15 @@ import PostDetail from './PostDetail.vue';
 import Icon from './Icon.vue';
 import SettingSection from './SettingSection.vue';
 import Setting from './Setting.vue';
-export { TheIcon, Icon, TheAvatar, Comment, ButtonSets, TheCarousel, PostDetail, CreatePostTab, SettingSection, Setting }
+export {
+  TheIcon,
+  Icon,
+  TheAvatar,
+  Comment,
+  ButtonSets,
+  TheCarousel,
+  PostDetail,
+  CreatePostTab,
+  SettingSection,
+  Setting
+};

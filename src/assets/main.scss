@@ -3,155 +3,153 @@
 @use 'theme';
 
 @mixin shadow($color, $alpha) {
-    box-shadow: 0px 5px 20px rgba($color, $alpha);
+  box-shadow: 0px 5px 20px rgba($color, $alpha);
 }
 
 .s-shadow {
-    @include shadow(#000, 0.1);
+  @include shadow(#000, 0.1);
 }
 
 .m-shadow {
-    @include shadow(#000, 0.2);
+  @include shadow(#000, 0.2);
 }
 
 .l-shadow {
-    @include shadow(#000, 0.5);
+  @include shadow(#000, 0.5);
 }
 
 @mixin round($px) {
-    border-radius: $px;
+  border-radius: $px;
 }
 
 .full-round {
-    @include round(51px);
+  @include round(51px);
 }
 
 .s-round {
-    @include round(16px);
+  @include round(16px);
 }
 
 @mixin bg($color, $alpha) {
-    background-color: rgba($color, $alpha);
+  background-color: rgba($color, $alpha);
 }
 
 :root[data-theme='light'] {
-    @include theme.generate-theme-variables('light');
+  @include theme.generate-theme-variables('light');
 }
 
 :root[data-theme='dark'] {
-    @include theme.generate-theme-variables('dark');
+  @include theme.generate-theme-variables('dark');
 }
 
-
 #app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    background-color: var(--color-primary-background);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-primary-background);
 }
 
 body,
 html {
-    overscroll-behavior: none;
-    min-width: var.$min;
-    background-color: var(--color-background);
+  overscroll-behavior: none;
+  min-width: var.$min;
+  background-color: var(--color-background);
 }
 
 html::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+  width: 0;
+  height: 0;
 }
 
 * {
-    box-sizing: border-box;
-    font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
-    color: var(--color-primary-label);
+  box-sizing: border-box;
+  font-family: Arial, 'PingFang SC', 'Microsoft Yahei', sans-serif;
+  color: var(--color-primary-label);
 }
 
 p {
-    color: var(--color-primary-label);
+  color: var(--color-primary-label);
 }
 
 svg {
-    fill: var(--color-primary-label);
+  fill: var(--color-primary-label);
 }
 
 button {
-    cursor: pointer;
-    border-width: 0;
+  cursor: pointer;
+  border-width: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 /* public style class */
 .flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dropdown-menu {
-    background-color: var(--color-background);
+  background-color: var(--color-background);
 }
 
 #dropdown-item {
+  color: var(--color-primary-label);
+
+  & ::before {
     color: var(--color-primary-label);
-
-    & ::before {
-        color: var(--color-primary-label);
-        // background-color: var(--color-background);
-    }
-
+    // background-color: var(--color-background);
+  }
 }
 
 // have to do it, otherwise it will not work
-.n-dropdown-menu .n-dropdown-option .n-dropdown-option-body:not(.n-dropdown-option-body--disabled).n-dropdown-option-body--pending::before {
-    // change the naive-ui library color
-    background-color: var(--color-active-background) !important;
+.n-dropdown-menu
+  .n-dropdown-option
+  .n-dropdown-option-body:not(
+    .n-dropdown-option-body--disabled
+  ).n-dropdown-option-body--pending::before {
+  // change the naive-ui library color
+  background-color: var(--color-active-background) !important;
 }
 
 .n-dropdown-menu {
-    background-color: var(--color-primary-background) !important;
+  background-color: var(--color-primary-background) !important;
 }
 
 .n-popover-arrow {
-    background-color: var(--color-background) !important;
+  background-color: var(--color-background) !important;
 }
 
 // fix the color of placeholder is replaced by golbal color
 .n-input {
-    background-color: var(--color-secondary-background);
+  background-color: var(--color-secondary-background);
 
-    .n-input__input {
-        input {
-            &:-internal-autofill-previewed {
-                transition: background-color 5000s ease-in-out 0s !important;
-                background-color: transparent !important;
-            }
+  .n-input__input {
+    input {
+      &:-internal-autofill-previewed {
+        transition: background-color 5000s ease-in-out 0s !important;
+        background-color: transparent !important;
+      }
 
-            &:-internal-autofill-selected {
-                transition: background-color 5000s ease-in-out 0s !important;
-                background-color: transparent !important;
-            }
+      &:-internal-autofill-selected {
+        transition: background-color 5000s ease-in-out 0s !important;
+        background-color: transparent !important;
+      }
 
-            &:-webkit-autofill,
-            &:-webkit-autofill:focus {
-                transition: background-color 0s 600000s, color 0s 600000s !important;
-                background-color: transparent !important;
-
-            }
-
-        }
+      &:-webkit-autofill,
+      &:-webkit-autofill:focus {
+        transition: background-color 0s 600000s, color 0s 600000s !important;
+        background-color: transparent !important;
+      }
     }
+  }
 
-    .n-input__placeholder {
-        span {
-            color: inherit;
-        }
+  .n-input__placeholder {
+    span {
+      color: inherit;
     }
-
-
+  }
 }

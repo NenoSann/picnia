@@ -1,2 +1,1 @@
-import { fetchRequest } from "./HTTPRequest";
-
+import { fetchRequest } from './HTTPRequest';

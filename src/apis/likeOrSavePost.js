@@ -1,8 +1,8 @@
-import { fetchRequest } from "./HTTPRequest";
+import { fetchRequest } from './HTTPRequest';
 
 /**
  * @NenoSann
- * @param {'like'|'post'} type 
+ * @param {'like'|'post'} type
  * @param {{
  *  target:String,
  *  userName:String,
@@ -11,11 +11,16 @@ import { fetchRequest } from "./HTTPRequest";
  * @returns {Promise}
  */
 export async function likeOrSavePost(data) {
-    try {
-        const response = await fetchRequest('/api/update/saveOrLikePost', 'POST', {
-            'Content-Type': 'application/json'
-        }, JSON.stringify(data));
-    } catch (error) {
-        console.log(error)
-    }
+  try {
+    const response = await fetchRequest(
+      '/api/update/saveOrLikePost',
+      'POST',
+      {
+        'Content-Type': 'application/json'
+      },
+      JSON.stringify(data)
+    );
+  } catch (error) {
+    console.log(error);
+  }
 }

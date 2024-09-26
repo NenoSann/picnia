@@ -4,6 +4,6 @@
  *              used in setting.vue for debug or fix something.
  */
 function clearLocal() {
-    sessionStorage.clear();
-    localStorage.clear();
+  sessionStorage.clear();
+  localStorage.clear();
 }

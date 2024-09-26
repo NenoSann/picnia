@@ -1,7 +1,10 @@
 <template>
-    <div class="content">
-        <PostList :posts="posts" :colunm="3"></PostList>
-    </div>
+  <div class="content">
+    <PostList
+      :posts="posts"
+      :colunm="3"
+    ></PostList>
+  </div>
 </template>
 
 <script setup>
@@ -16,51 +19,49 @@ const router = useRouter();
 const dialog = useDialog();
 const store = useStore();
 const posts = computed(() => {
-    return Array.from(store.state.post.post.values()).reverse();
-})
+  return Array.from(store.state.post.post.values()).reverse();
+});
 
 const dialogConfigs = {
-    tokenError: {
-        title: 'Token过期',
-        content: '你的登录Token已经过期了, 要不要重新登陆?',
-        positiveText: '重新登陆',
-        onPositiveClick: () => {
-            router.push('/picnia/login');
-        }
+  tokenError: {
+    title: 'Token过期',
+    content: '你的登录Token已经过期了, 要不要重新登陆?',
+    positiveText: '重新登陆',
+    onPositiveClick: () => {
+      router.push('/picnia/login');
     }
-}
-
+  }
+};
 
 function handleError(dialogConfig) {
-    dialog.error(dialogConfig);
+  dialog.error(dialogConfig);
 }
 
 onMounted(async () => {
-    // test import.meta.env
-    console.log('debug: check env: \n', import.meta.env.DEV);
-    store.commit('setUser', getUser());
-    if (toRaw(store.state.user).user == null) {
-        router.push('/picnia/login');
-    }
-    if (!jwtTokenValidate(getJwtToken())) {
-        handleError(dialogConfigs.tokenError);
-    } else {
-        await store.dispatch('pullPost');
-    }
-})
+  // test import.meta.env
+  store.commit('setUser', getUser());
+  if (toRaw(store.state.user).user == null) {
+    router.push('/picnia/login');
+  }
+  if (!jwtTokenValidate(getJwtToken())) {
+    handleError(dialogConfigs.tokenError);
+  } else {
+    await store.dispatch('pullPost');
+  }
+});
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/main.scss';
 
 .content {
-    display: flex;
-    justify-content: center;
-    background-color: var(--color-primary-background);
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-primary-background);
 }
 
 .tab {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
