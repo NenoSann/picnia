@@ -3,3 +3,10 @@
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: saturate(150%) blur(6px);
 }
+
+.glare {
+  /* From https://css.glass */
+  /* From https://css.glass */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

@@ -1,74 +1,35 @@
 <template>
   <div class="profile-main">
     <div class="avatar-section">
-      <TheAvatar
-        @click="handleClick"
-        :image_url="profileData.avatar"
-        widthString="186px"
-        heightString="186px"
-        class="avatar"
-        :editable="true"
-      >
+      <TheAvatar @click="handleClick" :image_url="profileData.avatar" widthString="186px" heightString="186px"
+        class="avatar" :editable="true">
       </TheAvatar>
       <div class="user-info">
         <div class="user-name">
           <p>{{ profileData.userName }}</p>
-          <span
-            @click="
-              () => {
-                isEditting = !isEditting;
-              }
-            "
-            >{{ isEditting ? '完成编辑' : '编辑资料' }}</span
-          >
+          <span @click="() => {
+            isEditting = !isEditting;
+          }
+            ">{{ isEditting ? '完成编辑' : '编辑资料' }}</span>
         </div>
         <p class="user-id">{{ profileData.email }}</p>
-        <p
-          class="introduction"
-          v-if="!isEditting"
-        >
+        <p class="introduction" v-if="!isEditting">
           {{ profileData.userBrief }}
         </p>
-        <textarea
-          class="introduction"
-          cols="20"
-          v-if="isEditting"
-          v-model="brief"
-        ></textarea>
+        <textarea class="introduction" cols="20" v-if="isEditting" v-model="brief"></textarea>
       </div>
     </div>
     <div class="button-section">
-      <div
-        class="button"
-        @click="requestUserPost('own')"
-      >
-        <TheIcon
-          icon="posts"
-          stroke="#32adf0"
-          :animatable="false"
-        ></TheIcon>
+      <div class="button" @click="requestUserPost('own')">
+        <TheIcon icon="posts" stroke="#32adf0" :animatable="false"></TheIcon>
         <p class="text">我的</p>
       </div>
-      <div
-        class="button"
-        @click="requestUserPost('like')"
-      >
-        <TheIcon
-          icon="like"
-          stroke="#ed5b51"
-          :animatable="false"
-        ></TheIcon>
+      <div class="button" @click="requestUserPost('like')">
+        <TheIcon icon="like" stroke="#ed5b51" :animatable="false"></TheIcon>
         <p class="text">赞过</p>
       </div>
-      <div
-        class="button"
-        @click="requestUserPost('save')"
-      >
-        <TheIcon
-          icon="favorite"
-          stroke="#f7bf45"
-          :animatable="false"
-        ></TheIcon>
+      <div class="button" @click="requestUserPost('save')">
+        <TheIcon icon="favorite" stroke="#f7bf45" :animatable="false"></TheIcon>
         <p class="text">收藏</p>
       </div>
     </div>
@@ -76,10 +37,7 @@
       <n-spin></n-spin>
     </div>
     <p class="posts-count">{{ posts.length + '篇帖子' }}</p>
-    <PostList
-      :posts="posts"
-      :colunm="3"
-    ></PostList>
+    <PostList :posts="posts" :colunm="3"></PostList>
   </div>
 </template>
 
@@ -127,7 +85,6 @@ async function requestUserPost(type) {
     const newPosts = await pullUserPost({ type, userId: profileData.userId });
     posts.value.length = 0;
     posts.value.push(...newPosts.post);
-  } catch {
   } finally {
     isLoading.value = false;
   }
@@ -142,6 +99,7 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 @import url('../assets/main.scss');
+@import '../assets/var';
 
 .profile-main {
   border: none;
@@ -150,20 +108,26 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width:$sm) {
+    padding-top: 3rem;
+  }
 }
 
 .avatar-section {
   display: flex;
-}
+  gap: min(8vw, 160px);
 
-.avatar {
-  margin-right: min(8vw, 160px);
+  @media (max-width:$sm) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .user-info {
   .user-id {
     margin-top: 8px;
-    color: #848484;
+    color: var(--color-secondary-label);
   }
 
   .introduction {
@@ -173,7 +137,6 @@ onMounted(async () => {
     width: 99999px;
     margin-top: 16px;
     resize: vertical;
-    // box-sizing: border-box;
   }
 
   .user-name {

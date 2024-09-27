@@ -36,6 +36,10 @@ function redirectToProfile() {
 const isCursor = computed(() => {
   return props.profile_Url ? true : false;
 });
+
+const widthToNumber = computed(() => {
+  return props.widthString.slice(0, -2);
+});
 </script>
 <template>
   <div
@@ -53,7 +57,13 @@ const isCursor = computed(() => {
         class="edit-icon"
       ></TheIcon>
     </div>
-    <img :src="image_url || defaultAvatar" />
+    <n-image
+      :width="widthToNumber"
+      :src="image_url"
+      :fallback-src="defaultAvatar"
+      preview-disabled
+    >
+    </n-image>
   </div>
 </template>
 

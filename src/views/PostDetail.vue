@@ -1,11 +1,7 @@
 <template>
   <div class="modal light-shadow">
     <div class="btn-close">
-      <TheIcon
-        icon="close"
-        style="cursor: pointer"
-        @click="$emit('closeDetail')"
-      ></TheIcon>
+      <TheIcon icon="close" style="cursor: pointer" @click="$emit('closeDetail')"></TheIcon>
     </div>
     <div class="image">
       <!-- <img :src="postData.postImage"> -->
@@ -25,45 +21,23 @@
         </p>
       </div>
       <div class="comments-list">
-        <div
-          class="comment-wrapper"
-          v-if="comments && comments.length !== 0"
-        >
-          <Comment
-            v-for="comment in comments"
-            :key="comment._id"
-            :comment="comment"
-          >
+        <div class="comment-wrapper" v-if="comments && comments.length !== 0">
+          <Comment v-for="comment in comments" :key="comment._id" :comment="comment">
           </Comment>
         </div>
         <p v-if="comments && comments.length === 0">现在还没有评论哦</p>
       </div>
       <div class="button-section">
         <div class="sent-comment">
-          <ButtonSets
-            :scale="0.8"
-            :textTransform="-10"
-            :like="postData.likes"
-            :comments="postData.commentCounts"
-            :save="postData.saves"
-            @btnLikeOrSave="likeOrSave"
-            :isLike="postData.isLiked"
-            :isSave="postData.isSaved"
-          ></ButtonSets>
+          <ButtonSets :scale="0.8" :textTransform="-10" :like="postData.likes" :comments="postData.commentCounts"
+            :save="postData.saves" @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked" :isSave="postData.isSaved">
+          </ButtonSets>
           <p class="time">{{ formatTimestamp(postData.postTime) }}</p>
         </div>
       </div>
       <div class="input-section">
-        <input
-          type="text"
-          placeholder="发条评论吧😄"
-          v-model="commentContent"
-        />
-        <p
-          class="submit"
-          style="cursor: pointer"
-          @click="sendComment"
-        >
+        <input type="text" placeholder="发条评论吧😄" v-model="commentContent" />
+        <p class="submit" style="cursor: pointer" @click="sendComment">
           发布
         </p>
       </div>
@@ -156,8 +130,7 @@ onMounted(() => {
   display: flex;
   border-radius: 51px;
 
-  @media screen {
-  }
+  @media screen {}
 }
 
 .btn-close {
@@ -197,7 +170,7 @@ onMounted(() => {
 }
 
 .present {
-  color: #4b4b4b;
+  color: var(--color-primary-label);
   padding-top: 20px;
   width: 30vw;
   max-width: 1200px;

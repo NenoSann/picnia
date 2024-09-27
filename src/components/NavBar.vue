@@ -17,32 +17,24 @@
       />
     </div>
     <div class="header-icons">
-      <Icon size="40">
+      <Icon size="32">
         <explore />
       </Icon>
+      <div class="search-in-icons">
+        <n-icon size="32">
+          <Search />
+        </n-icon>
+      </div>
       <Icon
         @click="toggleTab"
-        size="40"
+        size="32"
       >
         <send />
       </Icon>
-      <div class="search-main search-in-icons">
-        <TheIcon
-          icon="search"
-          :animatable="false"
-        ></TheIcon>
-        <input
-          class="header-input"
-          autocomplete="false"
-          type="text"
-          name="search"
-          placeholder="搜索"
-        />
-      </div>
       <TheAvatar
         :image_url="userAvatar"
-        widthString="40px"
-        heightString="40px"
+        widthString="32px"
+        heightString="32px"
         :profile_Url="userProfileURL"
       >
       </TheAvatar>
@@ -57,7 +49,8 @@
 
 <script>
 import { TheIcon, TheAvatar, CreatePostTab, Icon, Setting } from './index';
-import { Explore, Send } from '@vicons/carbon';
+import { Explore, Send, Search } from '@vicons/carbon';
+import { NIcon } from 'naive-ui';
 export default {
   data() {
     return {
@@ -72,7 +65,9 @@ export default {
     Icon,
     Explore,
     Send,
-    Setting
+    Setting,
+    NIcon,
+    Search
   },
   methods: {
     toggleTab() {
@@ -117,6 +112,8 @@ export default {
   @extend .s-shadow;
 
   @media (max-width: $sm) {
+    height: 3rem;
+    min-height: 3rem;
     flex-direction: column;
   }
 }
@@ -137,13 +134,13 @@ export default {
   @media (max-width: $sm) {
     display: none;
   }
+}
 
-  &.search-in-icons {
-    display: none;
+.search-in-icons {
+  display: none;
 
-    @media (max-width: $sm) {
-      display: flex;
-    }
+  @media (max-width: $sm) {
+    display: flex;
   }
 }
 
@@ -168,8 +165,9 @@ export default {
   @media (max-width: $sm) {
     position: absolute;
     width: 100vw;
-    padding: 20px 20vw;
-    bottom: 0;
+    padding: 8px 12vw;
+    top: 100vh;
+    transform: translateY(-100%);
     background-color: var(--color-primary-background);
   }
 }

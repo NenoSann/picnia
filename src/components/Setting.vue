@@ -1,13 +1,12 @@
 <template>
   <n-dropdown
-    class="test-class"
     :menu-props="menuProps"
     :node-props="nodeProps"
-    trigger="hover"
+    trigger="click"
     :options="options"
     :show-arrow="true"
   >
-    <n-icon size="40">
+    <n-icon size="32">
       <Settings />
     </n-icon>
   </n-dropdown>
@@ -102,8 +101,4 @@ const close = function () {
 };
 </script>
 
-<style lang="scss" scoped>
-.test-class {
-  background-color: black !important;
-}
-</style>
+<style lang="scss" scoped></style>

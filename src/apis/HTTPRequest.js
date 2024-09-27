@@ -23,7 +23,6 @@ export function makeRequest(url, method, body) {
  * @returns {Promise}
  */
 export function makeMultipartRequest(url, method, body) {
-  url = getProductionURL(url);
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append('json', new Blob([body.json], { type: 'application/json' }), 'json');

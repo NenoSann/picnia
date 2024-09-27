@@ -1,11 +1,6 @@
 <template>
   <div class="modal s-shadow">
-    <n-icon
-      class="btn-close"
-      size="32"
-      @click="$emit('closeDetail')"
-      :component="Close"
-    ></n-icon>
+    <n-icon class="btn-close" size="32" @click="$emit('closeDetail')" :component="Close"></n-icon>
     <div class="image-container">
       <!-- <img :src="postData.postImage"> -->
       <TheCarousel :img_urls="[postData.postImage]"></TheCarousel>
@@ -23,53 +18,28 @@
         <span style="color: var(--color-secondary-label)">{{
           formatTimestamp(postData.postTime)
         }}</span>
-        <p
-          class="hash-tag"
-          v-if="postData?.hashTag"
-        >
+        <p class="hash-tag" v-if="postData?.hashTag">
           {{ postData.hashTag ? postData.hashTag : null }}
         </p>
       </div>
       <div class="comments-list">
-        <div
-          class="comment-wrapper"
-          v-if="comments && comments.length !== 0"
-        >
-          <Comment
-            v-for="comment in comments"
-            :key="comment._id"
-            :comment="comment"
-          >
+        <div class="comment-wrapper" v-if="comments && comments.length !== 0">
+          <Comment v-for="comment in comments" :key="comment._id" :comment="comment">
           </Comment>
         </div>
         <p v-if="comments && comments.length === 0">现在还没有评论哦</p>
       </div>
       <div class="button-section">
         <div class="sent-comment">
-          <ButtonSets
-            :scale="0.8"
-            :textTransform="-10"
-            :like="postData.likes"
-            :comments="postData.commentCounts"
-            :save="postData.saves"
-            @btnLikeOrSave="likeOrSave"
-            :isLike="postData.isLiked"
-            :isSave="postData.isSaved"
-          ></ButtonSets>
+          <ButtonSets :scale="0.8" :textTransform="-10" :like="postData.likes" :comments="postData.commentCounts"
+            :save="postData.saves" @btnLikeOrSave="likeOrSave" :isLike="postData.isLiked" :isSave="postData.isSaved">
+          </ButtonSets>
           <p class="time">{{ formatTimestamp(postData.postTime) }}</p>
         </div>
       </div>
       <div class="input-section">
-        <input
-          type="text"
-          placeholder="发条评论吧😄"
-          v-model="commentContent"
-        />
-        <p
-          class="submit"
-          style="cursor: pointer"
-          @click="sendComment"
-        >
+        <input type="text" placeholder="发条评论吧😄" v-model="commentContent" />
+        <p class="submit" style="cursor: pointer" @click="sendComment">
           发布
         </p>
       </div>
@@ -249,8 +219,8 @@ onMounted(() => {
 .present {
   color: var(--color-primary-label);
   padding-top: 20px;
-  max-width: 1200px;
-  min-width: 300px;
+  // max-width: 1200px;
+  // min-width: 300px;
 }
 
 .hash-tag {
